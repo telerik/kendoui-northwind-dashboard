@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@section featured {
+    <div class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title.</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+                bla bla
+            </p>
+        </div>
+    </div>
+ }
+<br />
+
+@(Html.Kendo().TabStrip()
+    .Name("navigation")
+    .Animation(false)
+    .Items(tabstrip =>
+    {
+        tabstrip.Add().Text("Customers")
+            .Selected(true)
+            .LoadContentFrom(Url.Content("/Home/Customers"));
+
+        tabstrip.Add().Text("Products")
+            .LoadContentFrom(Url.Content("/Home/Products"));
+
+        tabstrip.Add().Text("Statistics")
+            .LoadContentFrom(Url.Content("/Home/Statistics"));
+    })
+)
