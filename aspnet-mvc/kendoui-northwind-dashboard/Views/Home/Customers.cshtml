@@ -1,6 +1,10 @@
 ﻿@using KendoUI.Northwind.Dashboard.Models;
-
+<h4>TODO:</h4>
+<ul>
+    <li>Filter by date range</li>
+</ul>
 <script type="text/javascript">
+
     function onCustomersEdit(e) {
         if(e.model.isNew()){
             e.container.find("td.k-hierarchy-cell").css({ visibility: "hidden" });
@@ -133,6 +137,7 @@
             m.Field(f => f.OrderDate).DefaultValue(DateTime.Today);
         })
         .Sort(s => s.Add(f=>f.OrderDate).Descending())
+        
         .Read("Orders_Read", "Orders", new { ID = "#=CustomerID#" })
         .Create("Orders_Create", "Orders", new { ID = "#=CustomerID#" })
         .Update("Orders_Update", "Orders", new { ID = "#=CustomerID#" })
@@ -147,7 +152,8 @@
     .Name("order_details#=OrderID#")
     .Columns(c =>
     {
-        c.ForeignKey(f => f.ProductID, (System.Collections.IEnumerable)ViewData["products"], "ProductID", "ProductName").EditorTemplateName("GridForeignKey").Title("Product");
+        c.Template(f => new { }).Title("Product").ClientTemplate("<img src='" + Url.Content("~/Content/Products/") + "\\#:ProductID\\#.jpg' />").Width(110).HtmlAttributes(new {style="padding:0;" });
+        c.ForeignKey(f => f.ProductID, (System.Collections.IEnumerable)ViewData["products"], "ProductID", "ProductName").EditorTemplateName("GridForeignKey").Title("Product name");
         c.Bound(f => f.UnitPrice).Format("{0:c}").Width(120);
         c.Bound(f => f.Quantity).Width(120);
         c.Bound(f => f.Discount).Format("{0:p}").ClientFooterTemplate("Grand total:").Width(120);
@@ -156,7 +162,7 @@
     .Events(e=>e.DataBound("onOrderDetailsDataBound"))
     .DataSource(dataSource => dataSource
         .Ajax()
-        .Read("OrderDetails_Read", "OrderDetails", new { OrderID = "#=OrderID#" })        
+        .Read("OrderDetails_Read", "OrderDetails", new { OrderID = "#=OrderID#" })
     ).ToClientTemplate()
 )
 </script>

@@ -185,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="Models\Supplier.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SaleViewModel.cs" />
     <Compile Include="Models\Ten_Most_Expensive_Products_Result.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
@@ -316,6 +318,86 @@
   <ItemGroup>
     <Content Include="App_Data\Northwind.mdf" />
     <Content Include="App_Data\Northwind_log.ldf" />
+    <Content Include="Content\Products\1.jpg" />
+    <Content Include="Content\Products\10.jpg" />
+    <Content Include="Content\Products\11.jpg" />
+    <Content Include="Content\Products\12.jpg" />
+    <Content Include="Content\Products\13.jpg" />
+    <Content Include="Content\Products\14.jpg" />
+    <Content Include="Content\Products\15.jpg" />
+    <Content Include="Content\Products\16.jpg" />
+    <Content Include="Content\Products\17.jpg" />
+    <Content Include="Content\Products\18.jpg" />
+    <Content Include="Content\Products\19.jpg" />
+    <Content Include="Content\Products\2.jpg" />
+    <Content Include="Content\Products\20.jpg" />
+    <Content Include="Content\Products\21.jpg" />
+    <Content Include="Content\Products\22.jpg" />
+    <Content Include="Content\Products\23.jpg" />
+    <Content Include="Content\Products\24.jpg" />
+    <Content Include="Content\Products\25.jpg" />
+    <Content Include="Content\Products\26.jpg" />
+    <Content Include="Content\Products\27.jpg" />
+    <Content Include="Content\Products\28.jpg" />
+    <Content Include="Content\Products\29.jpg" />
+    <Content Include="Content\Products\3.jpg" />
+    <Content Include="Content\Products\30.jpg" />
+    <Content Include="Content\Products\31.jpg" />
+    <Content Include="Content\Products\32.jpg" />
+    <Content Include="Content\Products\33.jpg" />
+    <Content Include="Content\Products\34.jpg" />
+    <Content Include="Content\Products\35.jpg" />
+    <Content Include="Content\Products\36.jpg" />
+    <Content Include="Content\Products\37.jpg" />
+    <Content Include="Content\Products\38.jpg" />
+    <Content Include="Content\Products\39.jpg" />
+    <Content Include="Content\Products\4.jpg" />
+    <Content Include="Content\Products\40.jpg" />
+    <Content Include="Content\Products\41.jpg" />
+    <Content Include="Content\Products\42.jpg" />
+    <Content Include="Content\Products\43.jpg" />
+    <Content Include="Content\Products\44.jpg" />
+    <Content Include="Content\Products\45.jpg" />
+    <Content Include="Content\Products\46.jpg" />
+    <Content Include="Content\Products\47.jpg" />
+    <Content Include="Content\Products\48.jpg" />
+    <Content Include="Content\Products\49.jpg" />
+    <Content Include="Content\Products\5.jpg" />
+    <Content Include="Content\Products\50.jpg" />
+    <Content Include="Content\Products\51.jpg" />
+    <Content Include="Content\Products\52.jpg" />
+    <Content Include="Content\Products\53.jpg" />
+    <Content Include="Content\Products\54.jpg" />
+    <Content Include="Content\Products\55.jpg" />
+    <Content Include="Content\Products\56.jpg" />
+    <Content Include="Content\Products\57.jpg" />
+    <Content Include="Content\Products\58.jpg" />
+    <Content Include="Content\Products\59.jpg" />
+    <Content Include="Content\Products\6.jpg" />
+    <Content Include="Content\Products\60.jpg" />
+    <Content Include="Content\Products\61.jpg" />
+    <Content Include="Content\Products\62.jpg" />
+    <Content Include="Content\Products\63.jpg" />
+    <Content Include="Content\Products\64.jpg" />
+    <Content Include="Content\Products\65.jpg" />
+    <Content Include="Content\Products\66.jpg" />
+    <Content Include="Content\Products\67.jpg" />
+    <Content Include="Content\Products\68.jpg" />
+    <Content Include="Content\Products\69.jpg" />
+    <Content Include="Content\Products\7.jpg" />
+    <Content Include="Content\Products\70.jpg" />
+    <Content Include="Content\Products\71.jpg" />
+    <Content Include="Content\Products\72.jpg" />
+    <Content Include="Content\Products\73.jpg" />
+    <Content Include="Content\Products\74.jpg" />
+    <Content Include="Content\Products\75.jpg" />
+    <Content Include="Content\Products\76.jpg" />
+    <Content Include="Content\Products\77.jpg" />
+    <Content Include="Content\Products\78.jpg" />
+    <Content Include="Content\Products\79.jpg" />
+    <Content Include="Content\Products\8.jpg" />
+    <Content Include="Content\Products\80.jpg" />
+    <Content Include="Content\Products\9.jpg" />
     <Content Include="Global.asax" />
     <EntityDeploy Include="Models\Northwind.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -344,6 +426,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo.all.js" />
     <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
@@ -382,8 +465,11 @@
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
     <Content Include="Views\Home\Statistics.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Country.cshtml" />
+    <Content Include="Views\Home\Employees.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\Employees\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -404,7 +490,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>65141</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

@@ -1,0 +1,63 @@
+﻿@using KendoUI.Northwind.Dashboard.Models;
+
+<style>
+    .employee {
+        display: inline-block; 
+        padding: 2px;
+    }
+    .k-scheduler-monthview .k-scheduler-table td {
+        height:200px !important; 
+    }
+
+
+
+</style>
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="employee">
+        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.jpg" /> 
+        <span>#:FirstName#</span>
+        <div>#Notes#</div>
+    </div>
+
+</script>
+
+<script>
+    function onListChange(e) {
+        var scheduler = $("#EmployeeSales").data("kendoScheduler");
+        var EmployeeID = this.dataSource.getByUid(this.select().attr("data-uid")).EmployeeID;
+        scheduler.dataSource.filter({ field: "EmployeeID", operator: "eq", value: EmployeeID });
+    }
+
+</script>
+@(Html.Kendo().ListView<EmployeeViewModel>()
+    .Name("EmployeesList") 
+    .TagName("div")
+    .Events(e=>e.Change("onListChange"))
+    .ClientTemplateId("template")
+    .DataSource(dataSource => {
+        dataSource.Read(read => read.Action("Employees_Read", "Employees"));
+        dataSource.PageSize(12);
+    }) 
+    .Selectable(s=>s.Mode(ListViewSelectionMode.Single)) 
+)
+
+@(Html.Kendo().Scheduler<SaleViewModel>()
+    .Name("EmployeeSales")
+    .AutoBind(false)
+    .Date(new DateTime(1998, 2, 1))
+    .Views(views =>
+    {
+        views.MonthView();
+    })
+    .Editable(false)
+    .Timezone("Etc/UTC")
+    .Resources(resource =>
+    {
+        resource.Add(m => m.EmployeeID)
+            .Title("Employee") 
+            .DataTextField("EmployeeName")
+            .DataValueField("EmployeeID") 
+            .DataSource(dataSource => { dataSource.Read(read => read.Action("SalesResources_Read", "Employees")); });
+    })
+    .DataSource(d => d.Read("Sales_read", "Employees"))
+)

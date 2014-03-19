@@ -23,8 +23,12 @@
     .Items(tabstrip =>
     {
         tabstrip.Add().Text("Customers")
-            .Selected(true)
+            
             .LoadContentFrom(Url.Content("/Home/Customers"));
+        
+        tabstrip.Add().Text("Employees")
+            .Selected(true)
+            .LoadContentFrom(Url.Content("/Home/Employees"));
 
         tabstrip.Add().Text("Products")
             .LoadContentFrom(Url.Content("/Home/Products"));

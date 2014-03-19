@@ -7,6 +7,7 @@ using Kendo.Mvc;
 using Kendo.Mvc.Extensions;
 using System.Collections;
 
+
 namespace KendoUI.Northwind.Dashboard.Controllers
 {
     public class HomeController : Controller
@@ -20,8 +21,8 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 
         public ActionResult Customers()
         {
-            PopulateEmployees();
-            PopulateProducts();
+            ViewData["employees"] = GetEmployees();
+            ViewData["products"] = GetProducts(); 
             return PartialView();
         }
 
@@ -31,6 +32,11 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         }
 
         public ActionResult Statistics()
+        {
+            return PartialView();
+        }
+
+        public ActionResult Employees()
         {
             return PartialView();
         }
@@ -118,22 +124,26 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
-        private void PopulateEmployees()
+        public static IEnumerable<EmployeeViewModel> GetEmployees()
         {
-            ViewData["employees"] = new NorthwindEntities().Employees.Select(e => new EmployeeViewModel
+            var employees = new NorthwindEntities().Employees.Select(e => new EmployeeViewModel
             {
                 EmployeeID = e.EmployeeID,
                 EmployeeName = e.FirstName + " " + e.LastName
             }).OrderBy(e => e.EmployeeName);
+
+            return employees;
         }
 
-        private void PopulateProducts()
+        public IEnumerable<ProductViewModel> GetProducts()
         {
-            ViewData["products"] = new NorthwindEntities().Products.Select(e => new ProductViewModel
+            var products = new NorthwindEntities().Products.Select(e => new ProductViewModel
             {
                 ProductID = e.ProductID,
                 ProductName = e.ProductName
             }).OrderBy(e => e.ProductName);
+
+            return products;
         }
 
     }
