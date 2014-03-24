@@ -1,0 +1,169 @@
+﻿@using KendoUI.Northwind.Dashboard.Models;
+<h1>PRODUCTS & ORDERS</h1>
+<h4>TODO:</h4>
+<ul>
+    <li>Filter by date range</li>
+</ul>
+<script type="text/javascript">
+
+    function onCustomersEdit(e) {
+        if(e.model.isNew()){
+            e.container.find("td.k-hierarchy-cell").css({ visibility: "hidden" });
+        }
+    } 
+
+    function onOrdersEdit(e) {
+        if (e.model.isNew()) {
+            e.container.find("td.k-hierarchy-cell").css({ visibility: "hidden" });
+        } 
+        var validator = e.container.kendoValidator({
+            rules: {
+                OrderDate: function (input, params) {
+                    if (input.is("[name=OrderDate]")) {
+                        var OrderDate = input.data("kendoDatePicker").value();
+                        var ShippedDate = $('[name=ShippedDate]').data("kendoDatePicker").value();
+                        if (OrderDate > ShippedDate) {
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+                ShippedDate: function (input, params) {
+                    if (input.is("[name=ShippedDate]")) {
+                        var OrderDate = $('[name=OrderDate]').data("kendoDatePicker").value();
+                        var ShippedDate = input.data("kendoDatePicker").value();
+                        if (ShippedDate != null && OrderDate > ShippedDate) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            },
+            messages: {
+                OrderDate: function (input) {
+                    return "OrderDate cannot be after ShippedDate";
+                },
+                ShippedDate: function (input) {
+                    return "ShippedDate cannot be prior the Order date";
+                }
+            }
+        }).data("kendoValidator"); 
+    }
+    function onOrdersSave(e) { 
+    }
+    function onOrdersCancel(e) { 
+    }
+
+    function onOrderDetailsDataBound(e) {
+        var sum = 0; 
+        for (var i = 0; i < this.dataSource.data().length ; i++) {
+            sum = sum + GetOrderItemPrice(this.dataSource.at(i));
+        }
+        this.table.find("span[name=sum]").html(kendo.toString(sum, "c"));
+    }
+
+    function GetOrderItemPrice(data) { 
+        var sum = data.UnitPrice * data.Quantity;
+        sum = sum - (sum * data.Discount)
+        return sum;
+    }
+</script>
+
+@(Html.Kendo().Grid<CustomerViewModel>()
+    .Name("customers")
+    .HtmlAttributes(new {style="height: 600px" }) 
+    .Events(e=>e.Edit("onCustomersEdit"))
+    .ToolBar(t => t.Create().Text("Add new Customer"))
+    .Editable(e => e.Mode(GridEditMode.InLine))
+    .Columns(c =>
+    {
+        c.Bound(f=>f.CompanyName);
+        c.Bound(f=>f.Country).EditorTemplateName("Country").Width(150);
+        c.Bound(f => f.City).Width(150);
+        c.Bound(f=>f.ContactName);
+        c.Bound(f=>f.Phone);
+        c.Command(f => { f.Edit(); f.Destroy(); }).Width(200);
+    })
+    .Pageable()
+    .Selectable(s=>s.Mode(GridSelectionMode.Single))
+    .Scrollable()
+    .Filterable()
+    .Sortable()
+    .ClientDetailTemplateId("OrderTemplate")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(50) 
+        .Model(m =>
+        {
+            m.Id(f => f.CustomerID);
+            m.Field(f => f.CustomerID).Editable(false); 
+        })
+        .Read("Customers_Read", "Customers")
+        .Create("Customers_Create", "Customers")
+        .Update("Customers_Update", "Customers")
+        .Destroy("Customers_Destroy", "Customers")
+    )
+)
+
+<script id="OrderTemplate"  type="text/x-kendo-tmpl"> 
+@(Html.Kendo().Grid<OrderViewModel>()
+    .Name("orders#=CustomerID#")
+    //.HtmlAttributes(new {style="width: 1000px" })
+    .ToolBar(t => t.Create().Text("Create new Order"))
+    .Editable(e => e.Mode(GridEditMode.InLine))
+    .Events(e => e
+        .Edit("onOrdersEdit")
+        .Save("onOrdersSave")
+        .Cancel("onOrdersCancel")
+    )
+    .Columns(c =>
+    {
+        c.Bound(f => f.OrderID).Width(120);
+        c.ForeignKey(f => f.EmployeeID, (System.Collections.IEnumerable)ViewData["employees"], "EmployeeID", "EmployeeName").EditorTemplateName("GridForeignKey").Title("Employee");
+        c.Bound(f => f.OrderDate).Format("{0:d}").Width(150);
+        c.Bound(f => f.ShippedDate).Format("{0:d}").Width(150);
+        c.Command(f => { f.Edit(); f.Destroy(); }).Width(200);
+    })
+    .Pageable()
+    .Sortable()
+    .Filterable()
+    .ClientDetailTemplateId("Order_DetailTemplate")
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(10)
+        .Model(m =>
+        {
+            m.Id(f => f.OrderID);
+            m.Field(f => f.OrderID).Editable(false);
+            m.Field(f => f.OrderDate).DefaultValue(DateTime.Today);
+        })
+        .Sort(s => s.Add(f=>f.OrderDate).Descending())
+        
+        .Read("Orders_Read", "Orders", new { ID = "#=CustomerID#" })
+        .Create("Orders_Create", "Orders", new { ID = "#=CustomerID#" })
+        .Update("Orders_Update", "Orders", new { ID = "#=CustomerID#" })
+        .Destroy("Orders_Update", "Orders", new { ID = "#=CustomerID#" })
+    ).ToClientTemplate()
+)
+</script>
+ 
+<script id="Order_DetailTemplate"  type="text/x-kendo-tmpl"> 
+    <h4>Details for order \\##=OrderID# </h4>
+@(Html.Kendo().Grid<OrderDetailViewModel>()
+    .Name("order_details#=OrderID#")
+    .Columns(c =>
+    {
+        c.Template(f => new { }).Title("Product").ClientTemplate("<img src='" + Url.Content("~/Content/Products/") + "\\#:ProductID\\#.jpg' />").Width(110).HtmlAttributes(new {style="padding:0;" });
+        c.ForeignKey(f => f.ProductID, (System.Collections.IEnumerable)ViewData["products"], "ProductID", "ProductName").EditorTemplateName("GridForeignKey").Title("Product name");
+        c.Bound(f => f.UnitPrice).Format("{0:c}").Width(120);
+        c.Bound(f => f.Quantity).Width(120);
+        c.Bound(f => f.Discount).Format("{0:p}").ClientFooterTemplate("Grand total:").Width(120);
+        c.Template(f => new { }).Title("Total").ClientTemplate("\\#=kendo.toString(GetOrderItemPrice(data), \"c\")\\#").ClientFooterTemplate("<span name='sum'></span>").Width(120);
+    }) 
+    .Events(e=>e.DataBound("onOrderDetailsDataBound"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read("OrderDetails_Read", "OrderDetails", new { OrderID = "#=OrderID#" })
+    ).ToClientTemplate()
+)
+</script>
