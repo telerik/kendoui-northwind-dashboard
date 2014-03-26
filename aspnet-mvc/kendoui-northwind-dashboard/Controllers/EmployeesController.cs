@@ -12,7 +12,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 {
     public class EmployeesController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Employees()
         {
             return View();
         }
@@ -25,6 +25,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                 FirstName = e.FirstName,
                 LastName = e.LastName,
                 Notes = e.Notes,
+                Title = e.Title,
             }).OrderBy(e => e.FirstName);
 
             return Json(employees.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
@@ -56,5 +57,44 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 
             return Json(sales.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult SalesByEmployee(int EmployeeID)
+        {
+            var northwind = new NorthwindEntities();
+            var employeeSales = northwind.Orders.Where(w => w.EmployeeID == EmployeeID)
+                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails }).ToList()
+                .Select(o => new SaleStatsViewModel
+                {
+                    OrderID = o.Order.OrderID,
+                    OrderDate = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc),
+                    OrderAmount = (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount),
+                });
+            var allSales = northwind.Orders
+                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails }).ToList()
+                .Select(o => new SaleStatsViewModel
+                {
+                    OrderID = o.Order.OrderID,
+                    OrderDate = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc),
+                    TotalAmount = (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount),
+                });
+            //var result = allSales.Join(employeeSales, all => all.OrderID, emp => emp.OrderID, (all, emp) => new { All = all, Employee = emp }).ToList()
+            //    .Select(o => new SaleStatsViewModel
+            //    {
+            //        OrderID = o.All.OrderID,
+            //        OrderDate = o.All.OrderDate,
+            //        TotalAmount = o.All.TotalAmount,
+            //        OrderAmount = o.Employee.OrderAmount
+            //    });
+            var result = allSales.Union(employeeSales).ToList()
+                .Select(o => new SaleStatsViewModel
+                {
+                    OrderID = o.OrderID,
+                    OrderDate = o.OrderDate,
+                    TotalAmount = o.TotalAmount,
+                    OrderAmount = o.OrderAmount
+                });
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

@@ -6,7 +6,15 @@ using System.Web.Mvc;
 using Kendo.Mvc.UI;
 
 namespace KendoUI.Northwind.Dashboard.Models
-{ 
+{
+    public class SaleStatsViewModel
+    {
+        public int OrderID { get; set; }
+        public DateTime OrderDate { get; set; }
+        public decimal OrderAmount { get; set; }
+        public decimal TotalAmount { get; set; }
+    }
+
     public class SaleViewModel : ISchedulerEvent
     {
         public int SaleID { get; set; }

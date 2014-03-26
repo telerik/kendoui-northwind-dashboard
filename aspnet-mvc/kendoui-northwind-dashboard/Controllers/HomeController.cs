@@ -12,33 +12,26 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
-            
-            return View();
-        }
-
-        public ActionResult Customers()
+        public ActionResult ProductsAndOrders()
         {
             ViewData["employees"] = GetEmployees();
             ViewData["products"] = GetProducts(); 
-            return PartialView();
+            return View();
         }
 
-        public ActionResult Products()
-        { 
-            return PartialView();
-        }
-
-        public ActionResult Statistics()
+        public ActionResult TeamEfficiency()
         {
-            return PartialView();
+            return View();
         }
 
-        public ActionResult Employees()
+        public ActionResult RegionalSalesStatus()
         {
-            return PartialView();
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            return View();
         }
 
         public ActionResult GetCountries()
