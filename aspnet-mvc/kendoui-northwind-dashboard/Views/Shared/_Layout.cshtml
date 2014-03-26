@@ -4,34 +4,29 @@
         <title>@ViewBag.Title</title>
         <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
         <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
-    <script src="http://cdn.kendostatic.com/2013.3.1324/js/jquery.min.js"></script>
-    @*<script src="http://cdn.kendostatic.com/2013.3.1324/js/kendo.all.min.js"></script>*@
+        <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+        <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
+        <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
+        <script src="http://cdn.kendostatic.com/2013.3.1324/js/jquery.min.js"></script>
+        @*<script src="http://cdn.kendostatic.com/2013.3.1324/js/kendo.all.min.js"></script>*@
         <script src="@Url.Content("~/Scripts/kendo.all.js")"></script>
-    <script src="http://cdn.kendostatic.com/2013.3.1324/js/kendo.aspnetmvc.min.js"></script>
-    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+        <script src="http://cdn.kendostatic.com/2013.3.1324/js/kendo.aspnetmvc.min.js"></script>
+        <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Sales Dashboard", "Index", "Home")</p>
-                </div>
-            </div>
-        </header>
+    <body> 
         <div id="body">
-            @RenderSection("featured", required: false)
-            @RenderBody()
-        </div>
-
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My Telerik MVC Application</p>
-                </div>
+            <div id="sidebar">
+                  <h1 id="dash-logo">Northwind &#183; Dash</h1>
+                  <ul id="main-nav">
+                    <li><a href="#" id="regions">Regional Sales Status</a></li>
+                    <li><a href="@(Url.Action("Orders", "Home"))" id="products" class="active">Products &amp; Orders</a></li>
+                    <li><a href="@(Url.Action("Employees", "Home"))" id="team">Team Efficiency</a></li>
+                    <li><a href="#" id="about">About</a></li>
+                  </ul>
             </div>
-        </footer>
+            <div id="content">
+                @RenderBody()
+            </div>
+        </div> 
     </body>
 </html>
