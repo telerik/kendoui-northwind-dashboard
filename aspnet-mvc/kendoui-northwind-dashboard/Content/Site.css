@@ -763,6 +763,10 @@ body, h1, h2, h3, p, ul {
     padding: 0;
 }
 
+html, body {
+height: 100%;
+font-family: 'Open Sans',arial,sans-serif;
+}
 
 body {
     width: 100%;
@@ -795,8 +799,9 @@ body {
 #sidebar {
     position: absolute;  
     top: 0;
-    left: 0;
+
     bottom: 0;
+
     width: 220px;
     background-color: #35373d;
 }
@@ -826,10 +831,21 @@ body {
     color: #fff;
 }
 
-#content {  
-    top:0px;
-    width:80%; 
-    height: 100%;
+#main {    
     margin-left: 220px;
 }
 
+.wrapper, .row, .container-fluid {
+    height: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.column {
+    height: 100%;
+    top: 0;
+}
+
+.main {
+    margin-top: 0;
+}
