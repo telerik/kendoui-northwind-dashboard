@@ -1138,9 +1138,28 @@ body,
     border-bottom: 1px solid #ededee;
 }
 
-
 #sidebar-nav{
   padding: 0;
+}
+
+#toggle-button {
+    margin-top: 15px;
+}
+
+#toggle-button .icon-bar {
+    background-color: #fff;
+}
+
+/*.navbar-collapse.in {
+    overflow-y: visible;
+}*/
+
+/*.nav {
+    height: auto;
+}*/
+
+#sidebar-nav{
+    max-height: 100%;
 }
 
 @media screen and (max-width: 768px) {
