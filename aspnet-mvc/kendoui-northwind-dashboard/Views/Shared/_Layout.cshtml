@@ -38,10 +38,10 @@
                 <div class="column col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
               @*      <h1 id="dash-logo" class="navbar-brand">Northwind &#183; Dash</h1>*@
                     <ul class="nav">
-                        <li class="active"><a href="#" id="regions">Regional Sales Status</a></li>
-                        <li><a href="@(Url.Action("Orders", "Home"))" id="products" class="active">Products &amp; Orders</a></li>
-                        <li><a href="@(Url.Action("Employees", "Home"))" id="team">Team Efficiency</a></li>
-                        <li><a href="#" id="about">About</a></li>    
+                        <li><a href=@(Url.Action("RegionalSalesStatus", "Home"))#" id="RegionalSalesStatus">Regional Sales Status</a></li>
+                        <li><a href="@(Url.Action("ProductsAndOrders", "Home"))" id="ProductsAndOrders">Products &amp; Orders</a></li>
+                        <li><a href="@(Url.Action("TeamEfficiency", "Home"))" id="TeamEfficiency">Team Efficiency</a></li>
+                        <li><a href="@(Url.Action("About", "Home"))" id="About">About</a></li>    
                     </ul>
                 </div>   
                 <!-- main -->

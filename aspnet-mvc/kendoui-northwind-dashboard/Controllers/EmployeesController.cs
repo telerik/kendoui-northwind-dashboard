@@ -12,7 +12,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 {
     public class EmployeesController : Controller
     {
-        public ActionResult Employees()
+        public ActionResult TeamEfficiency()
         {
             return View();
         }

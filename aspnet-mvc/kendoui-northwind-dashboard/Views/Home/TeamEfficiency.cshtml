@@ -1,13 +1,15 @@
 ﻿@using KendoUI.Northwind.Dashboard.Models;
 
 <style>
-    #EmployeesList {
-        width: 250px;
-        float:left;
+    #EmployeesList { 
+        background-color: #EEEEEE;
     }
-    #employeeDetails {
-        float: left;
-        width: 80%;
+    #leftColumn {
+         width: 20%;
+         background-color: #EEEEEE;
+    }
+    #rightColumn {
+         width: 80%;
     }
     .employee {
         display: block; 
@@ -24,97 +26,143 @@
         height: 200px;
         background-color: white; 
     }
-
+    .col {
+        float: left;
+    }
+    .bio {
+        float: left;
+        width: 33%;
+    }
 </style>
-<script type="text/x-kendo-tmpl" id="template">
+
+<script type="text/x-kendo-tmpl" id="employeeItemTemplate">
     <div class="employee">
         <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.jpg" /> 
         <span>#:FirstName#</span> <span>#:LastName#</span> <br>
         <span>#:Title#</span>
-    </div>
-
+    </div> 
 </script>
 
-<script>
+<script type="text/x-kendo-tmpl" id="employeeBioTemplate">
+    <div class="bio">
+        ABOUT <br>
+        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.jpg" /> 
+        <span>#:FirstName#</span> <span>#:LastName#</span> <br>
+        <span>#:Title#</span>
+        <a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span> </a>
+    </div> 
+    <div class="bio">
+        QUARTER TP DATE SALES<br>
+        <div id="quarterSales"></div>
+        
+    </div>
+    <div class="bio">
+        MONTLY AVARAGE SALES<br>
+        <div id="avarageSales"></div>
+        
+    </div> 
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#TeamEfficiency").addClass("active");
+    });
+
+    function onListDataBound(e) {
+        this.select($(".employee:first"));
+    }
     function onListChange(e) {
         var scheduler = $("#EmployeeSales").data("kendoScheduler");
         var chart = $("#SalesChart").data("kendoChart");
-        var EmployeeID = this.dataSource.getByUid(this.select().attr("data-uid")).EmployeeID;
-        scheduler.dataSource.filter({ field: "EmployeeID", operator: "eq", value: EmployeeID });
-        chart.dataSource.read({ EmployeeID: EmployeeID });
+        var employee = this.dataSource.getByUid(this.select().attr("data-uid"));
+        var template = kendo.template($("#employeeBioTemplate").html());
+        $("#employeeBio").html(template(employee));
+        scheduler.dataSource.filter({ field: "EmployeeID", operator: "eq", value: employee.EmployeeID });
+        chart.dataSource.read({ EmployeeID: employee.EmployeeID });
+    }
+    function getBio(e) {
+        return e.target.find("span").text();
     }
 </script>
+
+@(Html.Kendo().Tooltip()
+    .For("#employeeBio") 
+    .Filter("a")
+    .ContentHandler("getBio")
+)
 <div id="header">
     <h1>TEAM EFFICIENCY</h1>
 </div>
-
-
-@(Html.Kendo().ListView<EmployeeViewModel>()
-    .Name("EmployeesList") 
-    .TagName("div")
-    .Events(e=>e.Change("onListChange"))
-    .ClientTemplateId("template")
-    .DataSource(dataSource => {
-        dataSource.Read(read => read.Action("Employees_Read", "Employees"));
-        dataSource.PageSize(12);
-    }) 
-    .Selectable(s=>s.Mode(ListViewSelectionMode.Single)) 
-)
-<div id="employeeDetails">
-    <div id="employeeBio">bio</div>
-    <div id="employeeStats">
-        @(Html.Kendo().Chart<SaleStatsViewModel>()
-            .Name("SalesChart")
-            .HtmlAttributes(new {style = "height:200px;" } )
-            .AutoBind(false)
-            .DataSource(ds => ds.Read(read => read.Action("SalesByEmployee", "Employees")))
-            .Series(series =>
-            {
-                series.Column(model => model.OrderAmount, categoryExpression: model => model.OrderDate);
-                series.Column(model => model.TotalAmount, categoryExpression: model => model.OrderDate);
-            })
-            .CategoryAxis(axis => axis
-                .Date()
-                .BaseUnit(ChartAxisBaseUnit.Months)
-                .Labels(labels => labels.Rotation(-90))
-                .MajorGridLines(lines => lines.Visible(false))
+<div id="leftColumn" class="col">
+    TEAM MEMBERS<br />
+    @(Html.Kendo().ListView<EmployeeViewModel>()
+        .Name("EmployeesList") 
+        .TagName("div")
+        .Events(e=>e.DataBound("onListDataBound").Change("onListChange"))
+        .ClientTemplateId("employeeItemTemplate")
+        .DataSource(dataSource => {
+            dataSource.Read(read => read.Action("Employees_Read", "Employees"));
+            dataSource.PageSize(10);
+        }) 
+        .Selectable(s=>s.Mode(ListViewSelectionMode.Single)) 
+    
+    )
+</div>
+<div id="rightColumn"class="col">
+    <div id="employeeDetails">
+        <div id="employeeBio">bio</div>
+        <div id="employeeStats">
+            @(Html.Kendo().Chart<SaleStatsViewModel>()
+                .Name("SalesChart")
+                .HtmlAttributes(new {style = "height:200px;" } )
+                .AutoBind(false)
+                .DataSource(ds => ds.Read(read => read.Action("SalesByEmployee", "Employees")))
+                .Series(series =>
+                {
+                    series.Column(model => model.OrderAmount, categoryExpression: model => model.OrderDate);
+                    series.Column(model => model.TotalAmount, categoryExpression: model => model.OrderDate);
+                })
+                .CategoryAxis(axis => axis
+                    .Date()
+                    .BaseUnit(ChartAxisBaseUnit.Months)
+                    .Labels(labels => labels.Rotation(-90))
+                    .MajorGridLines(lines => lines.Visible(false))
+                )
+                .ValueAxis(axis => axis.Numeric()
+                    .Labels(labels => labels.Format("{0:N0}"))
+                    .MajorUnit(5000)
+                    .Line(line => line.Visible(false))
+                )
+                .Tooltip(tooltip => tooltip
+                    .Visible(true)
+                    .Format("{0:N0}")
+                )
             )
-            .ValueAxis(axis => axis.Numeric()
-                .Labels(labels => labels.Format("{0:N0}"))
-                .MajorUnit(5000)
-                .Line(line => line.Visible(false))
+        </div>
+        <div id="employeeSchedule">
+            @(Html.Kendo().Scheduler<SaleViewModel>()
+                .Name("EmployeeSales")
+                .AutoBind(false)
+                .Date(new DateTime(1998, 2, 1))
+                .Views(views =>
+                {
+                    views.MonthView();
+                })
+                .Editable(false)
+                .Timezone("Etc/UTC")
+                .Resources(resource =>
+                {
+                    resource.Add(m => m.EmployeeID)
+                        .Title("Employee") 
+                        .DataTextField("EmployeeName")
+                        .DataValueField("EmployeeID") 
+                        .DataSource(dataSource => { 
+                            dataSource.Read(read => read.Action("SalesResources_Read", "Employees"));
+                        });
+                })
+                .DataSource(d => d.Read("Sales_read", "Employees"))
             )
-            .Tooltip(tooltip => tooltip
-                .Visible(true)
-                .Format("{0:N0}")
-            )
-
-        )
-
-
-    </div>
-    <div id="employeeSchedule">
-        @(Html.Kendo().Scheduler<SaleViewModel>()
-            .Name("EmployeeSales")
-            .AutoBind(false)
-            .Date(new DateTime(1998, 2, 1))
-            .Views(views =>
-            {
-                views.MonthView();
-            })
-            .Editable(false)
-            .Timezone("Etc/UTC")
-            .Resources(resource =>
-            {
-                resource.Add(m => m.EmployeeID)
-                    .Title("Employee") 
-                    .DataTextField("EmployeeName")
-                    .DataValueField("EmployeeID") 
-                    .DataSource(dataSource => { 
-                        dataSource.Read(read => read.Action("SalesResources_Read", "Employees"));
-                    });
-            })
-            .DataSource(d => d.Read("Sales_read", "Employees"))
-        )
+        </div>
     </div>
 </div>
+
