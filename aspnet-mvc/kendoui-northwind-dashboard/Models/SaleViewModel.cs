@@ -11,8 +11,26 @@ namespace KendoUI.Northwind.Dashboard.Models
     {
         public int OrderID { get; set; }
         public DateTime OrderDate { get; set; }
-        public decimal OrderAmount { get; set; }
-        public decimal TotalAmount { get; set; }
+        public double? OrderAmount { get; set; }
+        public double? TotalAmount { get; set; }
+    }
+
+
+    
+    public class TestSale
+    {
+        public int OrderID { get; set; } 
+        public int EmployeeID { get; set; } 
+        public double Amount { get; set; }
+        public DateTime Date { get; set; }
+    }
+
+    public class QuarterToDateSalesViewModel
+    {
+        public int OrderID { get; set; }
+        public DateTime OrderDate { get; set; }
+        public decimal Current { get; set; }
+        public decimal Target { get; set; }
     }
 
     public class SaleViewModel : ISchedulerEvent

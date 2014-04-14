@@ -1,6 +1,10 @@
 ﻿@using KendoUI.Northwind.Dashboard.Models;
 
+
 <style>
+    #dateFilter {
+        float: right;
+    }
     #EmployeesList { 
         background-color: #EEEEEE;
     }
@@ -16,15 +20,18 @@
         padding: 2px;
     }
     /*.k-scheduler-monthview .k-scheduler-table td {
-        height:200px !important; 
+        height:60px !important; 
     }*/
+    #employeeDetails {
+        background-color: #FDFDFE; 
+    
+    }
     #employeeBio {
         height: 200px;
-        background-color: white; 
+        background-color: #FDFDFE; 
     }
     #employeeStats {
         height: 200px;
-        background-color: white; 
     }
     .col {
         float: left;
@@ -33,11 +40,19 @@
         float: left;
         width: 33%;
     }
+    #employeeAbout {
+        height: 200px;
+    
+    }
+    #sparkline-container {  
+        width: 200px;
+    }
+
 </style>
 
 <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
     <div class="employee">
-        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.jpg" /> 
+        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#-t.png" /> 
         <span>#:FirstName#</span> <span>#:LastName#</span> <br>
         <span>#:Title#</span>
     </div> 
@@ -46,20 +61,10 @@
 <script type="text/x-kendo-tmpl" id="employeeBioTemplate">
     <div class="bio">
         ABOUT <br>
-        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.jpg" /> 
+        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.png" /> 
         <span>#:FirstName#</span> <span>#:LastName#</span> <br>
         <span>#:Title#</span>
         <a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span> </a>
-    </div> 
-    <div class="bio">
-        QUARTER TP DATE SALES<br>
-        <div id="quarterSales"></div>
-        
-    </div>
-    <div class="bio">
-        MONTLY AVARAGE SALES<br>
-        <div id="avarageSales"></div>
-        
     </div> 
 </script>
 
@@ -72,13 +77,24 @@
         this.select($(".employee:first"));
     }
     function onListChange(e) {
-        var scheduler = $("#EmployeeSales").data("kendoScheduler");
-        var chart = $("#SalesChart").data("kendoChart");
-        var employee = this.dataSource.getByUid(this.select().attr("data-uid"));
-        var template = kendo.template($("#employeeBioTemplate").html());
+        var employee = this.dataSource.getByUid(this.select().attr("data-uid")),
+            employeeQuarterSales = $("#EmployeeQuarterSales").data("kendoSparkline"),
+            employeeAvarageSales = $("#EmployeeAvarageSales").data("kendoSparkline"),
+            teamSales = $("#TeamSales").data("kendoChart"),
+            employeeSales = $("#EmployeeSales").data("kendoScheduler"),
+            fromDate = $("#FromDate").data("kendoDatePicker"),
+            endDate = $("#EndDate").data("kendoDatePicker"),
+            filter = { EmployeeID: employee.EmployeeID, fromDate: fromDate.value(), endDate: endDate.value() },
+            template = kendo.template($("#employeeBioTemplate").html());
+        
         $("#employeeBio").html(template(employee));
-        scheduler.dataSource.filter({ field: "EmployeeID", operator: "eq", value: employee.EmployeeID });
-        chart.dataSource.read({ EmployeeID: employee.EmployeeID });
+        
+        employeeSales.dataSource.filter({ field: "EmployeeID", operator: "eq", value: employee.EmployeeID });
+
+        teamSales.dataSource.read(filter);
+        //get the totals from the same action method?
+        employeeQuarterSales.dataSource.read(filter);
+        employeeAvarageSales.dataSource.read(filter);
     }
     function getBio(e) {
         return e.target.find("span").text();
@@ -91,7 +107,20 @@
     .ContentHandler("getBio")
 )
 <div id="header">
-    <h1>TEAM EFFICIENCY</h1>
+    <div><h1>TEAM EFFICIENCY</h1></div>    
+    <div id="dateFilter">
+        <label for="FromDate">STATS FROM:</label>
+        @(Html.Kendo().DatePicker() 
+            .Name("FromDate")
+            .Value(new DateTime(1996, 7, 1))
+        )
+        <label for="EndDate">TO:</label>
+        @(Html.Kendo().DatePicker() 
+            .Name("EndDate")
+            .Value(new DateTime(1997, 7, 1))
+        )
+    </div>
+    <div style="clear:both;"></div>
 </div>
 <div id="leftColumn" class="col">
     TEAM MEMBERS<br />
@@ -110,17 +139,68 @@
 </div>
 <div id="rightColumn"class="col">
     <div id="employeeDetails">
-        <div id="employeeBio">bio</div>
+        <div id="employeeAbout"> 
+            <div id="employeeBio" class="bio">
+            </div>
+            <div class="bio">
+                QUARTER TO DATE SALES<br>
+                <div class="sparkline-container">
+                    @(Html.Kendo().Sparkline<QuarterToDateSalesViewModel>()
+                        .Name("EmployeeQuarterSales")
+                        .Theme("metro")
+                        .AutoBind(false)
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("EmployeeQuarterSales", "Employees"))
+                        ) 
+                        .Series(series =>
+                        {
+                            series.Bullet(m=>m.Current, m=>m.Target); 
+                        })
+                        .ChartArea(a=>a.Width(200)) 
+                        .CategoryAxis(c=>c
+                            .Date() 
+                            .Categories(x=>x.OrderDate) 
+                            .BaseUnit(ChartAxisBaseUnit.Years)
+                        )
+                    )
+                </div>
+            </div>
+            <div class="bio">
+                MONTLY AVARAGE SALES<br>
+                <div class="sparkline-container">
+                    @(Html.Kendo().Sparkline<SaleStatsViewModel>()
+                        .Name("EmployeeAvarageSales")
+                        .Theme("metro")
+                        .AutoBind(false)
+                        .DataSource(ds => ds
+                            .Read(read => read.Action("EmployeeSales", "Employees"))
+                        ) 
+                        .Series(series =>
+                        {
+                            series.Line(model => model.OrderAmount).Width(1.5); 
+                        }) 
+                        .ChartArea(a=>a.Width(200))
+                        .CategoryAxis(c=>c
+                            .Date()
+                            .Categories(x=>x.OrderDate) 
+                            .BaseUnit(ChartAxisBaseUnit.Months)
+                        )
+                    )
+                </div> 
+            </div>  
+        </div>
         <div id="employeeStats">
             @(Html.Kendo().Chart<SaleStatsViewModel>()
-                .Name("SalesChart")
+                .Name("TeamSales")
+                .Theme("metro")
                 .HtmlAttributes(new {style = "height:200px;" } )
                 .AutoBind(false)
-                .DataSource(ds => ds.Read(read => read.Action("SalesByEmployee", "Employees")))
+                .Legend(l=>l.Position(ChartLegendPosition.Bottom))
+                .DataSource(ds => ds.Read(read => read.Action("EmployeeAndTeamSales", "Employees")))
                 .Series(series =>
                 {
-                    series.Column(model => model.OrderAmount, categoryExpression: model => model.OrderDate);
-                    series.Column(model => model.TotalAmount, categoryExpression: model => model.OrderDate);
+                    series.Column(model => model.OrderAmount, categoryExpression: model => model.OrderDate).Name("Employee Sales");
+                    series.Column(model => model.TotalAmount, categoryExpression: model => model.OrderDate).Name("Team Sales");
                 })
                 .CategoryAxis(axis => axis
                     .Date()
@@ -143,7 +223,7 @@
             @(Html.Kendo().Scheduler<SaleViewModel>()
                 .Name("EmployeeSales")
                 .AutoBind(false)
-                .Date(new DateTime(1998, 2, 1))
+                .Date(new DateTime(1996, 7, 1))
                 .Views(views =>
                 {
                     views.MonthView();
@@ -165,4 +245,7 @@
         </div>
     </div>
 </div>
+
+
+
 

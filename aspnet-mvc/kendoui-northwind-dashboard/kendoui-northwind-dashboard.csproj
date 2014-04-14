@@ -318,6 +318,25 @@
   <ItemGroup>
     <Content Include="App_Data\Northwind.mdf" />
     <Content Include="App_Data\Northwind_log.ldf" />
+    <Content Include="Content\Employees\1-t.png" />
+    <Content Include="Content\Employees\1.png" />
+    <Content Include="Content\Employees\2-t.png" />
+    <Content Include="Content\Employees\2.png" />
+    <Content Include="Content\Employees\3-t.png" />
+    <Content Include="Content\Employees\3.png" />
+    <Content Include="Content\Employees\4-t.png" />
+    <Content Include="Content\Employees\4.png" />
+    <Content Include="Content\Employees\5-t.png" />
+    <Content Include="Content\Employees\5.png" />
+    <Content Include="Content\Employees\6-t.png" />
+    <Content Include="Content\Employees\6.png" />
+    <Content Include="Content\Employees\7-t.png" />
+    <Content Include="Content\Employees\7.png" />
+    <Content Include="Content\Employees\8-t.png" />
+    <Content Include="Content\Employees\8.png" />
+    <Content Include="Content\Employees\9-t.png" />
+    <Content Include="Content\Employees\9.png" />
+    <Content Include="Content\favicon.ico" />
     <Content Include="Content\Products\1.jpg" />
     <Content Include="Content\Products\10.jpg" />
     <Content Include="Content\Products\11.jpg" />
@@ -468,9 +487,7 @@
     <Content Include="Views\Shared\EditorTemplates\Country.cshtml" />
     <Content Include="Views\Home\TeamEfficiency.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\Employees\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
