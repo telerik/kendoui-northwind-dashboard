@@ -19,10 +19,10 @@ namespace KendoUI.Northwind.Dashboard.Models
     
     public class TestSale
     {
-        public int OrderID { get; set; } 
-        public int EmployeeID { get; set; } 
-        public double Amount { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
+        public double? EmployeeSales { get; set; }
+        public double? TotalSales { get; set; }
+        
     }
 
     public class QuarterToDateSalesViewModel

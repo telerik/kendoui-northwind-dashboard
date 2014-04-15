@@ -190,7 +190,7 @@
             </div>  
         </div>
         <div id="employeeStats">
-            @(Html.Kendo().Chart<SaleStatsViewModel>()
+            @(Html.Kendo().Chart<TestSale>()
                 .Name("TeamSales")
                 .Theme("metro")
                 .HtmlAttributes(new {style = "height:200px;" } )
@@ -199,8 +199,8 @@
                 .DataSource(ds => ds.Read(read => read.Action("EmployeeAndTeamSales", "Employees")))
                 .Series(series =>
                 {
-                    series.Column(model => model.OrderAmount, categoryExpression: model => model.OrderDate).Name("Employee Sales");
-                    series.Column(model => model.TotalAmount, categoryExpression: model => model.OrderDate).Name("Team Sales");
+                    series.Column(model => model.EmployeeSales, categoryExpression: model => model.Date).Name("Employee Sales").Aggregate(ChartSeriesAggregate.Sum);
+                    series.Column(model => model.TotalSales, categoryExpression: model => model.Date).Name("Team Sales").Aggregate(ChartSeriesAggregate.Sum);
                 })
                 .CategoryAxis(axis => axis
                     .Date()
