@@ -4,19 +4,19 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.kendostatic.com/2013.3.1324/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />    
-    <script src="http://cdn.kendostatic.com/2013.3.1324/js/jquery.min.js"></script>
-    <script src="http://cdn.kendostatic.com/2013.3.1324/js/kendo.all.min.js"></script>  
-    <script src="http://cdn.kendostatic.com/2013.3.1324/js/kendo.aspnetmvc.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <link href="http://cdn.kendostatic.com/2014.1.318/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.318/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />    
+    <script src="http://cdn.kendostatic.com/2014.1.318/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.1.318/js/kendo.all.min.js"></script>  
+    <script src="http://cdn.kendostatic.com/2014.1.318/js/kendo.aspnetmvc.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script> 
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 </head>
 <body> 
     <div class="container-fluid"><!--open container-->
         <div class="row row-offcanvas row-offcanvas-left"><!--open row-->  
-            <div id="nav-column" class="col-xs-12 col-sm-3 col-md-2 column"><!--open left column-->
+            <div id="nav-column" class="col-xs-12 col-sm-3 col-md-3 column"><!--open left column-->
             <div class=" navbar-default ">
                 <button id="toggle-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -35,60 +35,18 @@
                     </ul>
                 </div>
             </div><!--close left column-->
-            <div id="main-column" class="col-xs-12 col-sm-9 col-md-10 column"><!--open main column-->
-                <div> @RenderBody()</div>       
-
-        </div><!--close main column-->
-     
+            <div id="main-column" class="col-xs-12 col-sm-9 col-md-9 column"><!--open main column-->
+                <div> @RenderBody()</div>
+        </div><!--close main column-->     
         </div><!--close row-->  
     </div><!--close container-->
-
-
-
-    @*  <div class="wrapper">  
-        <!-- top navbar -->
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container-fluid">
-                <div class="row">        
-                    <!-- sidebar -->           
-                    <div class="navbar-header column col-xs-6 col-sm-2">
-                        <h1 id="dash-logo" class="navbar-brand">Northwind &#183; Dash</h1>
-                    </div>
-                    <div class="col-xs-6">
-                            <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                    </div>                     
-        </div></div></div>*@
       
-        @* <div class="container-fluid">
-            <div class="row row-offcanvas row-offcanvas-left">        
-            <!-- sidebar -->
-            <div class="column col-xs-6 col-sm-2 sidebar-offcanvas" id="sidebar">*@
-            @*      <h1 id="dash-logo" class="navbar-brand">Northwind &#183; Dash</h1>*@
-                @*  <ul class="nav">
-                    <li class="active"><a href="#" id="regions">Regional Sales Status</a></li>
-                    <li><a href="@(Url.Action("Orders", "Home"))" id="products" class="active">Products &amp; Orders</a></li>
-                    <li><a href="@(Url.Action("Employees", "Home"))" id="team">Team Efficiency</a></li>
-                    <li><a href="#" id="about">About</a></li>    
-                </ul>
-            </div>   *@
-            <!-- main -->
-            @*  <div class="column col-xs-12 col-sm-10">
-                <div> @RenderBody()</div>         
-            </div>
-        </div>
-        </div>
-    </div>*@
-
     <script>
         $(document).ready(function () {
             $('[data-toggle=offcanvas]').click(function () {
                 $('.row-offcanvas').toggleClass('active');
             });
         });
-        </script>
+    </script>
 </body>
 </html>
