@@ -11,20 +11,21 @@ using System.Data.SqlClient;
 
 namespace KendoUI.Northwind.Dashboard.Controllers
 {
-    public class EmployeesController : Controller
+    public class TeamController : Controller
     {
         public ActionResult TeamEfficiency()
         {
             return View();
         }
 
-        public ActionResult Employees_Read([DataSourceRequest]DataSourceRequest request)
+        public ActionResult EmployeesList([DataSourceRequest]DataSourceRequest request)
         {
             var employees = new NorthwindEntities().Employees.Select(e => new EmployeeViewModel
             {
                 EmployeeID = e.EmployeeID,
                 FirstName = e.FirstName,
                 LastName = e.LastName,
+                EmployeeName = e.FirstName + " " + e.LastName,
                 Notes = e.Notes,
                 Title = e.Title,
             }).OrderBy(e => e.FirstName);
@@ -32,18 +33,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return Json(employees.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SalesResources_Read([DataSourceRequest]DataSourceRequest request)
-        {
-            var employees = new NorthwindEntities().Employees.Select(e => new EmployeeViewModel
-            {
-                EmployeeID = e.EmployeeID,
-                EmployeeName = e.FirstName + " " + e.LastName
-            }).OrderBy(e => e.EmployeeName);
-
-            return Json(employees, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult Sales_Read([DataSourceRequest]DataSourceRequest request)
+        public ActionResult EmployeeSales([DataSourceRequest]DataSourceRequest request)
         {
             var northwind = new NorthwindEntities();
             var sales = northwind.Orders.Join(northwind.Customers, c => c.CustomerID, o => o.CustomerID, (o, c) => new { Order = o, Customer = c }).ToList().Select(o => new SaleViewModel
@@ -62,37 +52,47 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult EmployeeAndTeamSales(int EmployeeID, DateTime fromDate, DateTime endDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.Database.SqlQuery<TestSale>("SalesAmounts @EmployeeID", new SqlParameter("@EmployeeID", EmployeeID)).ToList().Where(d => d.Date >= fromDate && d.Date <= endDate);
+            var result = northwind.Database.SqlQuery<SalesStatsViewModel>("SalesAmounts @EmployeeID", new SqlParameter("@EmployeeID", EmployeeID)).ToList().Where(d => d.Date >= fromDate && d.Date <= endDate);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult EmployeeSales(int EmployeeID, DateTime fromDate, DateTime endDate)
+        public ActionResult EmployeeAverageSales(int EmployeeID, DateTime fromDate, DateTime endDate)
         {
             var northwind = new NorthwindEntities();
-            var employeeSales = northwind.Orders.Where(w => w.EmployeeID == EmployeeID)
-                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails }).ToList()
-                .Select(o => new SaleStatsViewModel
+            var sales = northwind.Orders.Where(w => w.EmployeeID == EmployeeID)
+                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails })
+                .Where(d => d.Order.OrderDate >= fromDate && d.Order.OrderDate <= endDate).ToList()
+                .Select(o => new SalesStatsViewModel
+                { 
+                    Date = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc),
+                    EmployeeSales = (double)((o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount)),
+                });
+            var result = from s in sales
+                group s by new { Date = new DateTime(s.Date.Year, s.Date.Month, 1) } into temp
+                select new
                 {
-                    OrderID = o.Order.OrderID,
-                    OrderDate = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc),
-                    OrderAmount = 1,//(o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount),
-                }).Where(d => d.OrderDate >= fromDate && d.OrderDate <= endDate ); 
-            return Json(employeeSales, JsonRequestBehavior.AllowGet); 
+                    EmployeeSales = temp.Sum(s => s.EmployeeSales),
+                    Date = temp.Key.Date
+                };
+            return Json(result, JsonRequestBehavior.AllowGet); 
         }
 
         public ActionResult EmployeeQuarterSales(int EmployeeID, DateTime endDate)
         {
             DateTime fromDate = endDate.AddMonths(-3);
             var northwind = new NorthwindEntities();
-            var employeeSales = northwind.Orders.Where(w => w.EmployeeID == EmployeeID)
-                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails }).ToList()
+            var sales = northwind.Orders.Where(w => w.EmployeeID == EmployeeID)
+                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails })
+                .Where(d => d.Order.OrderDate >= fromDate && d.Order.OrderDate <= endDate).ToList()
                 .Select(o => new QuarterToDateSalesViewModel
-                { 
-                    OrderDate = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc),
-                    Current = 1,//(o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount),
-                    Target = 3000
-                }).Where(d => d.OrderDate >= fromDate && d.OrderDate <= endDate);
-            return Json(employeeSales, JsonRequestBehavior.AllowGet);
+                {
+                    Current = (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount)
+                });
+            //Generate the target based on team's average sales?
+            var result = new List<QuarterToDateSalesViewModel>() { 
+                     new QuarterToDateSalesViewModel {Current = sales.Sum(s=>s.Current), Target = 15000, OrderDate = endDate}
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
     }

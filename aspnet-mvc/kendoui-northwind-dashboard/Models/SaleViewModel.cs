@@ -7,19 +7,9 @@ using Kendo.Mvc.UI;
 
 namespace KendoUI.Northwind.Dashboard.Models
 {
-    public class SaleStatsViewModel
+    public class SalesStatsViewModel
     {
-        public int OrderID { get; set; }
-        public DateTime OrderDate { get; set; }
-        public double? OrderAmount { get; set; }
-        public double? TotalAmount { get; set; }
-    }
-
-
-    
-    public class TestSale
-    {
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
         public double? EmployeeSales { get; set; }
         public double? TotalSales { get; set; }
         

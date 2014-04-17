@@ -47,7 +47,12 @@
     #sparkline-container {  
         width: 200px;
     }
-
+    #EmployeeQuarterSalesLabel {
+        font-size: 24px;
+    }
+    #EmployeeAverageSalesLabel {
+        font-size: 24px;
+    }
 </style>
 
 <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
@@ -79,7 +84,7 @@
     function onListChange(e) {
         var employee = this.dataSource.getByUid(this.select().attr("data-uid")),
             employeeQuarterSales = $("#EmployeeQuarterSales").data("kendoSparkline"),
-            employeeAvarageSales = $("#EmployeeAvarageSales").data("kendoSparkline"),
+            employeeAverageSales = $("#EmployeeAverageSales").data("kendoSparkline"),
             teamSales = $("#TeamSales").data("kendoChart"),
             employeeSales = $("#EmployeeSales").data("kendoScheduler"),
             fromDate = $("#FromDate").data("kendoDatePicker"),
@@ -94,11 +99,20 @@
         teamSales.dataSource.read(filter);
         //get the totals from the same action method?
         employeeQuarterSales.dataSource.read(filter);
-        employeeAvarageSales.dataSource.read(filter);
+        employeeAverageSales.dataSource.read(filter);
     }
     function getBio(e) {
         return e.target.find("span").text();
     }
+    function onQuarterSalesDataBound(e) {
+        var data = this.dataSource.at(0);
+        $("#EmployeeQuarterSalesLabel").text(kendo.toString(data.Current,"c0"));
+    }
+    function onAverageSalesDataBound(e) { 
+        //var data = this.dataSource.aggregates().EmployeeSales.average;
+        //$("#EmployeeAverageSalesLabel").text(kendo.toString(data, "c0"));
+    }
+
 </script>
 
 @(Html.Kendo().Tooltip()
@@ -130,11 +144,10 @@
         .Events(e=>e.DataBound("onListDataBound").Change("onListChange"))
         .ClientTemplateId("employeeItemTemplate")
         .DataSource(dataSource => {
-            dataSource.Read(read => read.Action("Employees_Read", "Employees"));
+            dataSource.Read(read => read.Action("EmployeesList", "Team"));
             dataSource.PageSize(10);
         }) 
-        .Selectable(s=>s.Mode(ListViewSelectionMode.Single)) 
-    
+        .Selectable(s=>s.Mode(ListViewSelectionMode.Single))
     )
 </div>
 <div id="rightColumn"class="col">
@@ -144,45 +157,50 @@
             </div>
             <div class="bio">
                 QUARTER TO DATE SALES<br>
+                <span id="EmployeeQuarterSalesLabel"></span>
                 <div class="sparkline-container">
                     @(Html.Kendo().Sparkline<QuarterToDateSalesViewModel>()
                         .Name("EmployeeQuarterSales")
                         .Theme("metro")
                         .AutoBind(false)
+                        .Events(e=>e.DataBound("onQuarterSalesDataBound"))
                         .DataSource(ds => ds
-                            .Read(read => read.Action("EmployeeQuarterSales", "Employees"))
+                            .Read(read => read.Action("EmployeeQuarterSales", "Team"))
                         ) 
                         .Series(series =>
                         {
-                            series.Bullet(m=>m.Current, m=>m.Target); 
+                            series.Bullet(m => m.Current, m => m.Target);
                         })
                         .ChartArea(a=>a.Width(200)) 
                         .CategoryAxis(c=>c
                             .Date() 
                             .Categories(x=>x.OrderDate) 
-                            .BaseUnit(ChartAxisBaseUnit.Years)
+                            .BaseUnit(ChartAxisBaseUnit.Months)
                         )
                     )
                 </div>
             </div>
             <div class="bio">
-                MONTLY AVARAGE SALES<br>
+                MONTLY AVERAGE SALES<br>
+                <span id="EmployeeAverageSalesLabel"></span>
                 <div class="sparkline-container">
-                    @(Html.Kendo().Sparkline<SaleStatsViewModel>()
-                        .Name("EmployeeAvarageSales")
+                    @(Html.Kendo().Sparkline<SalesStatsViewModel>()
+                        .Name("EmployeeAverageSales")
                         .Theme("metro")
-                        .AutoBind(false)
+                        .AutoBind(false)                        
+                        .Events(e=>e.DataBound("onAverageSalesDataBound"))
                         .DataSource(ds => ds
-                            .Read(read => read.Action("EmployeeSales", "Employees"))
+                            .Aggregates(a=>a.Add(m=>m.EmployeeSales).Average())
+                            .Read(read => read.Action("EmployeeAverageSales", "Team"))
                         ) 
                         .Series(series =>
                         {
-                            series.Line(model => model.OrderAmount).Width(1.5); 
+                            series.Line(model => model.EmployeeSales).Width(1.5); 
                         }) 
                         .ChartArea(a=>a.Width(200))
                         .CategoryAxis(c=>c
                             .Date()
-                            .Categories(x=>x.OrderDate) 
+                            .Categories(x=>x.Date) 
                             .BaseUnit(ChartAxisBaseUnit.Months)
                         )
                     )
@@ -190,13 +208,13 @@
             </div>  
         </div>
         <div id="employeeStats">
-            @(Html.Kendo().Chart<TestSale>()
+            @(Html.Kendo().Chart<SalesStatsViewModel>()
                 .Name("TeamSales")
                 .Theme("metro")
                 .HtmlAttributes(new {style = "height:200px;" } )
                 .AutoBind(false)
                 .Legend(l=>l.Position(ChartLegendPosition.Bottom))
-                .DataSource(ds => ds.Read(read => read.Action("EmployeeAndTeamSales", "Employees")))
+                .DataSource(ds => ds.Read(read => read.Action("EmployeeAndTeamSales", "Team")))
                 .Series(series =>
                 {
                     series.Column(model => model.EmployeeSales, categoryExpression: model => model.Date).Name("Employee Sales").Aggregate(ChartSeriesAggregate.Sum);
@@ -236,16 +254,12 @@
                         .Title("Employee") 
                         .DataTextField("EmployeeName")
                         .DataValueField("EmployeeID") 
-                        .DataSource(dataSource => { 
-                            dataSource.Read(read => read.Action("SalesResources_Read", "Employees"));
+                        .DataSource(dataSource => {
+                            dataSource.Read(read => read.Action("EmployeesList", "Team"));
                         });
                 })
-                .DataSource(d => d.Read("Sales_read", "Employees"))
+                .DataSource(d => d.Read("EmployeeSales", "Team"))
             )
         </div>
     </div>
 </div>
-
-
-
-
