@@ -11,23 +11,26 @@ AS
 BEGIN 
     SET NOCOUNT ON;
      
-SELECT AllSales.EmployeeID, AllSales.Date, AllSales.TotalSales, EmployeeSales.EmployeeSales from 
-    (SELECT Orders.EmployeeID, Orders.OrderDate AS Date, SUM(Details.Amount) AS TotalSales FROM Orders 
-        INNER JOIN (
-            SELECT  Orders.OrderID, SUM((Quantity * UnitPrice) - (Quantity * UnitPrice * Discount))  AS Amount FROM [Order Details]
-            INNER JOIN Orders ON Orders.OrderID = [Order Details].OrderID
-            GROUP BY Orders.OrderID
-        ) AS Details  ON Orders.OrderID = Details.OrderID 
-        GROUP BY Orders.OrderDate, Orders.EmployeeID
-    ) as AllSales
+SELECT AllSales.TotalSales AS TotalSales, EmployeeSales.EmployeeSales AS EmployeeSales, AllSales.Date from   
+        (SELECT Sales.Date, SUM(Sales.EmployeeSales) AS TotalSales  FROM
+            (
+                SELECT  Orders.EmployeeID, 
+                        SUM((Quantity * UnitPrice) - (Quantity * UnitPrice * Discount))  AS EmployeeSales,  
+                        DATEFROMPARTS(DATEPART(YEAR, Orders.OrderDate), DATEPART(MONTH, Orders.OrderDate), 1) AS Date
+                FROM [Order Details]
+                    INNER JOIN Orders ON Orders.OrderID = [Order Details].OrderID
+                GROUP BY Orders.EmployeeID, DATEFROMPARTS(DATEPART(YEAR, Orders.OrderDate), DATEPART(MONTH, Orders.OrderDate), 1) 
+            ) AS Sales 
+            GROUP BY Sales.Date
+        ) AS AllSales 
     LEFT OUTER JOIN
-    (SELECT Orders.OrderDate AS Date, SUM(Details.Amount) AS EmployeeSales FROM Orders 
-        INNER JOIN (
-            SELECT Orders.OrderID, SUM((Quantity * UnitPrice) - (Quantity * UnitPrice * Discount))  AS Amount FROM [Order Details]
+        (SELECT  Orders.EmployeeID, 
+                SUM((Quantity * UnitPrice) - (Quantity * UnitPrice * Discount))  AS EmployeeSales,  
+                DATEFROMPARTS(DATEPART(YEAR, Orders.OrderDate), DATEPART(MONTH, Orders.OrderDate), 1) AS Date
+        FROM [Order Details]
             INNER JOIN Orders ON Orders.OrderID = [Order Details].OrderID
-            GROUP BY Orders.OrderID
-        ) AS Details  ON Orders.OrderID = Details.OrderID 
         WHERE Orders.EmployeeID = @EmployeeID
-        GROUP BY Orders.OrderDate
-    ) AS EmployeeSales ON AllSales.Date = EmployeeSales.Date
+        GROUP BY Orders.EmployeeID, DATEFROMPARTS(DATEPART(YEAR, Orders.OrderDate), DATEPART(MONTH, Orders.OrderDate), 1) 
+        ) AS EmployeeSales  
+    ON AllSales.Date = EmployeeSales.Date
 END

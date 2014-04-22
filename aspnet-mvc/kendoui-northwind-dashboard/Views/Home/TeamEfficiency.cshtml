@@ -76,20 +76,49 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#TeamEfficiency").addClass("active");
+        $("#dateFilter").kendoValidator({
+            rules: {
+                startDate: function (input) {
+                    if (input.is("#StartDate")) {
+                        startDate = kendo.parseDate(input.val());
+                        endDate = kendo.parseDate($("#EndDate").val());
+                        if (startDate > endDate) {
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+                endDate: function (input) {
+                    if (input.is("#EndDate")) {
+                        startDate = kendo.parseDate($("#StartDate").val());
+                        endDate = kendo.parseDate(input.val());
+                        if (startDate > endDate) {
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+            },
+            messages: {
+                startDate: "Start date should preceed the End date.",
+                endDate: "End date should not preceed the Start date."
+            }
+        });
     });
 
     function onListDataBound(e) {
         this.select($(".employee:first"));
     }
-    function onListChange(e) {
-        var employee = this.dataSource.getByUid(this.select().attr("data-uid")),
+    function onCriteriaChange() { 
+        var employeeList = $("#EmployeesList").data("kendoListView"),
+            employee = employeeList.dataSource.getByUid(employeeList.select().attr("data-uid")),
             employeeQuarterSales = $("#EmployeeQuarterSales").data("kendoSparkline"),
             employeeAverageSales = $("#EmployeeAverageSales").data("kendoSparkline"),
             teamSales = $("#TeamSales").data("kendoChart"),
             employeeSales = $("#EmployeeSales").data("kendoScheduler"),
-            fromDate = $("#FromDate").data("kendoDatePicker"),
+            startDate = $("#StartDate").data("kendoDatePicker"),
             endDate = $("#EndDate").data("kendoDatePicker"),
-            filter = { EmployeeID: employee.EmployeeID, fromDate: fromDate.value(), endDate: endDate.value() },
+            filter = { EmployeeID: employee.EmployeeID, startDate: startDate.value(), endDate: endDate.value() },
             template = kendo.template($("#employeeBioTemplate").html());
         
         $("#employeeBio").html(template(employee));
@@ -106,11 +135,15 @@
     }
     function onQuarterSalesDataBound(e) {
         var data = this.dataSource.at(0);
-        $("#EmployeeQuarterSalesLabel").text(kendo.toString(data.Current,"c0"));
+        $("#EmployeeQuarterSalesLabel").text(kendo.toString(data.Current,"c2"));
     }
     function onAverageSalesDataBound(e) { 
-        //var data = this.dataSource.aggregates().EmployeeSales.average;
-        //$("#EmployeeAverageSalesLabel").text(kendo.toString(data, "c0"));
+        var data = this.dataSource.aggregates()
+        if (data.EmployeeSales) {
+            $("#EmployeeAverageSalesLabel").text(kendo.toString(data.EmployeeSales.average, "c2"));
+        } else {
+            $("#EmployeeAverageSalesLabel").text(kendo.toString(0, "c2"));
+        }
     }
 
 </script>
@@ -123,16 +156,20 @@
 <div id="header">
     <div><h1>TEAM EFFICIENCY</h1></div>    
     <div id="dateFilter">
-        <label for="FromDate">STATS FROM:</label>
+        <label for="StartDate">STATS FROM:</label>
         @(Html.Kendo().DatePicker() 
-            .Name("FromDate")
+            .Name("StartDate")
             .Value(new DateTime(1996, 7, 1))
+            .Events(e=>e.Change("onCriteriaChange"))
         )
+        <span class="k-invalid-msg" data-for="StartDate"></span>
         <label for="EndDate">TO:</label>
         @(Html.Kendo().DatePicker() 
             .Name("EndDate")
             .Value(new DateTime(1997, 7, 1))
+            .Events(e=>e.Change("onCriteriaChange"))
         )
+        <span class="k-invalid-msg" data-for="EndDate"></span>
     </div>
     <div style="clear:both;"></div>
 </div>
@@ -140,12 +177,12 @@
     TEAM MEMBERS<br />
     @(Html.Kendo().ListView<EmployeeViewModel>()
         .Name("EmployeesList") 
-        .TagName("div")
-        .Events(e=>e.DataBound("onListDataBound").Change("onListChange"))
+        .TagName("div") 
+        .Events(e=>e.DataBound("onListDataBound").Change("onCriteriaChange"))
         .ClientTemplateId("employeeItemTemplate")
         .DataSource(dataSource => {
             dataSource.Read(read => read.Action("EmployeesList", "Team"));
-            dataSource.PageSize(10);
+            dataSource.PageSize(9);
         }) 
         .Selectable(s=>s.Mode(ListViewSelectionMode.Single))
     )
@@ -187,21 +224,20 @@
                     @(Html.Kendo().Sparkline<SalesStatsViewModel>()
                         .Name("EmployeeAverageSales")
                         .Theme("metro")
-                        .AutoBind(false)                        
+                        .AutoBind(false)
                         .Events(e=>e.DataBound("onAverageSalesDataBound"))
                         .DataSource(ds => ds
-                            .Aggregates(a=>a.Add(m=>m.EmployeeSales).Average())
+                            .Aggregates(a=>a.Add(s=>s.EmployeeSales).Average())
                             .Read(read => read.Action("EmployeeAverageSales", "Team"))
                         ) 
                         .Series(series =>
                         {
-                            series.Line(model => model.EmployeeSales).Width(1.5); 
+                            series.Line(model => model.EmployeeSales).Width(1.5).Tooltip(t => t.Template("#=kendo.toString(value, 'c2')#"));
                         }) 
                         .ChartArea(a=>a.Width(200))
                         .CategoryAxis(c=>c
                             .Date()
-                            .Categories(x=>x.Date) 
-                            .BaseUnit(ChartAxisBaseUnit.Months)
+                            .Categories(x=>x.Date)
                         )
                     )
                 </div> 
@@ -227,13 +263,13 @@
                     .MajorGridLines(lines => lines.Visible(false))
                 )
                 .ValueAxis(axis => axis.Numeric()
-                    .Labels(labels => labels.Format("{0:N0}"))
-                    .MajorUnit(5000)
+                    .Labels(labels => labels.Format("{0:c2}"))
+                    .MajorUnit(25000)
                     .Line(line => line.Visible(false))
                 )
                 .Tooltip(tooltip => tooltip
                     .Visible(true)
-                    .Format("{0:N0}")
+                    .Format("{0:c2}")
                 )
             )
         </div>
@@ -255,7 +291,7 @@
                         .DataTextField("EmployeeName")
                         .DataValueField("EmployeeID") 
                         .DataSource(dataSource => {
-                            dataSource.Read(read => read.Action("EmployeesList", "Team"));
+                            dataSource.Read(read => read.Action("GetEmployees", "Team"));
                         });
                 })
                 .DataSource(d => d.Read("EmployeeSales", "Team"))
