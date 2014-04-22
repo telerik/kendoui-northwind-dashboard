@@ -318,6 +318,7 @@
   <ItemGroup>
     <Content Include="App_Data\Northwind.mdf" />
     <Content Include="App_Data\Northwind_log.ldf" />
+    <Content Include="Content\Fonts\KendoUI.svg" />
     <Content Include="Content\Products\1.jpg" />
     <Content Include="Content\Products\10.jpg" />
     <Content Include="Content\Products\11.jpg" />
@@ -416,6 +417,9 @@
       <DependentUpon>Northwind.edmx</DependentUpon>
       <LastGenOutput>Northwind.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\Fonts\KendoUI.eot" />
+    <Content Include="Content\Fonts\KendoUI.ttf" />
+    <Content Include="Content\Fonts\KendoUI.woff" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
