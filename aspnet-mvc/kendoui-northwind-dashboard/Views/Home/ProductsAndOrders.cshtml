@@ -6,6 +6,9 @@
 </ul>*@
 <script type="text/javascript">
 
+    $(document).ready(function () {
+        $("#ProductsAndOrders").addClass("active");
+    });
     function onCustomersEdit(e) {
         if(e.model.isNew()){
             e.container.find("td.k-hierarchy-cell").css({ visibility: "hidden" });

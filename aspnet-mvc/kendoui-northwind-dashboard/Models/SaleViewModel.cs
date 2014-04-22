@@ -7,12 +7,20 @@ using Kendo.Mvc.UI;
 
 namespace KendoUI.Northwind.Dashboard.Models
 {
-    public class SaleStatsViewModel
+    public class SalesStatsViewModel
+    {
+        public DateTime Date { get; set; }
+        public double? EmployeeSales { get; set; }
+        public double? TotalSales { get; set; }
+        
+    }
+
+    public class QuarterToDateSalesViewModel
     {
         public int OrderID { get; set; }
         public DateTime OrderDate { get; set; }
-        public decimal OrderAmount { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal Current { get; set; }
+        public decimal Target { get; set; }
     }
 
     public class SaleViewModel : ISchedulerEvent

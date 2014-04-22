@@ -15,7 +15,7 @@
     <AssemblyName>kendoui-northwind-dashboard</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -185,7 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CustomersController.cs" />
-    <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -318,7 +318,25 @@
   <ItemGroup>
     <Content Include="App_Data\Northwind.mdf" />
     <Content Include="App_Data\Northwind_log.ldf" />
-    <Content Include="Content\Fonts\KendoUI.svg" />
+    <Content Include="Content\Employees\1-t.png" />
+    <Content Include="Content\Employees\1.png" />
+    <Content Include="Content\Employees\2-t.png" />
+    <Content Include="Content\Employees\2.png" />
+    <Content Include="Content\Employees\3-t.png" />
+    <Content Include="Content\Employees\3.png" />
+    <Content Include="Content\Employees\4-t.png" />
+    <Content Include="Content\Employees\4.png" />
+    <Content Include="Content\Employees\5-t.png" />
+    <Content Include="Content\Employees\5.png" />
+    <Content Include="Content\Employees\6-t.png" />
+    <Content Include="Content\Employees\6.png" />
+    <Content Include="Content\Employees\7-t.png" />
+    <Content Include="Content\Employees\7.png" />
+    <Content Include="Content\Employees\8-t.png" />
+    <Content Include="Content\Employees\8.png" />
+    <Content Include="Content\Employees\9-t.png" />
+    <Content Include="Content\Employees\9.png" />
+    <Content Include="Content\favicon.ico" />
     <Content Include="Content\Products\1.jpg" />
     <Content Include="Content\Products\10.jpg" />
     <Content Include="Content\Products\11.jpg" />
@@ -417,9 +435,6 @@
       <DependentUpon>Northwind.edmx</DependentUpon>
       <LastGenOutput>Northwind.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\Fonts\KendoUI.eot" />
-    <Content Include="Content\Fonts\KendoUI.ttf" />
-    <Content Include="Content\Fonts\KendoUI.woff" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -472,9 +487,7 @@
     <Content Include="Views\Shared\EditorTemplates\Country.cshtml" />
     <Content Include="Views\Home\TeamEfficiency.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\Employees\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -496,12 +509,10 @@
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
-          <AutoAssignPort>False</AutoAssignPort>
+          <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>65141</DevelopmentServerPort>
-          <DevelopmentServerVPath>/dash</DevelopmentServerVPath>
-          <IISUrl>http://localhost:65141/dash</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost/dash</IISAppRootUrl>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/kendoui-northwind-dashboard</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
