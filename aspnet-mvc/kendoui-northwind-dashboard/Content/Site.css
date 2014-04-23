@@ -1171,9 +1171,10 @@ body,
 }
 
 #dash-logo,
-.main-header{
+.main-section-header{
     font-size: 18px;
     text-transform: uppercase;
+    line-height: 26px;
     /*line-height: 70px;
     height: 70px;*/
     /*vertical-align: middle;*/
@@ -1186,8 +1187,8 @@ body,
     background-color: #1996e4;
 }
 
-.main-header{
-    border-bottom: 1px solid #ededee;
+.main-section-content{
+    border-top: 1px solid #ededee;
 }
 
 #sidebar-nav{
@@ -1254,4 +1255,14 @@ body,
 }
 li.active {
     background-color: #000000;
+}
+
+/* team efficiency */
+#team-efficiency {
+    float: left;
+}
+
+#dateFilter {
+    float: right;
+    padding: 30px;
 }
