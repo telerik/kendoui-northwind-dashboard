@@ -7,12 +7,19 @@ using Kendo.Mvc.UI;
 
 namespace KendoUI.Northwind.Dashboard.Models
 {
+    public class TopSellingProductsViewModel
+    {
+        public string ProductName { get; set; }
+        public DateTime Date { get; set; }
+        public int Quantity { get; set; }
+        
+    }
+
     public class SalesStatsViewModel
     {
         public DateTime Date { get; set; }
         public double? EmployeeSales { get; set; }
-        public double? TotalSales { get; set; }
-        
+        public double? TotalSales { get; set; } 
     }
 
     public class QuarterToDateSalesViewModel
