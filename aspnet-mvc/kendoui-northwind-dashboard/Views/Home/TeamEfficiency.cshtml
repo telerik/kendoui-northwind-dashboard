@@ -308,18 +308,18 @@
 <style>
   
     #EmployeesList { 
-        background-color: #EEEEEE;
+        background-color: #eee;
     }
-    #leftColumn {
-         width: 20%;
-         background-color: #EEEEEE;
+    #employee-list-column {
+       
+         background-color: #eee;
     }
-    #rightColumn {
-         width: 80%;
+    #employee-details-column {
+       
     }
     .employee {
         display: block; 
-        padding: 2px;
+       
     }
     /*.k-scheduler-monthview .k-scheduler-table td {
         height:60px !important; 
@@ -335,9 +335,9 @@
     #employeeStats {
         height: 200px;
     }
-    .col {
+    /*.col {
         float: left;
-    }
+    }*/
     .bio {
         float: left;
         width: 33%;
@@ -360,8 +360,8 @@
 <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
     <div class="employee">
         <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#-t.png" /> 
-        <span>#:FirstName#</span> <span>#:LastName#</span> <br>
-        <span>#:Title#</span>
+        <p class="name">#:FirstName#</span><span class="last-name">#:LastName#</p>
+        <p class="title">#:Title#</p>
     </div> 
 </script>
 
@@ -369,8 +369,8 @@
     <div class="bio">
         <h3>ABOUT</h3>
         <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.png" /> 
-        <span>#:FirstName#</span> <span>#:LastName#</span> <br>
-        <span>#:Title#</span>
+        <p>#:FirstName# <span>#:LastName#</span></p>
+        <p>#:Title#</p>
         <a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span> </a>
     </div> 
 </script>
@@ -456,8 +456,9 @@
     .ContentHandler("getBio")
 )
 
-    <h2 id="team-efficiency" class="main-section-header">Team efficiency</h2>   
-    <div id="dateFilter">
+<div id="header-wrapper" class="row">
+    <h2 id="team-efficiency" class="main-section-header col-xs-6">Team efficiency</h2>   
+    <div id="dateFilter" class="col-xs-6">
         <label for="StartDate">STATS FROM:</label>
         @(Html.Kendo().DatePicker() 
             .Name("StartDate")
@@ -474,11 +475,11 @@
         <span class="k-invalid-msg" data-for="EndDate"></span>
     </div>
     <div style="clear:both;"></div>
+</div>
 
+<div class="main-section-content row" style="background: purple;">
 
-<div class="main-section-content" style="background: purple;">
-
-<div id="leftColumn" class="col" style="background: green;">
+<div id="employee-list-column" class="col col-xs-3">
     <h3>TEAM MEMBERS</h3>
     @(Html.Kendo().ListView<EmployeeViewModel>()
         .Name("EmployeesList") 
@@ -492,7 +493,7 @@
         .Selectable(s=>s.Mode(ListViewSelectionMode.Single))
     )
 </div>
-<div id="rightColumn"class="col" style="background: yellow;">
+<div id="employee-details-column"class="col col-xs-9" style="background: yellow;">
     <div id="employeeDetails">
         <div id="employeeAbout"> 
             <div id="employeeBio" class="bio">

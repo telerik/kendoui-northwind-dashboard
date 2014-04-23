@@ -1128,6 +1128,10 @@ body,
     margin-right: 10px;
 }
 
+.row {
+   padding: 0 !important;
+}
+
 #nav-column{
   background-color: #35373d;
 }
@@ -1265,4 +1269,57 @@ li.active {
 #dateFilter {
     float: right;
     padding: 30px;
+}
+
+.main-section-content,
+#header-wrapper {
+    margin: 0;
+    padding: 0;
+
+}
+
+#header-wrapper {
+    height: auto;
+}
+
+#employee-list-column,
+#employee-details-column {
+    padding: 0;
+}
+
+#employee-list-column h3 {
+    padding: 30px;
+    font-size: 11px;
+    color: #35373d;
+}
+
+.employee {
+    padding: 15px;
+   
+}
+
+.title {
+  text-transform: uppercase;
+    
+}
+
+.employee img {
+    border-radius: 30px;
+    float: left;
+}
+
+
+.bio img {
+    border-radius: 45px;
+    border: 2px solid #737374;
+    float: left;
+}
+
+
+/* clear floats */
+.employee:after,
+.bio:after {
+    content:"";
+    clear:both;
+    display: block;
 }
