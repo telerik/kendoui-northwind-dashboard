@@ -329,49 +329,45 @@
     
     }
     #employeeBio {
-        height: 200px;
+        /*height: 200px;*/
         background-color: #FDFDFE; 
     }
     #employeeStats {
-        height: 200px;
+        /*height: 200px;*/
     }
     /*.col {
         float: left;
     }*/
-    .bio {
-        float: left;
-        width: 33%;
-    }
+  
     #employeeAbout {
-        height: 200px;
+        /*height: 200px;*/
     
     }
     #sparkline-container {  
         width: 200px;
     }
-    #EmployeeQuarterSalesLabel {
-        font-size: 24px;
-    }
-    #EmployeeAverageSalesLabel {
-        font-size: 24px;
-    }
+  
 </style>
 
 <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
     <div class="employee">
-        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#-t.png" /> 
-        <p class="name">#:FirstName#</span><span class="last-name">#:LastName#</p>
-        <p class="title">#:Title#</p>
+        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#-t.png" class="img-responsive employee-list-image"/> 
+        <div class="employee-list-details">    
+            <p class="name">#:FirstName#</span><span class="last-name">#:LastName#</p>
+            <p class="title">#:Title#</p>
+        </div>
     </div> 
 </script>
 
 <script type="text/x-kendo-tmpl" id="employeeBioTemplate">
-    <div class="bio">
+    <div>
         <h3>ABOUT</h3>
-        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.png" /> 
-        <p>#:FirstName# <span>#:LastName#</span></p>
-        <p>#:Title#</p>
-        <a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span> </a>
+        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.png" class="img-responsive employee-details-image" /> 
+        <div class="employee-bio-details">
+            <p>#:FirstName# <span>#:LastName#</span></p>
+            <p>#:Title#</p>
+            <a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span> </a>
+        </div>
     </div> 
 </script>
 
@@ -448,6 +444,9 @@
         }
     }
 
+    $(window).on("resize", function () {
+        kendo.resize($("#TeamSales"));
+    });
 </script>
 
 @(Html.Kendo().Tooltip()
@@ -459,14 +458,14 @@
 <div id="header-wrapper" class="row">
     <h2 id="team-efficiency" class="main-section-header col-xs-6">Team efficiency</h2>   
     <div id="dateFilter" class="col-xs-6">
-        <label for="StartDate">STATS FROM:</label>
+        <label for="StartDate" class="select-period">Stats from</label>
         @(Html.Kendo().DatePicker() 
             .Name("StartDate")
             .Value(new DateTime(1996, 7, 1))
             .Events(e=>e.Change("onCriteriaChange"))
         )
         <span class="k-invalid-msg" data-for="StartDate"></span>
-        <label for="EndDate">TO:</label>
+        <label for="EndDate" class="select-period">To</label>
         @(Html.Kendo().DatePicker() 
             .Name("EndDate")
             .Value(new DateTime(1997, 7, 1))
@@ -494,12 +493,13 @@
     )
 </div>
 <div id="employee-details-column"class="col col-xs-9" style="background: yellow;">
-    <div id="employeeDetails">
-        <div id="employeeAbout"> 
-            <div id="employeeBio" class="bio">
+    <div id="employeeDetails" class="row">
+        <div id="employeeAbout" class="col-xs-12 placeholder">
+            <div class="row"> 
+            <div id="employeeBio" class="col-xs-4">
             </div>
-            <div class="bio">
-                QUARTER TO DATE SALES<br>
+            <div class="col-xs-4">
+                <h3>Quarter to date sales</h3>
                 <span id="EmployeeQuarterSalesLabel"></span>
                 <div class="sparkline-container">
                     @(Html.Kendo().Sparkline<QuarterToDateSalesViewModel>()
@@ -523,8 +523,8 @@
                     )
                 </div>
             </div>
-            <div class="bio">
-                MONTLY AVERAGE SALES<br>
+            <div class="col-xs-4">
+                <h3>Monthly Average Sales</h3>
                 <span id="EmployeeAverageSalesLabel"></span>
                 <div class="sparkline-container">
                     @(Html.Kendo().Sparkline<SalesStatsViewModel>()
@@ -547,9 +547,10 @@
                         )
                     )
                 </div> 
-            </div>  
+            </div> 
+            </div>     
         </div>
-        <div id="employeeStats">
+        <div id="employeeStats" class="col-xs-12">
             @(Html.Kendo().Chart<SalesStatsViewModel>()
                 .Name("TeamSales")
                 .Theme("metro")
@@ -579,7 +580,7 @@
                 )
             )
         </div>
-        <div id="employeeSchedule">
+        <div id="employeeSchedule" class="col-xs-12">
             @(Html.Kendo().Scheduler<SaleViewModel>()
                 .Name("EmployeeSales")
                 .AutoBind(false)
