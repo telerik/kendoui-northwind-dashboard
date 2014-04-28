@@ -32,6 +32,7 @@ body,
   height: 100%;
 }
 
+/* font */
 @font-face {
     font-family: 'icomoon';
     src:url('Fonts/icomoon.eot?-ntp99n');
@@ -74,8 +75,15 @@ body,
     margin-right: 10px;
 }
 
-.row {
+/* Bootstrap overrides*/
+/*.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+    padding: 0;
+}*/
+
+.row,
+.container-fluid {
    padding: 0 !important;
+   margin: 0;
 }
 
 #nav-column{
@@ -171,50 +179,19 @@ body,
     max-height: 100%;
 }
 
-@media screen and (min-width: 768px) and (max-width:1024px)  {
-    
-}
-
-@media screen and (max-width: 768px) {
-  .column{
-    height: auto;
-  }
-
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
-  }
-
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -50%;
-  }
-
-  .row-offcanvas-left.active {
-    left: 50%;
-  }
-
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    margin-left: 12px;
-  }
-}
 li.active {
     background-color: #000000;
 }
 
 /* team efficiency */
 #team-efficiency {
-    float: left;
+    /*float: left;*/
 }
 
 #dateFilter {
-    float: right;
+    /*float: right;*/
     padding: 30px;
+    text-align: right;
 }
 
 .main-section-content,
@@ -247,11 +224,12 @@ li.active {
 .name {
     font-size: 14px;
     color: #35373d;
-    display:inline-block;
+    /*display:inline-block;*/
 }
 
 .title {
     font-size: 9px;
+    color: #8a8b8f;
     text-transform: uppercase; 
     display: inline-block;   
 }
@@ -268,17 +246,26 @@ li.active {
 #EmployeeQuarterSalesLabel,
 #EmployeeAverageSalesLabel {
     font-size: 36px;
+    display: inline-block;
+    margin: 0 auto 10px;
 }
 
 .employee-list-image,
 .employee-details-image {
-    float: left;
-    margin-left: 30px;
+    /*float: left;
+    margin-left: 30px;*/
+}
+
+.employee-list-image,
+.employee-details-image,
+.employee-list-details,
+.employee-bio-details {
+    display: inline-block;
 }
 
 .employee-list-image {
     border-radius: 30px;
-    margin-right: 16px;
+    margin-right: 5px;
 }
 
 .employee-details-image {
@@ -286,6 +273,10 @@ li.active {
     border: 2px solid #737374;
    
     margin-right: 20px;
+}
+
+#employeeAbout {
+    /*background: #6abd2d;*/
 }
 
 #employeeAbout h3 {
@@ -305,18 +296,30 @@ li.active {
     vertical-align: middle;
 }
 
-.employee-list-details {
-    line-height: 60px;
+/*.employee-list-details {
+    line-height: 30px;
+}*/
+
+/*.employee-bio-details {
+    line-height: 47px;
+}*/
+
+.employee-bio-details dt{
+    font-size: 18px;
+    line-height: 18px;
+    margin: 4px auto;
 }
 
-.employee-bio-details {
-    /*line-height: 57px;*/
-}
+    .employee-bio-details dd {
+        margin: 4px auto;
+  
+    }
 
 .select-period {
     margin-right: 10px;
     margin-left: 30px;
     text-transform: uppercase;
+  
 }
 
 /* clear floats */
@@ -325,4 +328,116 @@ li.active {
     content:"";
     clear:both;
     display: block;
+}
+
+#employee-list-column {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.period-wrapper {
+    display: inline-block;
+}
+
+
+.k-sparkline {
+    display: inline-block;
+    width: 100%;
+}
+
+
+/*max-width: 768px -> .col-xs- */
+@media screen and (max-width: 768px) {
+  .column{
+    height: auto;
+  }
+
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+  }
+
+  .row-offcanvas-left
+  .sidebar-offcanvas {
+    left: -50%;
+  }
+
+  .row-offcanvas-left.active {
+    left: 50%;
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    margin-left: 12px;
+  }
+
+  .employee-list-details .title,
+  .employee-list-details .name {
+        display:none;
+    }
+
+    .employee-list-image {
+        display: inline-block;
+    }
+  
+
+}
+
+/*min-width: 768px -> .col-sm- */
+@media screen and (min-width: 768px) and (max-width:992px)  { 
+    .name {
+        /*color: blue !important;*/
+ 
+    }
+
+    #EmployeeQuarterSalesLabel,
+    #EmployeeAverageSalesLabel {
+        font-size: 24px;
+    }
+
+    
+    /*.employee-list-details .title,
+    .employee-list-details .name {
+        display:none;
+    }*/
+}
+
+/*min-width: 992px -> .col-md- */
+@media screen and (min-width: 992px) and (max-width:1200px) {
+     
+}
+
+/*min-width: 1200px -> .col-lg- */
+@media screen and (min-width: 1200px){
+
+}
+
+
+/* additional rules */
+@media screen and (max-width: 1096px) {
+    .employee-list-details .title,
+    .employee-list-details .name {
+        display:none;
+    }
+            
+    .employee-list-image {
+        display: inline-block;
+    }
+}
+
+@media screen and (max-width: 1196px){
+   .employee-details-image{
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1092px) and (max-width: 1570px){
+    .employee-list-image {
+        display: none;
+    }
 }
