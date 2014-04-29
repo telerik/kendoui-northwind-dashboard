@@ -409,7 +409,12 @@ li.active {
 
 /*min-width: 992px -> .col-md- */
 @media screen and (min-width: 992px) and (max-width:1200px) {
-     
+       /*#dash-logo {
+        font-size: 16px;
+    }
+       #sidebar-nav .nav li a{
+        font-size: 8px;
+    }*/      
 }
 
 /*min-width: 1200px -> .col-lg- */
@@ -417,6 +422,14 @@ li.active {
 
 }
 
+@media screen and (max-width: 992px) {
+    #dash-logo {
+        font-size: 16px;
+    }
+    #sidebar-nav .nav li a{
+        font-size: 8px;
+    }
+}
 
 /* additional rules */
 @media screen and (max-width: 1096px) {
@@ -434,10 +447,28 @@ li.active {
    .employee-details-image{
         display: none;
     }
+     
 }
 
 @media screen and (min-width: 1092px) and (max-width: 1570px){
     .employee-list-image {
         display: none;
     }
+    #dash-logo {
+        font-size: 16px;
+    }
+       #sidebar-nav .nav li a{
+        font-size: 8px;
+    }
 }
+
+@media screen and (min-width: 995px) and (max-width: 1092px){
+
+    #dash-logo {
+        font-size: 16px;
+    }
+       #sidebar-nav .nav li a{
+        font-size: 8px;
+    }
+}
+
