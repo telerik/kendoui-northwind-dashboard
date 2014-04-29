@@ -28,6 +28,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                 EmployeeName = e.FirstName + " " + e.LastName,
                 Notes = e.Notes,
                 Title = e.Title,
+                HomePhone = e.HomePhone
             }).OrderBy(e => e.FirstName);
 
             return Json(employees, JsonRequestBehavior.AllowGet);
@@ -43,6 +44,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                 EmployeeName = e.FirstName + " " + e.LastName,
                 Notes = e.Notes,
                 Title = e.Title,
+                HomePhone = e.HomePhone
             }).OrderBy(e => e.FirstName);
 
             return Json(employees.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
