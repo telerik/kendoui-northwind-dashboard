@@ -1,6 +1,152 @@
-﻿RegionalSalesStatus
+﻿@using KendoUI.Northwind.Dashboard.Models;
+<style>
+    #dateFilter {
+        float: right;
+    }
+</style>
+
+<script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
     $(document).ready(function () {
         $("#RegionalSalesStatus").addClass("active");
+        $("#dateFilter").kendoValidator({
+            rules: {
+                startDate: function (input) {
+                    if (input.is("#StartDate")) {
+                        startDate = kendo.parseDate(input.val());
+                        endDate = kendo.parseDate($("#EndDate").val());
+                        if (startDate > endDate) {
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+                endDate: function (input) {
+                    if (input.is("#EndDate")) {
+                        startDate = kendo.parseDate($("#StartDate").val());
+                        endDate = kendo.parseDate(input.val());
+                        if (startDate > endDate) {
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+            },
+            messages: {
+                startDate: "Start date should preceed the End date.",
+                endDate: "End date should not preceed the Start date."
+            }
+        });
     });
-</script>
+
+    function onCriteriaChange() {
+
+    }
+
+    function onMapClick(e) {
+
+    }
+    var scale = chroma
+           .scale(["white", "#1996E4"])
+           .domain([1, 1000]);
+
+    function onShapeCreated(e) {
+        var shape = e.shape;
+        var users = shape.dataItem.properties.users;
+        if (users) {
+            var color = scale(users).hex();
+            shape.fill(color);
+        }
+    }
+
+    function onShapeMouseEnter(e) {
+        e.shape.options.set("fill.opacity", 1);
+    }
+
+    function onShapeMouseLeave(e) {
+        e.shape.options.set("fill.opacity", 0.7);
+    }
+
+</script> 
+
+<div id="header">
+    <div><h1>TEAM EFFICIENCY</h1></div>    
+    <div id="dateFilter">
+        <label for="StartDate">STATS FROM:</label>
+        @(Html.Kendo().DatePicker() 
+            .Name("StartDate")
+            .Value(new DateTime(1996, 7, 1))
+            .Events(e=>e.Change("onCriteriaChange"))
+        )
+        <span class="k-invalid-msg" data-for="StartDate"></span>
+        <label for="EndDate">TO:</label>
+        @(Html.Kendo().DatePicker() 
+            .Name("EndDate")
+            .Value(new DateTime(1997, 7, 1))
+            .Events(e=>e.Change("onCriteriaChange"))
+        )
+        <span class="k-invalid-msg" data-for="EndDate"></span>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+<div id="mapContainer">
+    @(Html.Kendo().Map()
+        .Name("map")
+        .Center(50.000, 0)
+        .Zoom(2)
+        .Layers(layers => 
+        {
+            layers.Add()
+                .Style(style => style
+                    .Fill(fill => fill.Color("#1996E4"))
+                    .Stroke(stroke => stroke.Color("#FFFFFF"))
+                )
+                .Type(MapLayerType.Shape)
+                .DataSource(dataSource => dataSource
+                    .GeoJson()
+                    .Read(read => read.Url(Url.Content("~/Content/countries-users.geo.json")))
+                );
+        })
+        .Events(events => events
+            .Click("onMapClick") 
+            .ShapeCreated("onShapeCreated")
+            .ShapeMouseEnter("onShapeMouseEnter")
+            .ShapeMouseLeave("onShapeMouseLeave")
+        )
+    )
+</div>
+<div id="statsContainer">
+
+
+</div>
+
+<div id="topProductsContainer">
+    @(Html.Kendo().Chart<TopSellingProductsViewModel>()
+        .Name("chart") 
+        //.AutoBind(false)
+        .Legend(legend => legend
+            .Visible(false)
+        )
+        .DataSource(ds => ds
+            .Group(g=>g.Add(f=>f.ProductName))
+            .Read(read => read.Action("TopSellingProducts", "RegionalSales")))
+        .Series(series => {
+            series.Line(model => model.Quantity).Style(ChartLineStyle.Smooth);
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.Date)
+            .MajorGridLines(x=>x.Visible(false))
+            .Labels(labels => labels.Rotation(-90))
+        )
+        .ValueAxis(axis => axis.Numeric() 
+            .MajorUnit(350)
+            .MajorTicks(x=>x.Visible(false))
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            
+            .Format("{0:N0}")
+        )
+    )  
+</div>
