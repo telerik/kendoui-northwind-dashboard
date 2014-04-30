@@ -2,11 +2,13 @@
 
 <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
     <div class="employee">
-        <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#-t.png" class="img-responsive employee-list-image"/> 
-        <dl class="employee-list-details">    
-            <dt class="name">#:FirstName# #:LastName#</dt>
-            <dd class="title">#:Title#</dd>
-        </dl>
+        <div class="employee-wrapper">
+            <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#-t.png" class="img-responsive employee-list-image"/> 
+            <dl class="employee-list-details">    
+                <dt class="name">#:FirstName# #:LastName#</dt>
+                <dd class="title">#:Title#</dd>
+            </dl>
+        </div>
     </div> 
 </script>
 
@@ -17,7 +19,7 @@
         <dl class="employee-bio-details">
             <dt>#:FirstName# #:LastName#</dt>
             <dd class="title">#:Title#</dd>
-            <dd>#:HomePhone#</dd>
+            <dd class="phone"><span class="icon icon-mobile"></span>#:HomePhone#</dd>
             <dd><a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span></a></dd>
         </dl>
     </div> 
