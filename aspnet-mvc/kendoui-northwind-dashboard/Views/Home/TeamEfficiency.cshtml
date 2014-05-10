@@ -139,7 +139,7 @@
 
 <div class="main-section-content row" style="">
 
-<div id="employee-list-column" class="col col-xs-3 col-sm-2">
+<div id="employee-list-column" class="col col-xs-2 col-sm-2 col-lg-2">
     <h3>TEAM MEMBERS</h3>
     @(Html.Kendo().ListView<EmployeeViewModel>()
         .Name("EmployeesList") 
@@ -153,7 +153,7 @@
         .Selectable(s=>s.Mode(ListViewSelectionMode.Single))
     )
 </div>
-<div id="employee-details-column"class="col col-xs-9 col-sm-10" style="">
+<div id="employee-details-column"class="col col-xs-10 col-sm-10 col-lg-10" style="">
     <div id="employeeDetails" class="row">
         <div id="employeeAbout" class="col-xs-12 placeholder" style="">
             <div class="row"> 
