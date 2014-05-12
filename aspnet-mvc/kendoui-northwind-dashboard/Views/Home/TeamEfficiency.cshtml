@@ -17,7 +17,7 @@
         <h3>ABOUT</h3>
         <img src="@(Url.Content("~/content/employees/"))#:EmployeeID#.png" class="img-responsive employee-details-image" /> 
         <dl class="employee-bio-details">
-            <dt>#:FirstName# #:LastName#</dt>
+            <dt class="name">#:FirstName# #:LastName#</dt>
             <dd class="title">#:Title#</dd>
             <dd class="phone"><span class="icon icon-mobile"></span>#:HomePhone#</dd>
             <dd><a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span></a></dd>
@@ -112,9 +112,9 @@
     .ContentHandler("getBio")
 )
 
-<div id="header-wrapper" class="row">
-    <h2 id="team-efficiency" class="main-section-header col-xs-3">Team efficiency</h2>   
-    <div id="dateFilter" class="col-xs-9" style="">
+<div id="main-section-header" class="row">
+    <h2 id="team-efficiency" class="col-xs-3">Team efficiency</h2>   
+    <div id="dateFilter" class="col-xs-9">
         <div class="period-wrapper">
             <label for="StartDate" class="select-period">Stats from</label>
             @(Html.Kendo().DatePicker() 
@@ -139,7 +139,7 @@
 
 <div class="main-section-content row" style="">
 
-<div id="employee-list-column" class="col col-xs-2 col-sm-2 col-lg-2">
+<div id="employee-list" class="col col-xs-2">
     <h3>TEAM MEMBERS</h3>
     @(Html.Kendo().ListView<EmployeeViewModel>()
         .Name("EmployeesList") 
@@ -153,9 +153,9 @@
         .Selectable(s=>s.Mode(ListViewSelectionMode.Single))
     )
 </div>
-<div id="employee-details-column"class="col col-xs-10 col-sm-10 col-lg-10" style="">
-    <div id="employeeDetails" class="row">
-        <div id="employeeAbout" class="col-xs-12 placeholder" style="">
+<div id="employee-details-wrapper"class="col col-xs-10">
+    <div id="employee-details" class="row">
+        <div id="employee-about" class="col-xs-12 placeholder">
             <div class="row"> 
             <div id="employeeBio" class="col-xs-12 col-sm-4">
             </div>
@@ -175,7 +175,6 @@
                         {
                             series.Bullet(m => m.Current, m => m.Target);
                         })
-                      //  .ChartArea(a=>a.Width(200)) 
                         .CategoryAxis(c=>c
                             .Date() 
                             .Categories(x=>x.OrderDate) 
@@ -201,7 +200,6 @@
                         {
                             series.Line(model => model.EmployeeSales).Width(1.5).Tooltip(t => t.Template("#=kendo.toString(value, 'c2')#"));
                         }) 
-                       // .ChartArea(a=>a.Width(200))
                         .CategoryAxis(c=>c
                             .Date()
                             .Categories(x=>x.Date)

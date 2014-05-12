@@ -8,8 +8,8 @@ article, aside, canvas, details, footer, header, section {
   font-size: 100%;
   font: inherit;
 }
-/* HTML5 display-role reset for older browsers */
 
+/* HTML5 display-role reset for older browsers */
 body {
   line-height: 1;
   font-size: 12px;
@@ -75,7 +75,7 @@ body,
 }
 
 .icon {
-    margin-right: 0.833em;
+    margin-right: 0.917em;
 }
 
 /* Bootstrap overrides*/
@@ -90,38 +90,34 @@ body,
   padding-right: 0;
 }
 
-/* Nav column styles */
-#nav-column{
+/* Nav section */
+#nav-section{
   background-color: #35373d;
+  width: 220px;
+  float: left;
+  height: 100%;
 }
 
-#nav-column li {
+#nav-section li {
     border-bottom: 1px solid #4a4b51;
     white-space:nowrap;
-    padding: 2.500em 0;    
+    padding: 1.727em 0;
+    font-size: 11px; 
+    line-height: 11px; 
 }
 
-#nav-column li a {
-    /*padding-left: 2.500em;*/
-    /*line-height: 70px;
-    vertical-align: middle;*/
-    /*margin: 0 auto;*/
-
+#nav-section li a {
     color: #b8bbc2;
     text-transform: uppercase;
     text-decoration: none;
-    margin-left: 15%;
-    /*margin: 0 auto;
-    width: 100%;
-    text-align: center;*/
+    margin-left: 1em;
+}
 
- }
-
-#nav-column li:hover {
+#nav-section li:hover {
     background-color: #212329; 
 }
 
-#nav-column li:active {
+#nav-section li.active {
     background-color: #0d1016;
 }
 
@@ -130,45 +126,17 @@ body,
     background: none;
 }
 
-#dash-logo,
-.main-section-header{
-    font-size: 18px;
-    text-transform: uppercase;
-    line-height: 26px;
-    /*line-height: 70px;
-    height: 70px;*/
-    /*vertical-align: middle;*/
-    /*padding-left: 15px;*/
-    padding-top: 30px;
-    padding-bottom: 30px;    
-}
-
 #dash-logo {
     color: #fff;
     background-color: #1996e4;
-    /*margin: 0 auto;
-     text-align: center;*/
     text-align: center;
-}
-
-.main-section-content{
-    /*border-top: 1px solid #ededee;*/
-    /*-moz-box-shadow: 1px 0 4px #ededee inset;
-    -webkit-box-shadow: 1px 0 4px #ededee inset;
-    box-shadow: 1px 0 4px #ededee inset;*/
-}
-
-#header-wrapper {
-    border-bottom: 1px solid #ededee;
-    -moz-box-shadow: 1px 0 4px #ededee;
-    -webkit-box-shadow: 1px 0 4px #ededee;
-    box-shadow: 1px 0 4px #ededee;
 }
 
 #sidebar-nav{
   padding: 0;
 }
 
+/* Toggle button */
 #toggle-button {
     margin-top: 27px;
     border: none;
@@ -183,50 +151,42 @@ body,
     background-color: #fff;
 }
 
-/*.navbar-collapse.in {
-    overflow-y: visible;
-}*/
-
-/*.nav {
-    height: auto;
-}*/
-
-#sidebar-nav{
-    max-height: 100%;
+/* Main section */
+#main-section {
+    float: none;
+    width: auto;
+    overflow: hidden;
 }
 
-li.active {
-    background-color: #000000;
+#dash-logo,
+#main-section-header > h2{
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height: 26px;    
+    padding-top: 30px;
+    padding-bottom: 30px;    
+}
+
+#main-section-header {
+    height: auto;
+    border-bottom: 1px solid #ededee;
+    -moz-box-shadow: 1px 0 4px #ededee;
+    -webkit-box-shadow: 1px 0 4px #ededee;
+    box-shadow: 1px 0 4px #ededee;
 }
 
 /* team efficiency */
-#header-wrapper h2 {
-    /*float: left;*/
-}
-
 #dateFilter {
-    /*float: right;*/
     padding: 30px;
     text-align: right;
 }
 
-.main-section-content,
-#header-wrapper {
-    margin: 0;
-    padding: 0;
-
-}
-
-#header-wrapper {
-    height: auto;
-}
-
-#employee-list-column,
-#employee-details-column {
+#employee-list,
+#employee-details-wrapper {
     padding: 0;
 }
 
-#employee-list-column h3 {
+#employee-list h3 {
     padding: 2.5em;
     font-size: 11px;
     color: #35373d;
@@ -247,7 +207,6 @@ li.active {
 .name {
     font-size: 14px;
     color: #35373d;
-    /*display:inline-block;*/
 }
 
 .title {
@@ -277,7 +236,7 @@ li.active {
     display: inline-block;
     margin: 0 auto 10px;
 }
-
+/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 .employee-list-image,
 .employee-details-image {
     /*float: left;
@@ -303,11 +262,11 @@ li.active {
     margin-right: 20px;
 }
 
-#employeeAbout {
+#employee-about {
     /*background: #6abd2d;*/
 }
 
-#employeeAbout h3 {
+#employee-about h3 {
     font-size: 11px;
     color: #35373d;
     text-transform: uppercase;
@@ -358,7 +317,7 @@ li.active {
     display: block;
 }
 
-#employee-list-column {
+#employee-list {
     overflow-y: auto;
     overflow-x: hidden;
     background-color: #eeeeee;
@@ -385,11 +344,6 @@ li.active {
 }
 
 
-
-
-
-
-
 /*max-width: 768px -> .col-xs- */
 @media screen and (max-width: 768px) {
     .column {
@@ -411,11 +365,11 @@ li.active {
         left: 50%;
     }
 
-    #header-wrapper {
+    #main-section-header {
         font-size: 8px;
     }
 
-        #header-wrapper h2 {
+        #main-section-header > h2 {
             font-size: 12px;
         }
 
@@ -439,45 +393,71 @@ li.active {
         font-size: 12px;
     }
         
-    #employee-list-column h3,
+    #employee-list h3,
     .employee-wrapper {
         margin: auto;
         text-align: center;
     }
+    #nav-section {
+        width: 100%;
+        height: auto;
+    }
+    #main-section {
+        width: 100% !important;
+    }
+}
 
+@media screen and (max-width: 380px) {
+    .select-period {
+        margin: 0;
+    }
 
+    #dateFilter {
+       
+    }
+    .select-period {
+        display: none;
+          }
+
+    .period-wrapper {
+        margin: 5px auto;
+    }
 }
 
 /* custom */
-@media screen and (max-width: 524px) {
-    #employee-list-column h3 {
-        font-size: 8px;
+@media screen and (max-width: 535px) {
+    #employee-list h3,
+    #main-section-header > h2 {
+        /*font-size: 8px;*/
     }
 
-    #header-wrapper h2,
-    #header-wrapper,
-    .period-wrapper {
-   font-size: 8px;
+    #main-section-header > h2,
+    #dateFilter {
+      display: block;
+      width: 100%;
+      text-align: center;
+     
     }
-      .select-period {
-        margin: 0;
+
+    #main-section-header > h2 {
+        padding-bottom: 15px;
 
     }
-    #dateFilter,
-    .main-section-header {
-        padding-left: 0;
-        padding-right: 0;
+
+    #dateFilter {
+        padding-top: 15px;
     }
+
+    #employee-list h3 {
+        display: none;
+    }
+
+
 }
 
 
 @media screen and (min-width: 525px) and (max-width: 557px) {
-    #employee-list-column h3 {
-        font-size: 8px;
-    }
-
-    #header-wrapper h2,
-    #header-wrapper {
+    #employee-list h3 {
         font-size: 8px;
     }
 }
@@ -486,16 +466,10 @@ li.active {
     .select-period {
         margin: 0;
     }
-    #header-wrapper h2 {
-        font-size: 8px;
-    }
 }
 
 @media screen and (min-width: 633px) and (max-width: 831px) {
-    #dateFilter,
-    #header-wrapper h2 {
-        font-size: 10px;
-    }
+
 }
 /* End - custom */
 
@@ -514,14 +488,10 @@ li.active {
     }
 
     #dateFilter {
-        /*font-size: 8px;*/
+       
     }
-    
-    /*.employee-list-details .title,
-    .employee-list-details .name {
-        display:none;
-    }*/
-        .main-section-header {
+
+    #main-section-header > h2 {
         font-size: 14px;
     }
 
@@ -534,19 +504,17 @@ li.active {
 
 /* Custom */
 @media screen and (min-width: 768px) and (max-width:831px) {
-     #sidebar-nav .nav li a {
-        font-size: 8px;
+     #main-section-header h2 {
+        font-size: 12px
+    }
+    #main-section-header .period-wrapper {
+        font-size: 10px;
     }
 }
 
 
 @media screen and (min-width: 831px) and (max-width: 991px) {
-    #dash-logo {
-        font-size: 16px;
-    }
-    #sidebar-nav .nav li a{
-        font-size: 8px;
-    }
+  
 }
 /* End custom */
 
@@ -562,53 +530,39 @@ li.active {
 
 @media screen and (min-width: 995px) and (max-width: 1092px){
 
-    #dash-logo {
-        font-size: 16px;
-    }
-       #sidebar-nav .nav li a{
-        font-size: 8px;
-    }
 }
 
 /* additional rules */
 @media screen and (max-width: 1096px) {
     .employee-list-details .title,
     .employee-list-details .name {
-        display:none;
+        display: none;
     }
-            
+
     .employee-list-image {
         display: inline-block;
     }
 
-      #employee-list-column h3,
-    .employee-wrapper {
-        margin: auto;
-        text-align: center;
+    #team-efficiency {
+        font-size: 14px;
     }
 
-
-
+    #employee-list h3,
+   .employee-wrapper {
+       margin: auto;
+       text-align: center;
+    }
 }
 
 @media screen and (max-width: 1196px){
    .employee-details-image{
         display: none;
-    }
-     
+    }     
 }
 
 @media screen and (min-width: 1092px) and (max-width: 1570px){
     .employee-list-image {
         display: none;
-    }
-    #dash-logo {
-        font-size: 16px;
-    }
-       #sidebar-nav .nav li a{
-        font-size: 8px;
-    }
-    
-
+    } 
 }
 
