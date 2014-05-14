@@ -79,7 +79,7 @@
 
 @(Html.Kendo().Grid<CustomerViewModel>()
     .Name("customers")
-    .HtmlAttributes(new {style="height: 600px" }) 
+    .HtmlAttributes(new {style="height: 600px;" }) 
     .Events(e=>e.Edit("onCustomersEdit"))
     .ToolBar(t => t.Create().Text("Add new Customer"))
     .Editable(e => e.Mode(GridEditMode.InLine))
