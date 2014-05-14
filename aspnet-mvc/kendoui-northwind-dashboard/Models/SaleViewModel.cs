@@ -9,7 +9,7 @@ namespace KendoUI.Northwind.Dashboard.Models
 {
     public class TopSellingProductsViewModel
     {
-        public string ProductName { get; set; }
+        public string ProductName { get; set; } 
         public DateTime Date { get; set; }
         public int Quantity { get; set; }
         

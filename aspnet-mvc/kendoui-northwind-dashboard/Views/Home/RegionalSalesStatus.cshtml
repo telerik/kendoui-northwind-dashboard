@@ -3,8 +3,12 @@
     #dateFilter {
         float: right;
     }
+    .fleft {
+        float:left;
+        height: 500px;
+        width: 300px;
+    }
 </style>
-
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -44,7 +48,7 @@
     }
 
     function onMapClick(e) {
-
+        
     }
     var scale = chroma
            .scale(["white", "#1996E4"])
@@ -59,6 +63,15 @@
         }
     }
 
+    function onShapeClick(e) {
+        var TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
+            country = e.shape.dataItem.properties.name,
+            fromDate = $("#StartDate").data("kendoDatePicker").value(),
+            toDate = $("#EndDate").data("kendoDatePicker").value(); 
+        TopSellingProducts.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        
+    }
+
     function onShapeMouseEnter(e) {
         e.shape.options.set("fill.opacity", 1);
     }
@@ -70,7 +83,7 @@
 </script> 
 
 <div id="header">
-    <div><h1>TEAM EFFICIENCY</h1></div>    
+    <div><h1>REGIONAL SALES STATUS</h1></div>
     <div id="dateFilter">
         <label for="StartDate">STATS FROM:</label>
         @(Html.Kendo().DatePicker() 
@@ -90,31 +103,37 @@
     <div style="clear:both;"></div>
 </div>
 
-<div id="mapContainer">
-    @(Html.Kendo().Map()
-        .Name("map")
-        .Center(50.000, 0)
-        .Zoom(2)
-        .Layers(layers => 
-        {
-            layers.Add()
-                .Style(style => style
-                    .Fill(fill => fill.Color("#1996E4"))
-                    .Stroke(stroke => stroke.Color("#FFFFFF"))
-                )
-                .Type(MapLayerType.Shape)
-                .DataSource(dataSource => dataSource
-                    .GeoJson()
-                    .Read(read => read.Url(Url.Content("~/Content/countries-users.geo.json")))
-                );
-        })
-        .Events(events => events
-            .Click("onMapClick") 
-            .ShapeCreated("onShapeCreated")
-            .ShapeMouseEnter("onShapeMouseEnter")
-            .ShapeMouseLeave("onShapeMouseLeave")
+<div>
+    <div>
+        USA Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo 
+    </div>
+    <div>
+        @(Html.Kendo().Map()
+            .Name("map")
+            .Center(50.000, 0)
+            .Zoom(2)
+            .Layers(layers => 
+            {
+                layers.Add()
+                    .Style(style => style
+                        .Fill(fill => fill.Color("#1996E4"))
+                        .Stroke(stroke => stroke.Color("#FFFFFF"))
+                    )
+                    .Type(MapLayerType.Shape)
+                    .DataSource(dataSource => dataSource
+                        .GeoJson()
+                        .Read(read => read.Url(Url.Content("~/Content/countries-users.geo.json")))
+                    );
+            })
+            .Events(events => events
+                .Click("onMapClick") 
+                .ShapeCreated("onShapeCreated")
+                .ShapeMouseEnter("onShapeMouseEnter")
+                .ShapeMouseLeave("onShapeMouseLeave")
+                .ShapeClick("onShapeClick")
+            )
         )
-    )
+    </div>
 </div>
 <div id="statsContainer">
 
@@ -123,8 +142,8 @@
 
 <div id="topProductsContainer">
     @(Html.Kendo().Chart<TopSellingProductsViewModel>()
-        .Name("chart") 
-        //.AutoBind(false)
+        .Name("TopSellingProducts") 
+        .AutoBind(false)
         .Legend(legend => legend
             .Visible(false)
         )
@@ -145,8 +164,7 @@
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
-            
-            .Format("{0:N0}")
+            .Template("#=data.series.name.replace(data.series.field, data.value)#"))
         )
     )  
 </div>
