@@ -11,6 +11,8 @@
 </style>
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
+    var scale = chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]); //122 is the highest sales a country has
+
     $(document).ready(function () {
         $("#RegionalSalesStatus").addClass("active");
         $("#dateFilter").kendoValidator({
@@ -47,20 +49,11 @@
 
     }
 
-    function onMapClick(e) {
-        
-    }
-    var scale = chroma
-           .scale(["white", "#1996E4"])
-           .domain([1, 1000]);
-
     function onShapeCreated(e) {
         var shape = e.shape;
-        var users = shape.dataItem.properties.users;
-        if (users) {
-            var color = scale(users).hex();
-            shape.fill(color);
-        }
+        var sales = shape.dataItem.properties.sales;
+        var color = scale(sales).hex();
+        shape.fill(color);
     }
 
     function onShapeClick(e) {
@@ -69,15 +62,18 @@
             fromDate = $("#StartDate").data("kendoDatePicker").value(),
             toDate = $("#EndDate").data("kendoDatePicker").value(); 
         TopSellingProducts.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
-        
     }
 
     function onShapeMouseEnter(e) {
-        e.shape.options.set("fill.opacity", 1);
+        e.shape.options.set("fill.color", "#0c669f");
+        e.shape.options.set("stroke.color", "black");
     }
 
-    function onShapeMouseLeave(e) {
-        e.shape.options.set("fill.opacity", 0.7);
+    function onShapeMouseLeave(e) { 
+        var sales = e.shape.dataItem.properties.sales;
+        var color = scale(sales).hex();
+        e.shape.options.set("fill.color", color);
+        e.shape.options.set("stroke.color", "white");
     }
 
 </script> 
@@ -122,11 +118,10 @@
                     .Type(MapLayerType.Shape)
                     .DataSource(dataSource => dataSource
                         .GeoJson()
-                        .Read(read => read.Url(Url.Content("~/Content/countries-users.geo.json")))
+                        .Read(read => read.Url(Url.Content("~/Content/countries-sales.geo.json")))
                     );
             })
             .Events(events => events
-                .Click("onMapClick") 
                 .ShapeCreated("onShapeCreated")
                 .ShapeMouseEnter("onShapeMouseEnter")
                 .ShapeMouseLeave("onShapeMouseLeave")
