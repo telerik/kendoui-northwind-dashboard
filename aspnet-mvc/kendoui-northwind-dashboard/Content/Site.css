@@ -160,10 +160,13 @@ body,
     height: 100%;
 }
 
-#main-section-content,
 #employee-list {
     height: 100%;
 
+}
+
+#main-section-content {
+    /*height: calc(100% - 154px);*/
 }
 
 #dash-logo,
@@ -198,6 +201,16 @@ body,
     padding: 0;
 }
 
+#employee-details-wrapper {
+    height: 100%;
+    overflow-y: auto;
+}
+
+#employee-details {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 #employee-list,
 #EmployeesList {
     background-color: #eee;
@@ -228,6 +241,16 @@ body,
 
 #EmployeesList {
     border: none;
+    overflow: auto;
+    height: 100%;
+    height: calc(100% - 154px);
+}
+
+#employee-details-wrapper {
+    border: none;
+    overflow: auto;
+    height: 100%;
+    height: calc(100% - 86px);
 }
 
 .name {
@@ -302,6 +325,7 @@ body,
 
 #employeeSchedule {
     padding-left: 30px;
+    padding-bottom: 20px;
 }
 
 .placeholder {
@@ -390,6 +414,7 @@ body,
 
     #main-section {
         width: 100%;
+        overflow: hiddne;
     }
 
     #main-section-header > h2,
@@ -409,17 +434,8 @@ body,
 
     #employee-list h3 {
         display: none;
-    }
-    /*.main-section-content,
-    #employee-list,
-    #employee-details-wrapper
-    {
-        height: auto;
-    }*/
+    }  
 }
-
-
-
 
 @media screen and (max-width: 380px) {
     .select-period {
@@ -438,10 +454,6 @@ body,
 }
 
 /* custom */
-@media screen and (max-width: 535px) {
-  
-}
-
 
 @media screen and (min-width: 525px) and (max-width: 557px) {
     #employee-list h3 {
@@ -463,23 +475,13 @@ body,
         font-size: 24px;
     }
 
-    #main-section-header > h2 {
-        font-size: 14px;
-    }
-
     .select-period {
         margin: 0;
     }
 }
 
-@media screen and (min-width: 768px) and (max-width:1040px)  { 
-    #main-section-header > h2 {
-        font-size: 14px;
-    }
-}
-
 /* Custom */
-@media screen and (min-width: 768px) and (max-width:831px) {
+@media screen and (min-width: 768px) and (max-width: 831px) {
      #main-section-header h2 {
         font-size: 12px
     }
@@ -492,25 +494,16 @@ body,
 @media screen and (min-width: 768px) and (max-width: 863px) {
    #main-section-header h2 {
        padding-right: 0;
-       font-size: 12px;
     }
 }
 
-
-@media screen and (min-width: 831px) and (max-width: 991px) {
-  
+@media screen and (min-width: 863px) and (max-width:1040px)  { 
+    #main-section-header h2 {
+        font-size: 14px;
+    }
 }
+
 /* End custom */
-
-/*min-width: 992px -> .col-md- */
-@media screen and (min-width: 992px) and (max-width:1200px) {
-     
-}
-
-/*min-width: 1200px -> .col-lg- */
-@media screen and (min-width: 1200px){
-
-}
 
 /* Custom rules */
 @media screen and (max-width: 1096px) {
