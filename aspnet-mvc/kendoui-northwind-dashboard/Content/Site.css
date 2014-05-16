@@ -157,6 +157,13 @@ body,
     float: none;
     width: auto;
     overflow: hidden;
+    height: 100%;
+}
+
+#main-section-content,
+#employee-list {
+    height: 100%;
+
 }
 
 #dash-logo,
@@ -166,6 +173,10 @@ body,
     line-height: 26px;    
     padding-top: 30px;
     padding-bottom: 30px;    
+}
+
+#main-section-header > h2 {
+    padding-left: 1.667em;
 }
 
 #main-section-header {
@@ -187,10 +198,16 @@ body,
     padding: 0;
 }
 
+#employee-list,
+#EmployeesList {
+    background-color: #eee;
+}
+
 #employee-list h3 {
-    padding: 2.5em;
+    padding: 2.5em 2.727em;
     font-size: 11px;
     color: #35373d;
+    border-bottom: 1px solid #dbdbdb;
 }
 
 .employee-wrapper {
@@ -207,6 +224,10 @@ body,
 .employee.k-state-selected .employee-wrapper{
     border-top: 1px solid #6abd2d;
     border-bottom: 1px solid #6abd2d;
+}
+
+#EmployeesList {
+    border: none;
 }
 
 .name {
@@ -263,12 +284,24 @@ body,
     margin-right: 20px;
 }
 
-#employee-about h3 {
+#employee-about {
+    border-bottom: 1px solid #eaeaeb;
+}
+
+#employee-about .row {
+    padding: 30px 0;      
+}
+
+#employee-about h3,
+#employeeSchedule h3 {
     font-size: 11px;
     color: #35373d;
     text-transform: uppercase;
-    padding-top: 2.727em;
     padding-bottom: 1.091em;
+}
+
+#employeeSchedule {
+    padding-left: 30px;
 }
 
 .placeholder {
@@ -298,6 +331,7 @@ body,
     margin-right: 0.833em;
     margin-left: 2.500em;
     text-transform: uppercase;  
+    font-weight: normal;
 }
 
 /* Kendo widgets */
@@ -342,8 +376,8 @@ body,
 
     .employee-list-image {
         display: inline-block;
-    }       
-  
+    }
+
     .employee-wrapper {
         margin: auto;
         text-align: center;
@@ -357,25 +391,12 @@ body,
     #main-section {
         width: 100%;
     }
-}
 
-@media screen and (max-width: 380px) {
-    .select-period {
-        display: none;
-    }
-
-    .period-wrapper {
-        margin: 5px auto;
-    }
-}
-
-/* custom */
-@media screen and (max-width: 535px) {
     #main-section-header > h2,
     #dateFilter {
-      display: block;
-      width: 100%;
-      text-align: center;     
+        display: block;
+        width: 100%;
+        text-align: center;
     }
 
     #main-section-header > h2 {
@@ -389,6 +410,36 @@ body,
     #employee-list h3 {
         display: none;
     }
+    /*.main-section-content,
+    #employee-list,
+    #employee-details-wrapper
+    {
+        height: auto;
+    }*/
+}
+
+
+
+
+@media screen and (max-width: 380px) {
+    .select-period {
+        display: none;
+    }
+
+    .period-wrapper {
+        margin: 5px auto;
+    }
+}
+
+@media screen and (min-width: 380px) and (max-width: 396px) {
+    .select-period {
+        display: none;
+    }
+}
+
+/* custom */
+@media screen and (max-width: 535px) {
+  
 }
 
 
@@ -421,6 +472,12 @@ body,
     }
 }
 
+@media screen and (min-width: 768px) and (max-width:1040px)  { 
+    #main-section-header > h2 {
+        font-size: 14px;
+    }
+}
+
 /* Custom */
 @media screen and (min-width: 768px) and (max-width:831px) {
      #main-section-header h2 {
@@ -429,6 +486,13 @@ body,
 
     .period-wrapper {
         font-size: 10px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 863px) {
+   #main-section-header h2 {
+       padding-right: 0;
+       font-size: 12px;
     }
 }
 

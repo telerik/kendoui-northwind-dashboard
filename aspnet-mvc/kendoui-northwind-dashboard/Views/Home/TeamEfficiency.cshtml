@@ -213,6 +213,7 @@
             @(Html.Kendo().Chart<SalesStatsViewModel>()
                 .Name("TeamSales")
                 .Theme("metro")
+                .Title(t => t.Text("REPRESENTATIVE SALES VS. TOTAL SALES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))
                 .HtmlAttributes(new {style = "height:200px;" } )
                 .AutoBind(false)
                 .Legend(l=>l.Position(ChartLegendPosition.Bottom))
@@ -225,21 +226,22 @@
                 .CategoryAxis(axis => axis
                     .Date()
                     .BaseUnit(ChartAxisBaseUnit.Months)
-                    .Labels(labels => labels.Rotation(-90))
                     .MajorGridLines(lines => lines.Visible(false))
                 )
                 .ValueAxis(axis => axis.Numeric()
-                    .Labels(labels => labels.Format("{0:c2}"))
+                    .Labels(labels => labels.Format("{0:c2}").Visible(false))
                     .MajorUnit(25000)
                     .Line(line => line.Visible(false))
+                    .MajorGridLines(m => m.Visible(false))
                 )
                 .Tooltip(tooltip => tooltip
                     .Visible(true)
                     .Format("{0:c2}")
                 )
             )
-        </div>
+        </div>       
         <div id="employeeSchedule" class="col-xs-12">
+             <h3>Representative orders - schedule</h3>
             @(Html.Kendo().Scheduler<SaleViewModel>()
                 .Name("EmployeeSales")
                 .AutoBind(false)
