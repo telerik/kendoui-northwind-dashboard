@@ -11,8 +11,10 @@
 </style>
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
-    var scale = chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]); //122 is the highest sales a country has
-
+    var scale = chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]),
+        selectedShape = null;
+    
+   
     $(document).ready(function () {
         $("#RegionalSalesStatus").addClass("active");
         $("#dateFilter").kendoValidator({
@@ -44,9 +46,26 @@
             }
         });
     });
-
+    function onMarketShareDataBound(e) {
+        var percentage = 0;
+        if (this.dataSource.data().length == 2) {
+            percentage = (this.dataSource.at(1).Sales / this.dataSource.at(0).Sales); 
+        }  
+        $("#MarketSharePercentage").text(kendo.toString(percentage, "p2"));
+    }
     function onCriteriaChange() {
+        var MarketShare = $("#MarketShare").data("kendoChart"),
+            TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
+            country = "",
+            fromDate = $("#StartDate").data("kendoDatePicker").value(),
+            toDate = $("#EndDate").data("kendoDatePicker").value();
 
+        if (selectedShape) {
+            country = selectedShape.dataItem.properties.name;
+        }
+        MarketShare.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        TopSellingProducts.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        
     }
 
     function onShapeCreated(e) {
@@ -56,26 +75,50 @@
         shape.fill(color);
     }
 
-    function onShapeClick(e) {
-        var TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
-            country = e.shape.dataItem.properties.name,
-            fromDate = $("#StartDate").data("kendoDatePicker").value(),
-            toDate = $("#EndDate").data("kendoDatePicker").value(); 
-        TopSellingProducts.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+    function onShapeClick(e) { 
+        if (selectedShape) {
+            var sales = selectedShape.dataItem.properties.sales;
+            var color = scale(sales).hex();
+            selectedShape.options.set("fill.color", color);
+            selectedShape.options.set("stroke.color", "white"); 
+            selectedShape.dataItem.properties.selected = false;
+        }
+
+        e.shape.options.set("fill.color", "#0c669f");
+        e.shape.options.set("stroke.color", "black");
+        e.shape.dataItem.properties.selected = true;
+        selectedShape = e.shape;
+
+        $("#countryName").text(e.shape.dataItem.properties.name);
+        $.ajax({
+            url: "/RegionalSales/CountryCompanies",
+            dataType: "json",
+            data: { Country: e.shape.dataItem.properties.name },
+            success: function (data) {
+                var customers = "";
+                for (var i = 0; i < data.length; i++) {
+                    customers = customers + data[i].CompanyName + ", ";
+                }
+                customers = customers.substring(0, customers.length - 2);
+                $("#countryCustomers span").text(customers);
+            }
+        })
+
+        onCriteriaChange();
     }
 
     function onShapeMouseEnter(e) {
         e.shape.options.set("fill.color", "#0c669f");
-        e.shape.options.set("stroke.color", "black");
     }
 
     function onShapeMouseLeave(e) { 
-        var sales = e.shape.dataItem.properties.sales;
-        var color = scale(sales).hex();
-        e.shape.options.set("fill.color", color);
-        e.shape.options.set("stroke.color", "white");
+        if (!e.shape.dataItem.properties.selected) {
+            var sales = e.shape.dataItem.properties.sales;
+            var color = scale(sales).hex();
+            e.shape.options.set("fill.color", color);
+            e.shape.options.set("stroke.color", "white");
+        }
     }
-
 </script> 
 
 <div id="header">
@@ -101,7 +144,11 @@
 
 <div>
     <div>
-        USA Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo 
+        <span>Pick a Country to view stats</span>
+        <h3>COUNTRY</h3>
+        <h1 id="countryName"></h1>
+        <h3>CUSTOMERS</h3>
+        <div id="countryCustomers"><span></span></div>
     </div>
     <div>
         @(Html.Kendo().Map()
@@ -131,8 +178,26 @@
     </div>
 </div>
 <div id="statsContainer">
-
-
+    <span id="MarketSharePercentage"></span>
+    @(Html.Kendo().Chart<MarketShareViewModel>()
+        .Name("MarketShare")
+        .Title("Market Share") 
+        .AutoBind(false)
+        .Events(e=>e.DataBound("onMarketShareDataBound"))
+        .Legend(legend => legend
+            .Visible(false)
+        )
+        .DataSource(ds => ds
+            .Read(read => read.Action("MarketShareByCountry", "RegionalSales"))
+        )
+        .Series(series => {
+            series.Donut("Sales", "Country");
+        })
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
+        )
+    )
 </div>
 
 <div id="topProductsContainer">
@@ -154,12 +219,11 @@
             .Labels(labels => labels.Rotation(-90))
         )
         .ValueAxis(axis => axis.Numeric() 
-            .MajorUnit(350)
+            .MajorUnit(50)
             .MajorTicks(x=>x.Visible(false))
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
             .Template("#=data.series.name.replace(data.series.field, data.value)#"))
-        )
-    )  
+    )
 </div>
