@@ -104,7 +104,7 @@
         .Model(m =>
         {
             m.Id(f => f.CustomerID);
-            m.Field(f => f.CustomerID).Editable(false); 
+            m.Field(f => f.CustomerID).Editable(false);
         })
         .Read("Customers_Read", "Customers")
         .Create("Customers_Create", "Customers")
@@ -113,7 +113,7 @@
     )
 )
 
-<script id="OrderTemplate"  type="text/x-kendo-tmpl"> 
+<script id="OrderTemplate"  type="text/x-kendo-tmpl">
 @(Html.Kendo().Grid<OrderViewModel>()
     .Name("orders#=CustomerID#")
     //.HtmlAttributes(new {style="width: 1000px" })
@@ -175,4 +175,4 @@
     ).ToClientTemplate()
 )
 </script>
-    </div>
+</div>
