@@ -125,5 +125,14 @@ namespace KendoUI.Northwind.Dashboard.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Ten_Most_Expensive_Products_Result>("Ten_Most_Expensive_Products");
         }
+    
+        public virtual ObjectResult<ProductsSalesByMonth_Result> ProductsSalesByMonth(Nullable<int> productID)
+        {
+            var productIDParameter = productID.HasValue ?
+                new ObjectParameter("ProductID", productID) :
+                new ObjectParameter("ProductID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProductsSalesByMonth_Result>("ProductsSalesByMonth", productIDParameter);
+        }
     }
 }

@@ -185,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RegionalSalesController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -270,6 +271,9 @@
     <Compile Include="Models\Product.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductsSalesByMonth_Result.cs">
+      <DependentUpon>Northwind.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Products_Above_Average_Price.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
@@ -298,6 +302,7 @@
     <Compile Include="Models\Shipper.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ShipperViewModel.cs" />
     <Compile Include="Models\Summary_of_Sales_by_Quarter.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>

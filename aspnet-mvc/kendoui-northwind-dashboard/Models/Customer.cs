@@ -31,6 +31,7 @@ namespace KendoUI.Northwind.Dashboard.Models
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
+        public Nullable<bool> Bool { get; set; }
     
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<CustomerDemographic> CustomerDemographics { get; set; }

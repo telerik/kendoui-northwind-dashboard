@@ -15,7 +15,9 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult ProductsAndOrders()
         {
             ViewData["employees"] = GetEmployees();
-            ViewData["products"] = GetProducts(); 
+            ViewData["customers"] = GetCustomers();
+            ViewData["products"] = GetProducts();
+            ViewData["shippers"] = GetShippers();
             return View();
         }
 
@@ -139,5 +141,28 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return products;
         }
 
+
+        public static IQueryable<CustomerViewModel> GetCustomers()
+        {
+            var customers = new NorthwindEntities().Customers.Select(e => new CustomerViewModel
+            {
+                CustomerID = e.CustomerID,
+                CompanyName = e.CompanyName
+            }).OrderBy(e => e.CompanyName);
+
+            return customers;
+        }
+
+
+        public IQueryable<ShipperViewModel> GetShippers()
+        {
+            var shippers = new NorthwindEntities().Shippers.Select(e => new ShipperViewModel
+            {
+                ShipperID = e.ShipperID,
+                CompanyName = e.CompanyName
+            }).OrderBy(e => e.CompanyName);
+
+            return shippers;
+        }
     }
 }

@@ -71,5 +71,7 @@ namespace KendoUI.Northwind.Dashboard.Models
         public int? CategoryID { get; set; }
 
         public string QuantityPerUnit { get; set; }
+
+        public int ReorderLevel { get; set; }
     }
 }
