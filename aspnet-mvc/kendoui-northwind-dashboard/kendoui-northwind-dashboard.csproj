@@ -436,7 +436,7 @@
       <DependentUpon>Northwind.edmx</DependentUpon>
       <LastGenOutput>Northwind.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\countries-users.geo.json" />
+    <Content Include="Content\countries-sales.geo.json" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\chroma.min.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

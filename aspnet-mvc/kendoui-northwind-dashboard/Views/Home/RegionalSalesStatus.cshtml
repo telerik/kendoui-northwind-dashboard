@@ -3,10 +3,18 @@
     #dateFilter {
         float: right;
     }
+    .fleft {
+        float:left;
+        height: 500px;
+        width: 300px;
+    }
 </style>
-
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
+    var scale = chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]),
+        selectedShape = null;
+    
+   
     $(document).ready(function () {
         $("#RegionalSalesStatus").addClass("active");
         $("#dateFilter").kendoValidator({
@@ -38,39 +46,83 @@
             }
         });
     });
-
+    function onMarketShareDataBound(e) {
+        var percentage = 0;
+        if (this.dataSource.data().length == 2) {
+            percentage = (this.dataSource.at(1).Sales / this.dataSource.at(0).Sales); 
+        }  
+        $("#MarketSharePercentage").text(kendo.toString(percentage, "p2"));
+    }
     function onCriteriaChange() {
+        var MarketShare = $("#MarketShare").data("kendoChart"),
+            TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
+            country = "",
+            fromDate = $("#StartDate").data("kendoDatePicker").value(),
+            toDate = $("#EndDate").data("kendoDatePicker").value();
 
+        if (selectedShape) {
+            country = selectedShape.dataItem.properties.name;
+        }
+        MarketShare.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        TopSellingProducts.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        
     }
-
-    function onMapClick(e) {
-
-    }
-    var scale = chroma
-           .scale(["white", "#1996E4"])
-           .domain([1, 1000]);
 
     function onShapeCreated(e) {
         var shape = e.shape;
-        var users = shape.dataItem.properties.users;
-        if (users) {
-            var color = scale(users).hex();
-            shape.fill(color);
+        var sales = shape.dataItem.properties.sales;
+        var color = scale(sales).hex();
+        shape.fill(color);
+    }
+
+    function onShapeClick(e) { 
+        if (selectedShape) {
+            var sales = selectedShape.dataItem.properties.sales;
+            var color = scale(sales).hex();
+            selectedShape.options.set("fill.color", color);
+            selectedShape.options.set("stroke.color", "white"); 
+            selectedShape.dataItem.properties.selected = false;
         }
+
+        e.shape.options.set("fill.color", "#0c669f");
+        e.shape.options.set("stroke.color", "black");
+        e.shape.dataItem.properties.selected = true;
+        selectedShape = e.shape;
+
+        $("#countryName").text(e.shape.dataItem.properties.name);
+        $.ajax({
+            url: "/RegionalSales/CountryCompanies",
+            dataType: "json",
+            data: { Country: e.shape.dataItem.properties.name },
+            success: function (data) {
+                var customers = "";
+                for (var i = 0; i < data.length; i++) {
+                    customers = customers + data[i].CompanyName + ", ";
+                }
+                customers = customers.substring(0, customers.length - 2);
+                $("#countryCustomers span").text(customers);
+            }
+        })
+
+        onCriteriaChange();
     }
 
     function onShapeMouseEnter(e) {
-        e.shape.options.set("fill.opacity", 1);
+        e.shape.options.set("fill.color", "#0c669f");
     }
 
-    function onShapeMouseLeave(e) {
-        e.shape.options.set("fill.opacity", 0.7);
+    function onShapeMouseLeave(e) { 
+        if (!e.shape.dataItem.properties.selected) {
+            var sales = e.shape.dataItem.properties.sales;
+            var color = scale(sales).hex();
+            e.shape.options.set("fill.color", color);
+            e.shape.options.set("stroke.color", "white");
+        }
     }
-
 </script> 
 
 <div id="header">
-    <div><h1>TEAM EFFICIENCY</h1></div>    
+    <div><h1>REGIONAL SALES STATUS</h1></div>
     <div id="dateFilter">
         <label for="StartDate">STATS FROM:</label>
         @(Html.Kendo().DatePicker() 
@@ -90,41 +142,68 @@
     <div style="clear:both;"></div>
 </div>
 
-<div id="mapContainer">
-    @(Html.Kendo().Map()
-        .Name("map")
-        .Center(50.000, 0)
-        .Zoom(2)
-        .Layers(layers => 
-        {
-            layers.Add()
-                .Style(style => style
-                    .Fill(fill => fill.Color("#1996E4"))
-                    .Stroke(stroke => stroke.Color("#FFFFFF"))
-                )
-                .Type(MapLayerType.Shape)
-                .DataSource(dataSource => dataSource
-                    .GeoJson()
-                    .Read(read => read.Url(Url.Content("~/Content/countries-users.geo.json")))
-                );
-        })
-        .Events(events => events
-            .Click("onMapClick") 
-            .ShapeCreated("onShapeCreated")
-            .ShapeMouseEnter("onShapeMouseEnter")
-            .ShapeMouseLeave("onShapeMouseLeave")
+<div>
+    <div>
+        <span>Pick a Country to view stats</span>
+        <h3>COUNTRY</h3>
+        <h1 id="countryName"></h1>
+        <h3>CUSTOMERS</h3>
+        <div id="countryCustomers"><span></span></div>
+    </div>
+    <div>
+        @(Html.Kendo().Map()
+            .Name("map")
+            .Center(50.000, 0)
+            .Zoom(2)
+            .Layers(layers => 
+            {
+                layers.Add()
+                    .Style(style => style
+                        .Fill(fill => fill.Color("#1996E4"))
+                        .Stroke(stroke => stroke.Color("#FFFFFF"))
+                    )
+                    .Type(MapLayerType.Shape)
+                    .DataSource(dataSource => dataSource
+                        .GeoJson()
+                        .Read(read => read.Url(Url.Content("~/Content/countries-sales.geo.json")))
+                    );
+            })
+            .Events(events => events
+                .ShapeCreated("onShapeCreated")
+                .ShapeMouseEnter("onShapeMouseEnter")
+                .ShapeMouseLeave("onShapeMouseLeave")
+                .ShapeClick("onShapeClick")
+            )
         )
-    )
+    </div>
 </div>
 <div id="statsContainer">
-
-
+    <span id="MarketSharePercentage"></span>
+    @(Html.Kendo().Chart<MarketShareViewModel>()
+        .Name("MarketShare")
+        .Title("Market Share") 
+        .AutoBind(false)
+        .Events(e=>e.DataBound("onMarketShareDataBound"))
+        .Legend(legend => legend
+            .Visible(false)
+        )
+        .DataSource(ds => ds
+            .Read(read => read.Action("MarketShareByCountry", "RegionalSales"))
+        )
+        .Series(series => {
+            series.Donut("Sales", "Country");
+        })
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
+        )
+    )
 </div>
 
 <div id="topProductsContainer">
     @(Html.Kendo().Chart<TopSellingProductsViewModel>()
-        .Name("chart") 
-        //.AutoBind(false)
+        .Name("TopSellingProducts") 
+        .AutoBind(false)
         .Legend(legend => legend
             .Visible(false)
         )
@@ -140,13 +219,11 @@
             .Labels(labels => labels.Rotation(-90))
         )
         .ValueAxis(axis => axis.Numeric() 
-            .MajorUnit(350)
+            .MajorUnit(50)
             .MajorTicks(x=>x.Visible(false))
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
-            
-            .Format("{0:N0}")
-        )
-    )  
+            .Template("#=data.series.name.replace(data.series.field, data.value)#"))
+    )
 </div>
