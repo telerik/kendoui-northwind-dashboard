@@ -13,8 +13,8 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult TopSellingProducts(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.Database.SqlQuery<TopSellingProductsViewModel>("TopSellingProducts @Country, @FromDate, @ToDate",
-                new SqlParameter("@Country", Country), new SqlParameter("@FromDate", FromDate.ToString("yyyyMMdd")), new SqlParameter("@ToDate", ToDate.ToString("yyyyMMdd")));
+
+            var result = northwind.CountryTopProducts(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -31,13 +31,53 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 
         public ActionResult MarketShareByCountry(string Country, DateTime FromDate, DateTime ToDate)
         {
-            var northwind = new NorthwindEntities(); 
-            var result = northwind.Database.SqlQuery<MarketShareViewModel>("MarketShareByCountry @Country, @FromDate, @ToDate",
-                new SqlParameter("@Country", Country), new SqlParameter("@FromDate", FromDate.ToString("yyyyMMdd")), new SqlParameter("@ToDate", ToDate.ToString("yyyyMMdd")));
+            var northwind = new NorthwindEntities();
+            var result = northwind.CountryMarketShare(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        
+        public ActionResult CountryRevenue(string Country, DateTime FromDate, DateTime ToDate)
+        {
+            var northwind = new NorthwindEntities();
+            var result = northwind.CountryRevenue(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CountryOrders(string Country, DateTime FromDate, DateTime ToDate)
+        {
+            var northwind = new NorthwindEntities();
+            IQueryable<Order> data = northwind.Orders.Where(o => o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country);
+            var result = from o in data
+                         group o by o.OrderDate into g
+                         select new { Date = g.Key, Value = g.Count() };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CountryOrdersTotal(string Country, DateTime FromDate, DateTime ToDate)
+        {
+            var northwind = new NorthwindEntities();
+            IQueryable<Order> data = northwind.Orders.Where(o => o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country);
+            var result = from o in data
+                         group o by o.OrderDate into g
+                         select new { Date = g.Key, Value = g.Count() };
+
+            return Json(new { Orders = result.Sum(x => x.Value) }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CountryCustomers(string Country, DateTime FromDate, DateTime ToDate)
+        {
+            var northwind = new NorthwindEntities();
+            var result = northwind.CountryCustomers(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CountryCustomersTotal(string Country, DateTime FromDate, DateTime ToDate)
+        {
+            var northwind = new NorthwindEntities();
+            var result = northwind.CountryCustomersTotal(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
+            return Json(new { Customers = result }, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

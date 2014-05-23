@@ -167,6 +167,7 @@
                         .Name("EmployeeQuarterSales")
                         .Theme("metro")
                         .AutoBind(false)
+                        .Tooltip(false)
                         .Events(e=>e.DataBound("onQuarterSalesDataBound"))
                         .DataSource(ds => ds
                             .Read(read => read.Action("EmployeeQuarterSales", "Team"))
@@ -175,11 +176,6 @@
                         {
                             series.Bullet(m => m.Current, m => m.Target);
                         })
-                        .CategoryAxis(c=>c
-                            .Date() 
-                            .Categories(x=>x.OrderDate) 
-                            .BaseUnit(ChartAxisBaseUnit.Months)
-                        )
                     )
                 </div>
             </div>

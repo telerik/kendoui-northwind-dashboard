@@ -8,6 +8,28 @@
         height: 500px;
         width: 300px;
     }
+
+    #mapContainer {
+        height:300px;
+        width:300px;
+    }
+    #marketShareContainer {
+        height:300px;
+        width:300px;
+    }
+    #revenueContainer {
+        height:50px;
+        width:300px;
+    }
+    #ordersContainer {
+        height:50px;
+        width:300px;
+    }
+    #customersContainer {
+        height:50px;
+        width:300px;
+    }
+
 </style>
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
@@ -46,16 +68,26 @@
             }
         });
     });
+
+
     function onMarketShareDataBound(e) {
-        var percentage = 0;
+        var percentage = 0,
+            revenue = 0;
         if (this.dataSource.data().length == 2) {
-            percentage = (this.dataSource.at(1).Sales / this.dataSource.at(0).Sales); 
+            percentage = (this.dataSource.at(1).Sales / this.dataSource.at(0).Sales);
+            revenue = this.dataSource.at(1).Sales;
         }  
-        $("#MarketSharePercentage").text(kendo.toString(percentage, "p2"));
+        $("#MarketShareLabel").text(kendo.toString(percentage, "p2"));
+        $("#RevenueLabel").text(kendo.toString(revenue, "c2"));
     }
+
+
     function onCriteriaChange() {
         var MarketShare = $("#MarketShare").data("kendoChart"),
             TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
+            Revenue = $("#Revenue").data("kendoSparkline"),
+            Orders = $("#Orders").data("kendoSparkline"),
+            Customers = $("#Customers").data("kendoSparkline"),
             country = "",
             fromDate = $("#StartDate").data("kendoDatePicker").value(),
             toDate = $("#EndDate").data("kendoDatePicker").value();
@@ -63,8 +95,35 @@
         if (selectedShape) {
             country = selectedShape.dataItem.properties.name;
         }
+
+        $.ajax({
+            url: "http://localhost:65141/RegionalSales/CountryOrdersTotal",
+            dataType: "json",
+            data: { Country: country, FromDate: fromDate.toJSON(), ToDate: toDate.toJSON() },
+            type: "POST",
+            success: function (response) {
+                $("#OrdersLabel").text(response.Orders);
+            }
+        });
+
+        $.ajax({
+            url: "http://localhost:65141/RegionalSales/CountryCustomersTotal",
+            dataType: "json",
+            data: { Country: country, FromDate: fromDate.toJSON(), ToDate: toDate.toJSON() },
+            type: "POST",
+            success: function (response) {
+                $("#CustomersLabel").text(response.Customers);
+            }
+        });
+
         MarketShare.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
         TopSellingProducts.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        Revenue.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        Orders.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+        Customers.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
+
+
+        //$("#RevenueLabel").text(kendo.toString(revenue, "c2"));
         
     }
 
@@ -94,10 +153,11 @@
             url: "/RegionalSales/CountryCompanies",
             dataType: "json",
             data: { Country: e.shape.dataItem.properties.name },
-            success: function (data) {
+            type: "POST",
+            success: function (response) {
                 var customers = "";
-                for (var i = 0; i < data.length; i++) {
-                    customers = customers + data[i].CompanyName + ", ";
+                for (var i = 0; i < response.length; i++) {
+                    customers = customers + response[i].CompanyName + ", ";
                 }
                 customers = customers.substring(0, customers.length - 2);
                 $("#countryCustomers span").text(customers);
@@ -150,7 +210,7 @@
         <h3>CUSTOMERS</h3>
         <div id="countryCustomers"><span></span></div>
     </div>
-    <div>
+    <div id="mapContainer">
         @(Html.Kendo().Map()
             .Name("map")
             .Center(50.000, 0)
@@ -178,31 +238,92 @@
     </div>
 </div>
 <div id="statsContainer">
-    <span id="MarketSharePercentage"></span>
-    @(Html.Kendo().Chart<MarketShareViewModel>()
-        .Name("MarketShare")
-        .Title("Market Share") 
+    <span id="MarketShareLabel"></span>
+    <span id="RevenueLabel"></span>
+    <span id="OrdersLabel"></span>
+    <span id="CustomersLabel"></span>
+    <div id="marketShareContainer">
+        @(Html.Kendo().Chart<MarketShareViewModel>()
+            .Name("MarketShare")
+            .Title("Market Share") 
+            .Theme("metro")
+            .AutoBind(false)
+            .Events(e=>e.DataBound("onMarketShareDataBound"))
+            .Legend(legend => legend
+                .Visible(false)
+            )
+            .DataSource(ds => ds
+                .Read(read => read.Action("MarketShareByCountry", "RegionalSales"))
+            )
+            .Series(series => {
+                series.Donut("Sales", "Country");
+            })
+            .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
+            )
+        )
+   </div> 
+    <div id="revenueContainer">
+    @(Html.Kendo().Sparkline<MonthValuesViewModel>()
+        .Name("Revenue")
+        .Theme("metro")
         .AutoBind(false)
-        .Events(e=>e.DataBound("onMarketShareDataBound"))
-        .Legend(legend => legend
-            .Visible(false)
-        )
         .DataSource(ds => ds
-            .Read(read => read.Action("MarketShareByCountry", "RegionalSales"))
-        )
-        .Series(series => {
-            series.Donut("Sales", "Country");
+            .Read(read => read.Action("CountryRevenue", "RegionalSales"))
+        ) 
+        .Series(series =>
+        {
+            series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum);
         })
-        .Tooltip(tooltip => tooltip
-            .Visible(true)
-            .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
+        .CategoryAxis(axis=>axis
+            .Date()
+            .BaseUnit(ChartAxisBaseUnit.Months)
         )
     )
+    </div> 
+    <div id="ordersContainer">
+    @(Html.Kendo().Sparkline<MonthValuesViewModel>()
+        .Name("Orders")
+        .Theme("metro")
+        .AutoBind(false)
+        .DataSource(ds => ds
+            .Read(read => read.Action("CountryOrders", "RegionalSales"))
+        ) 
+        .Series(series =>
+        {
+            series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum);
+        })
+        .CategoryAxis(axis=>axis
+            .Date()
+            .BaseUnit(ChartAxisBaseUnit.Months)
+        )
+    )
+    </div> 
+    <div id="customersContainer">
+    @(Html.Kendo().Sparkline<MonthValuesViewModel>()
+        .Name("Customers")
+        .Theme("metro")
+        .AutoBind(false)
+        .DataSource(ds => ds
+            .Read(read => read.Action("CountryCustomers", "RegionalSales"))
+        ) 
+        .Series(series =>
+        {
+            series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum);
+        })
+        .CategoryAxis(axis=>axis
+            .Date()
+            .BaseUnit(ChartAxisBaseUnit.Months)
+        )
+    )
+    </div>
 </div>
 
 <div id="topProductsContainer">
     @(Html.Kendo().Chart<TopSellingProductsViewModel>()
         .Name("TopSellingProducts") 
+        .Theme("metro")
         .AutoBind(false)
         .Legend(legend => legend
             .Visible(false)
