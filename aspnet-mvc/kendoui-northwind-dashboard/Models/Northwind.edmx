@@ -786,6 +786,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CountryCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="varchar" Mode="In" />
+          <Parameter Name="ToDate" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CountryCustomersTotal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="varchar" Mode="In" />
+          <Parameter Name="ToDate" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CountryMarketShare" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="varchar" Mode="In" />
+          <Parameter Name="ToDate" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CountryOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="varchar" Mode="In" />
+          <Parameter Name="ToDate" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CountryRevenue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="varchar" Mode="In" />
+          <Parameter Name="ToDate" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CountryTopProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="varchar" Mode="In" />
+          <Parameter Name="ToDate" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="CustOrderHist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerID" Type="nchar" Mode="In" />
         </Function>
@@ -909,7 +939,37 @@
           </FunctionImport>
           <FunctionImport Name="Ten_Most_Expensive_Products" ReturnType="Collection(NorthwindModel.Ten_Most_Expensive_Products_Result)" />
           <FunctionImport Name="ProductsSalesByMonth" ReturnType="Collection(NorthwindModel.ProductsSalesByMonth_Result)">
-            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+          <Parameter Name="ProductID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CountryCustomers" ReturnType="Collection(NorthwindModel.CountryCustomers_Result)">
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="String" />
+            <Parameter Name="ToDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CountryCustomersTotal" ReturnType="Collection(Int32)">
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="String" />
+            <Parameter Name="ToDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CountryMarketShare" ReturnType="Collection(NorthwindModel.CountryMarketShare_Result)">
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="String" />
+            <Parameter Name="ToDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CountryOrders" ReturnType="Collection(NorthwindModel.CountryOrders_Result)">
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="String" />
+            <Parameter Name="ToDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CountryRevenue" ReturnType="Collection(NorthwindModel.CountryRevenue_Result)">
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="String" />
+            <Parameter Name="ToDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CountryTopProducts" ReturnType="Collection(NorthwindModel.CountryTopProducts_Result)">
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="String" />
+            <Parameter Name="ToDate" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Category">
@@ -1432,6 +1492,27 @@
           <Property Type="DateTime" Name="Date" Nullable="true" />
           <Property Type="Int16" Name="Quantity" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="CountryCustomers_Result">
+          <Property Type="Decimal" Name="Value" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="Date" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CountryMarketShare_Result">
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="15" />
+          <Property Type="Double" Name="Sales" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CountryOrders_Result">
+          <Property Type="DateTime" Name="Date" Nullable="true" />
+          <Property Type="Int32" Name="Value" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CountryRevenue_Result">
+          <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="Value" Nullable="true" Precision="11" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="CountryTopProducts_Result">
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="40" />
+          <Property Type="DateTime" Name="Date" Nullable="true" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1863,6 +1944,48 @@
           <FunctionImportMapping FunctionImportName="ProductsSalesByMonth" FunctionName="NorthwindModel.Store.ProductsSalesByMonth">
             <ResultMapping>
               <ComplexTypeMapping TypeName="NorthwindModel.ProductsSalesByMonth_Result">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CountryCustomers" FunctionName="NorthwindModel.Store.CountryCustomers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NorthwindModel.CountryCustomers_Result">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CountryCustomersTotal" FunctionName="NorthwindModel.Store.CountryCustomersTotal" />
+          <FunctionImportMapping FunctionImportName="CountryMarketShare" FunctionName="NorthwindModel.Store.CountryMarketShare">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NorthwindModel.CountryMarketShare_Result">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Sales" ColumnName="Sales" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CountryOrders" FunctionName="NorthwindModel.Store.CountryOrders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NorthwindModel.CountryOrders_Result">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CountryRevenue" FunctionName="NorthwindModel.Store.CountryRevenue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NorthwindModel.CountryRevenue_Result">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CountryTopProducts" FunctionName="NorthwindModel.Store.CountryTopProducts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NorthwindModel.CountryTopProducts_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
               </ComplexTypeMapping>

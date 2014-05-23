@@ -134,5 +134,107 @@ namespace KendoUI.Northwind.Dashboard.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProductsSalesByMonth_Result>("ProductsSalesByMonth", productIDParameter);
         }
+    
+        public virtual ObjectResult<CountryCustomers_Result> CountryCustomers(string country, string fromDate, string toDate)
+        {
+            var countryParameter = country != null ?
+                new ObjectParameter("Country", country) :
+                new ObjectParameter("Country", typeof(string));
+    
+            var fromDateParameter = fromDate != null ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(string));
+    
+            var toDateParameter = toDate != null ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CountryCustomers_Result>("CountryCustomers", countryParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CountryCustomersTotal(string country, string fromDate, string toDate)
+        {
+            var countryParameter = country != null ?
+                new ObjectParameter("Country", country) :
+                new ObjectParameter("Country", typeof(string));
+    
+            var fromDateParameter = fromDate != null ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(string));
+    
+            var toDateParameter = toDate != null ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CountryCustomersTotal", countryParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<CountryMarketShare_Result> CountryMarketShare(string country, string fromDate, string toDate)
+        {
+            var countryParameter = country != null ?
+                new ObjectParameter("Country", country) :
+                new ObjectParameter("Country", typeof(string));
+    
+            var fromDateParameter = fromDate != null ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(string));
+    
+            var toDateParameter = toDate != null ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CountryMarketShare_Result>("CountryMarketShare", countryParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<CountryOrders_Result> CountryOrders(string country, string fromDate, string toDate)
+        {
+            var countryParameter = country != null ?
+                new ObjectParameter("Country", country) :
+                new ObjectParameter("Country", typeof(string));
+    
+            var fromDateParameter = fromDate != null ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(string));
+    
+            var toDateParameter = toDate != null ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CountryOrders_Result>("CountryOrders", countryParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<CountryRevenue_Result> CountryRevenue(string country, string fromDate, string toDate)
+        {
+            var countryParameter = country != null ?
+                new ObjectParameter("Country", country) :
+                new ObjectParameter("Country", typeof(string));
+    
+            var fromDateParameter = fromDate != null ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(string));
+    
+            var toDateParameter = toDate != null ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CountryRevenue_Result>("CountryRevenue", countryParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<CountryTopProducts_Result> CountryTopProducts(string country, string fromDate, string toDate)
+        {
+            var countryParameter = country != null ?
+                new ObjectParameter("Country", country) :
+                new ObjectParameter("Country", typeof(string));
+    
+            var fromDateParameter = fromDate != null ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(string));
+    
+            var toDateParameter = toDate != null ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CountryTopProducts_Result>("CountryTopProducts", countryParameter, fromDateParameter, toDateParameter);
+        }
     }
 }

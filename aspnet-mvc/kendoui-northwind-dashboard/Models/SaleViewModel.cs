@@ -7,6 +7,13 @@ using Kendo.Mvc.UI;
 
 namespace KendoUI.Northwind.Dashboard.Models
 {
+
+    public class MonthValuesViewModel
+    {
+        public DateTime Date { get; set; }
+        public decimal Value { get; set; }
+    }
+
     public class MarketShareViewModel
     {
         public string Country { get; set; }
