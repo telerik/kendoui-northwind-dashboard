@@ -204,6 +204,7 @@
 
 
 <script id="Product_DetailTemplate" type="text/x-kendo-template">
+    <img src="/Content/Products/#=ProductID#.jpg" >
     <div id="product_detailtemplate_#=ProductID#"></div>
     @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()
     .HtmlAttributes(new { style="width: 400px"})
@@ -232,7 +233,7 @@
             })
         })
     <\/script>
-</script>
+    </script>
 
 <script id="Product_SummaryTemplate" type="text/x-kendo-template">
     <strong>#=data.ProductName#</strong>
