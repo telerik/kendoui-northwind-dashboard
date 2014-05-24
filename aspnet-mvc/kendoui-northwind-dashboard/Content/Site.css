@@ -368,6 +368,22 @@ body,
     width: 200px;
 }
 
+/* Products & Orders*/
+#products-orders-main-content {
+    border: none;
+    overflow: auto;
+    height: 100%;
+    height: calc(100% - 86px);
+}
+
+.product-details  dd,
+.product-details dt {
+    display: inline-block;
+    width: 20%;
+
+}
+
+
 /*max-width: 768px -> .col-xs- */
 @media screen and (max-width: 768px) {
     .column {

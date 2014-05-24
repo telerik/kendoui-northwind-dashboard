@@ -1,6 +1,6 @@
 ﻿@using KendoUI.Northwind.Dashboard.Models;
 <style>
-    #dateFilter {
+    /*#dateFilter {
         float: right;
     }
     .fleft {
@@ -28,8 +28,7 @@
     #customersContainer {
         height:50px;
         width:300px;
-    }
-
+    }*/
 </style>
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
@@ -181,28 +180,32 @@
     }
 </script> 
 
-<div id="header">
-    <div><h1>REGIONAL SALES STATUS</h1></div>
-    <div id="dateFilter">
-        <label for="StartDate">STATS FROM:</label>
-        @(Html.Kendo().DatePicker() 
-            .Name("StartDate")
-            .Value(new DateTime(1996, 7, 1))
-            .Events(e=>e.Change("onCriteriaChange"))
-        )
-        <span class="k-invalid-msg" data-for="StartDate"></span>
-        <label for="EndDate">TO:</label>
-        @(Html.Kendo().DatePicker() 
-            .Name("EndDate")
-            .Value(new DateTime(1997, 7, 1))
-            .Events(e=>e.Change("onCriteriaChange"))
-        )
-        <span class="k-invalid-msg" data-for="EndDate"></span>
+<div id="main-section-header" class="row">
+    <h2 id="team-efficiency" class="col-xs-3">Regional sales status</h2>   
+    <div id="dateFilter" class="col-xs-9">
+        <div class="period-wrapper">
+            <label for="StartDate" class="select-period">Stats from</label>
+            @(Html.Kendo().DatePicker() 
+                .Name("StartDate")
+                .Value(new DateTime(1996, 7, 1))
+                .Events(e=>e.Change("onCriteriaChange"))
+            )
+            <span class="k-invalid-msg" data-for="StartDate"></span>
+        </div>
+        <div class="period-wrapper">    
+            <label for="EndDate" class="select-period">To</label>
+            @(Html.Kendo().DatePicker() 
+                .Name("EndDate")
+                .Value(new DateTime(1997, 7, 1))
+                .Events(e=>e.Change("onCriteriaChange"))
+            )
+            <span class="k-invalid-msg" data-for="EndDate"></span>
+        </div>
     </div>
     <div style="clear:both;"></div>
 </div>
 
-<div>
+<div class="main-section-content row" style="">
     <div>
         <span>Pick a Country to view stats</span>
         <h3>COUNTRY</h3>
@@ -236,7 +239,7 @@
             )
         )
     </div>
-</div>
+
 <div id="statsContainer">
     <span id="MarketShareLabel"></span>
     <span id="RevenueLabel"></span>
@@ -348,3 +351,4 @@
             .Template("#=data.series.name.replace(data.series.field, data.value)#"))
     )
 </div>
+    </div>
