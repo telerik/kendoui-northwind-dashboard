@@ -183,7 +183,7 @@
                 <h3>Monthly Average Sales</h3>
                 <span id="EmployeeAverageSalesLabel"></span>
                 <div class="sparkline-container">
-                    @(Html.Kendo().Sparkline<SalesStatsViewModel>()
+                    @(Html.Kendo().Sparkline<MonthlySalesByEmployee_Result>()
                         .Name("EmployeeAverageSales")
                         .Theme("metro")
                         .AutoBind(false)
@@ -198,7 +198,7 @@
                         }) 
                         .CategoryAxis(c=>c
                             .Date()
-                            .Categories(x=>x.Date)
+                            .Categories(x=>x.Date.Value)
                         )
                     )
                 </div> 
@@ -206,7 +206,7 @@
             </div>     
         </div>
         <div id="employeeStats" class="col-xs-12">
-            @(Html.Kendo().Chart<SalesStatsViewModel>()
+            @(Html.Kendo().Chart<SalesAmounts_Result>()
                 .Name("TeamSales")
                 .Theme("metro")
                 .Title(t => t.Text("REPRESENTATIVE SALES VS. TOTAL SALES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))

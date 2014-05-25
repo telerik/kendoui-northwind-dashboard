@@ -69,14 +69,15 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult EmployeeAndTeamSales(int EmployeeID, DateTime startDate, DateTime endDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.Database.SqlQuery<SalesStatsViewModel>("SalesAmounts @EmployeeID", new SqlParameter("@EmployeeID", EmployeeID)).ToList().Where(d => d.Date >= startDate && d.Date <= endDate);
+            var result = northwind.SalesAmounts(EmployeeID).Where(d => d.Date >= startDate && d.Date <= endDate);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult EmployeeAverageSales(int EmployeeID, DateTime startDate, DateTime endDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.Database.SqlQuery<SalesStatsViewModel>("MonthlySalesByEmployee @EmployeeID", new SqlParameter("@EmployeeID", EmployeeID)).ToList().Where(d => d.Date >= startDate && d.Date <= endDate);
+            var result = northwind.MonthlySalesByEmployee(EmployeeID).Where(d => d.Date >= startDate && d.Date <= endDate);
+            
             return Json(result, JsonRequestBehavior.AllowGet); 
         }
 
@@ -91,7 +92,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                 {
                     Current = (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount)
                 });
-            //Generate the target based on team's average sales?
+            //TODO: Generate the target based on team's average sales
             var result = new List<QuarterToDateSalesViewModel>() { 
                      new QuarterToDateSalesViewModel {Current = sales.Sum(s=>s.Current), Target = 15000, OrderDate = endDate}
             };

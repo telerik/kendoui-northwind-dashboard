@@ -246,7 +246,7 @@
     <span id="OrdersLabel"></span>
     <span id="CustomersLabel"></span>
     <div id="marketShareContainer">
-        @(Html.Kendo().Chart<MarketShareViewModel>()
+        @(Html.Kendo().Chart<CountryMarketShare_Result>()
             .Name("MarketShare")
             .Title("Market Share") 
             .Theme("metro")
@@ -268,7 +268,7 @@
         )
    </div> 
     <div id="revenueContainer">
-    @(Html.Kendo().Sparkline<MonthValuesViewModel>()
+    @(Html.Kendo().Sparkline<CountryRevenue_Result>()
         .Name("Revenue")
         .Theme("metro")
         .AutoBind(false)
@@ -286,7 +286,7 @@
     )
     </div> 
     <div id="ordersContainer">
-    @(Html.Kendo().Sparkline<MonthValuesViewModel>()
+    @(Html.Kendo().Sparkline<CountryOrders_Result>()
         .Name("Orders")
         .Theme("metro")
         .AutoBind(false)
@@ -304,7 +304,7 @@
     )
     </div> 
     <div id="customersContainer">
-    @(Html.Kendo().Sparkline<MonthValuesViewModel>()
+    @(Html.Kendo().Sparkline<CountryCustomers_Result>()
         .Name("Customers")
         .Theme("metro")
         .AutoBind(false)
@@ -324,7 +324,7 @@
 </div>
 
 <div id="topProductsContainer">
-    @(Html.Kendo().Chart<TopSellingProductsViewModel>()
+    @(Html.Kendo().Chart<CountryTopProducts_Result>()
         .Name("TopSellingProducts") 
         .Theme("metro")
         .AutoBind(false)

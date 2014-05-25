@@ -7,34 +7,6 @@ using Kendo.Mvc.UI;
 
 namespace KendoUI.Northwind.Dashboard.Models
 {
-
-    public class MonthValuesViewModel
-    {
-        public DateTime Date { get; set; }
-        public decimal Value { get; set; }
-    }
-
-    public class MarketShareViewModel
-    {
-        public string Country { get; set; }
-        public double Sales { get; set; }
-    }
-
-
-    public class TopSellingProductsViewModel
-    {
-        public string ProductName { get; set; } 
-        public DateTime Date { get; set; }
-        public int Quantity { get; set; }
-    }
-
-    public class SalesStatsViewModel
-    {
-        public DateTime Date { get; set; }
-        public double? EmployeeSales { get; set; }
-        public double? TotalSales { get; set; } 
-    }
-
     public class QuarterToDateSalesViewModel
     {
         public int OrderID { get; set; }

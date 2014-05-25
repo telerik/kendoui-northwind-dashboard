@@ -251,6 +251,9 @@
     <Compile Include="Models\Invoice.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MonthlySalesByEmployee_Result.cs">
+      <DependentUpon>Northwind.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Northwind.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -300,6 +303,9 @@
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Region.cs">
+      <DependentUpon>Northwind.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesAmounts_Result.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesByCategory_Result.cs">
