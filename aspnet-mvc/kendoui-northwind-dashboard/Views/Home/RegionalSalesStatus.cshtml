@@ -34,7 +34,8 @@
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
     var scale = chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]),
-        selectedShape = null;
+        selectedShape = null,
+        DEFAULT_COUNTRY = "Germany"
     
    
     $(document).ready(function () {
@@ -82,13 +83,12 @@
     }
 
 
-    function onCriteriaChange() {
+    function onCriteriaChange(country) {
         var MarketShare = $("#MarketShare").data("kendoChart"),
             TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
             Revenue = $("#Revenue").data("kendoSparkline"),
             Orders = $("#Orders").data("kendoSparkline"),
             Customers = $("#Customers").data("kendoSparkline"),
-            country = "",
             fromDate = $("#StartDate").data("kendoDatePicker").value(),
             toDate = $("#EndDate").data("kendoDatePicker").value();
 
@@ -122,9 +122,21 @@
         Orders.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
         Customers.dataSource.read({ Country: country, FromDate: fromDate, ToDate: toDate });
 
-
-        //$("#RevenueLabel").text(kendo.toString(revenue, "c2"));
-        
+        $("#countryName").text(country);
+        $.ajax({
+            url: "/RegionalSales/CountryCompanies",
+            dataType: "json",
+            data: { Country: country },
+            type: "POST",
+            success: function (response) {
+                var customers = "";
+                for (var i = 0; i < response.length; i++) {
+                    customers = customers + response[i].CompanyName + ", ";
+                }
+                customers = customers.substring(0, customers.length - 2);
+                $("#countryCustomers span").text(customers);
+            }
+        });
     }
 
     function onShapeCreated(e) {
@@ -132,6 +144,12 @@
         var sales = shape.dataItem.properties.sales;
         var color = scale(sales).hex();
         shape.fill(color);
+        if (e.shape.dataItem.properties.name == DEFAULT_COUNTRY) {
+            e.shape.options.set("fill.color", "#0c669f");
+            e.shape.options.set("stroke.color", "black");
+            e.shape.dataItem.properties.selected = true;
+            selectedShape = e.shape;
+        }
     }
 
     function onShapeClick(e) { 
@@ -148,23 +166,7 @@
         e.shape.dataItem.properties.selected = true;
         selectedShape = e.shape;
 
-        $("#countryName").text(e.shape.dataItem.properties.name);
-        $.ajax({
-            url: "/RegionalSales/CountryCompanies",
-            dataType: "json",
-            data: { Country: e.shape.dataItem.properties.name },
-            type: "POST",
-            success: function (response) {
-                var customers = "";
-                for (var i = 0; i < response.length; i++) {
-                    customers = customers + response[i].CompanyName + ", ";
-                }
-                customers = customers.substring(0, customers.length - 2);
-                $("#countryCustomers span").text(customers);
-            }
-        })
-
-        onCriteriaChange();
+        onCriteriaChange(e.shape.dataItem.properties.name);
 
         //set sparklines width / height
         var containerWidth = $(".sparkline-container").parent().width();
@@ -383,3 +385,9 @@
     )
 </div>
     </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        onCriteriaChange(DEFAULT_COUNTRY);
+    });
+</script>
