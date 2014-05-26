@@ -215,76 +215,62 @@
             $.ajax({
                 url: '@Url.Action("Get_Product", "Products")',
                     data: {ID: model.ProductID},
-                    success: function (receivedProduct) {
-                        //debugger;
+                    success: function (receivedProduct) {        
                         detail.find(".product-name").text(receivedProduct.ProductName);
                         detail.find(".product-category").text(receivedProduct.Category.CategoryName);
                         detail.find(".details-stock").text(receivedProduct.UnitsInStock);
                         detail.find(".details-orders").text(receivedProduct.UnitsOnOrder);
-                        detail.find(".details-re-order").text(receivedProduct.ReorderLevel);
-                       // detail.find(".details-stock").text(receivedProduct.UnitsOnOrder);
-                       // detail.find(".details-stock").text(receivedProduct.ReorderLevel);
-                      //  detail.find(".details-stock").text(receivedProduct.c);
-
-                        console.log(receivedProduct)
-                      //  debugger;
-                        //var template = kendo.template($("#Product_SummaryTemplate").html());
-                        //$("#product_detailtemplate_"  + model.ProductID).html(template(receivedProduct));
-                }
+                        detail.find(".details-re-order").text(receivedProduct.ReorderLevel);                                     }
             })
                 
         }
     </script>
 
-<script id="Product_DetailTemplate" type="text/x-kendo-template">
-    <img src="/Content/Products/#=ProductID#.jpg" class="product-details-image">
-    <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper" style="background: yellow;">    
-    <div class="product-details" style="background: purple;">
-        <div class="product-name"></div>
-        <div class="product-category"></div>
-    </div>
-    <div class="product-details"  style="background: red;">
-        <h5>Orders QTY.</h5>
-           @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()
-                .HtmlAttributes(new { style="width: 400px"})
-                    .Name("chart_#=OrderID#_#=ProductID#")
-                    .Series(series => series
-                        .Column(column => column.Quantity, categoryExpression: column => column.Date)
-                        .Aggregate(ChartSeriesAggregate.Count))
-                    .CategoryAxis(axis => axis
-                        .Date()
-                        .BaseUnit(ChartAxisBaseUnit.Months))
-                    .ValueAxis(axis => axis
-                        .Numeric()
-                        .Line(line => line.Visible(true)))
-                    .DataSource(ds => ds.Read("ProductsSalesByMonth", "Products", new { ProductID = "#=ProductID#" }))
-                    .ToClientTemplate()
-                )   
-
-         <div class="product-details"  style="background: green;">
-            <h5>In stock</h5>
-            <span class="details-stock"></span>
+<script id="Product_DetailTemplate" type="text/x-kendo-template">       
+    <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">           
+        <div class="product-details col-xs-3">
+            <img src="/Content/Products/#=ProductID#.jpg" class="product-details-image">
+            <div class="product-name-cat">
+                <div class="product-name"></div>
+                <div class="product-category"></div>
+            </div>
         </div>
-        <div class="product-details"  style="background: orange;">
-            <h5>In order</h5>
-            <span class="details-orders"></span>
+        <div class="product-details col-xs-3">
+            <h5>Orders QTY.</h5>
+               @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()                 
+                        .Name("chart_#=OrderID#_#=ProductID#")
+                        .Series(series => series
+                            .Column(column => column.Quantity, categoryExpression: column => column.Date)
+                            .Aggregate(ChartSeriesAggregate.Count))
+                        .CategoryAxis(axis => axis
+                            .Date()
+                            .BaseUnit(ChartAxisBaseUnit.Months))
+                        .ValueAxis(axis => axis
+                            .Numeric()
+                            .Line(line => line.Visible(true)))
+                        .DataSource(ds => ds.Read("ProductsSalesByMonth", "Products", new { ProductID = "#=ProductID#" }))
+                        .ToClientTemplate()
+                    )   
+            </div>
+             <div class="product-details col-xs-1">
+                <h5>In stock</h5>
+                <span class="details-stock"></span>
+            </div>
+            <div class="product-details col-xs-1">
+                <h5>In order</h5>
+                <span class="details-orders"></span>
+            </div>
+            <div class="product-details col-xs-1">
+                <h5>Reorder</h5>
+                <span class="details-re-order"></span>
+            </div>
+            <div class="product-details col-xs-3">
+                <h5>Qty. per unit</h5>
+                <span class="details-re-order"></span><span class="product-metric">kg pkg.</span>
+            </div>
         </div>
-        <div class="product-details"  style="background: blue;">
-            <h5>Reorder</h5>
-            <span class="details-re-order"></span>
-        </div>
-        <div class="product-details"  style="background: pink;">
-            <h5>Qty. per unit</h5>
-            <span class="details-re-order"></span>
-        </div>
-    </div>
-   @* <div class="product-category"></div>
-    <div class="details-stock"></div>
-    <div class="details-orders"></div>
-   *@
-    </div>
-  
-    </script>
+   </div>  
+</script>
 
 <script id="Product_DetailTemplate_Origin" type="text/x-kendo-template">
     <img src="/Content/Products/#=ProductID#.jpg" >
