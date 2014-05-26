@@ -60,9 +60,13 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             IQueryable<Order> data = northwind.Orders.Where(o => o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country);
             var result = from o in data
                          group o by o.OrderDate into g
-                         select new { Date = g.Key, Value = g.Count()};
-
-            return Json(new { Orders = (int?)result.Sum(x => x.Value) ?? 0}, JsonRequestBehavior.AllowGet);
+                         select new { Date = g.Key, Value = g.Count() };
+            int? total = 0;
+            if (result.Count() > 0)
+            {
+                total = result.Sum(x => x.Value);
+            }
+            return Json(new { Orders = total}, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CountryCustomers(string Country, DateTime FromDate, DateTime ToDate)
