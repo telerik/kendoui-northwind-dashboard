@@ -137,6 +137,14 @@ body,
   padding: 0;
 }
 
+#rights {
+    color: #848690; 
+    font-size: 10px; 
+    position: absolute; 
+    bottom: 10px; 
+    left: 15px;
+}
+
 /* Toggle button */
 #toggle-button {
     margin-top: 27px;
@@ -322,6 +330,7 @@ body,
     color: #35373d;
     text-transform: uppercase;
     padding-bottom: 1.091em;
+    padding: 15px 0;
 }
 
 #employeeSchedule {
@@ -376,9 +385,16 @@ body,
     height: calc(100% - 86px);
 }
 
-#statsContainer .col-xs-3 {
-    padding: 0;
-    height: 100%;
+#regional-sales .row {
+    height: auto;
+}
+
+#map-wrapper {
+    background-color: #eeeeee;
+}
+
+#countryCustomers {
+    font-size: 11px;
 }
 
 /* Products & Orders*/
@@ -453,9 +469,32 @@ body,
     margin-bottom: 20px;
 }
 
-/* About */
-#about {
+.stats-graph {
     padding: 15px;
+}
+
+#MarketShareLabel,
+#RevenueLabel,
+#OrdersLabel,
+#CustomersLabel,
+#countryName {
+    font-size: 36px;
+    text-transform: uppercase;
+}
+
+/* About */
+#about,
+#map-wrapper {
+    padding: 15px;
+}
+
+#about {
+    font-size: 15px;
+    line-height: 30px;
+}
+
+.sub-title {
+    font-weight: bold;
 }
 
 /*max-width: 768px -> .col-xs- */

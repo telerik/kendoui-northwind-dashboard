@@ -1,36 +1,4 @@
 ﻿@using KendoUI.Northwind.Dashboard.Models;
-<style>
-    /*#dateFilter {
-        float: right;
-    }
-    .fleft {
-        float:left;
-        height: 500px;
-        width: 300px;
-    }
-
-    #mapContainer {
-        height:300px;
-        width:300px;
-    }
-    #marketShareContainer {
-        height:300px;
-        width:300px;
-    }
-    #revenueContainer {
-        height:50px;
-        width:300px;
-    }
-    #ordersContainer {
-        height:50px;
-        width:300px;
-    }
-    #customersContainer {
-        height:50px;
-        width:300px;
-    }*/
-
-</style>
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
     var scale = chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]),
@@ -66,7 +34,7 @@
             messages: {
                 startDate: "Start date should preceed the End date.",
                 endDate: "End date should not preceed the Start date."
-            }
+            }       
         });
     });
 
@@ -150,9 +118,25 @@
             e.shape.dataItem.properties.selected = true;
             selectedShape = e.shape;
         }
+        /* Check! */
+        setSparkLinesWidths();
     }
 
-    function onShapeClick(e) { 
+    function setSparkLinesWidths() {
+        var containerWidth = $(".sparkline-container").parent().width();
+        var getDonutChart = $("#MarketShare").data("kendoChart");
+        var sparkLineWidth = containerWidth;
+        var sparkLineHeight = (40 * containerWidth) / 100;
+        var getSparkLines = $(".k-sparkline");
+        getSparkLines.each(function () {
+            $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
+        })
+        getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
+    }
+
+
+    function onShapeClick(e) {
+        debugger;
         if (selectedShape) {
             var sales = selectedShape.dataItem.properties.sales;
             var color = scale(sales).hex();
@@ -168,14 +152,7 @@
 
         onCriteriaChange(e.shape.dataItem.properties.name);
 
-        //set sparklines width / height
-        var containerWidth = $(".sparkline-container").parent().width();
-        var sparkLineWidth = (80 * containerWidth) / 100;
-        var sparkLineHeight = (80 * containerWidth) / 100;
-        var getSparkLines = $(".k-sparkline");
-        getSparkLines.each(function () {
-            $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
-        })
+        setSparkLinesWidths()
     }
 
     function onShapeMouseEnter(e) {
@@ -191,13 +168,6 @@
         }
     }
 
-    function setSparkLinesWidths() {
-        var containerWidth = $(".sparkline-container").parent().width();
-        var sparkLineWidth = (80 * containerWidth) / 100;
-        $(".k-sparkline").data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth } });
-    }
-
-    //$(window).on("resize", setSparkLinesWidths()); 
     $(window).resize(setSparkLinesWidths);
 
 </script> 
@@ -228,163 +198,173 @@
 </div>
 
 <div id="regional-sales" class="main-section-content row">
-    <div id="map-wrapper" style="background: red">
-  
-    <div id="mapContainer"  style="background: blue">
-      <div class="" style="background: green">
-        <span>Pick a Country to view stats</span>
-        <h3>COUNTRY</h3>
-        <h1 id="countryName"></h1>
-        <h3>CUSTOMERS</h3>
-        <div id="countryCustomers"><span></span></div>
-    </div>
-        @(Html.Kendo().Map()
-            .Name("map")
-            .Center(50.000, 0)
-            .Zoom(2)
-            .Layers(layers => 
-            {
-                layers.Add()
-                    .Style(style => style
-                        .Fill(fill => fill.Color("#1996E4"))
-                        .Stroke(stroke => stroke.Color("#FFFFFF"))
-                    )
-                    .Type(MapLayerType.Shape)
-                    .DataSource(dataSource => dataSource
-                        .GeoJson()
-                        .Read(read => read.Url(Url.Content("~/Content/countries-sales.geo.json")))
-                    );
-            })
-            .Events(events => events
-                .ShapeCreated("onShapeCreated")
-                .ShapeMouseEnter("onShapeMouseEnter")
-                .ShapeMouseLeave("onShapeMouseLeave")
-                .ShapeClick("onShapeClick")
+    <div id="map-wrapper" class="row">  
+        <div id="map-details" class="col-xs-2">     
+            <h3 class="section-header">Pick a Country to view stats</h3>
+            <h3 class="section-header">COUNTRY</h3>
+            <h2 id="countryName"></h2>
+            <h3 class="section-header">CUSTOMERS</h3>
+            <div id="countryCustomers"><span></span></div>
+        </div>
+        <div id="map-container" class="col-xs-10">
+            @(Html.Kendo().Map()
+                .Name("map")
+                .Center(50.000, 0)
+                .Zoom(2)
+                .Layers(layers => 
+                {
+                    layers.Add()
+                        .Style(style => style
+                            .Fill(fill => fill.Color("#1996E4"))
+                            .Stroke(stroke => stroke.Color("#FFFFFF"))
+                        )
+                        .Type(MapLayerType.Shape)
+                        .DataSource(dataSource => dataSource
+                            .GeoJson()
+                            .Read(read => read.Url(Url.Content("~/Content/countries-sales.geo.json")))
+                        );
+                })
+                .Events(events => events
+                    .ShapeCreated("onShapeCreated")
+                    .ShapeMouseEnter("onShapeMouseEnter")
+                    .ShapeMouseLeave("onShapeMouseLeave")
+                    .ShapeClick("onShapeClick")
+                )
             )
-        )
+        </div>     
     </div>
-   </div>
 
-<div id="statsContainer" style="background: pink;">    
-    <div id="marketShareContainer" class="col-xs-3 stats-graph" style="background: red;">
-        <h3 id="MarketShareLabel" class="section-header">Market share</h3>
-        <div class="sparkline-container">
-        @(Html.Kendo().Chart<CountryMarketShare_Result>()
-            .Name("MarketShare")
-            //.Title("Market Share") 
+    <div id="statsContainer" class="row">
+        <div id="marketShareContainer" class="col-xs-3 stats-graph">
+             <h3 class="section-header">Market share</h3>
+             <span id="MarketShareLabel"></span>      
+            <div class="sparkline-container">
+                @(Html.Kendo().Chart<CountryMarketShare_Result>()
+                    .Name("MarketShare")
+                    .Theme("metro")
+                    .AutoBind(false)
+                    .Events(e=>e.DataBound("onMarketShareDataBound"))
+                    .Legend(legend => legend
+                        .Visible(false)
+                    )
+                    .DataSource(ds => ds
+                        .Read(read => read.Action("MarketShareByCountry", "RegionalSales"))
+                    )
+                    .Series(series => {
+                        series.Donut("Sales", "Country");
+                    })
+                    .Tooltip(tooltip => tooltip
+                        .Visible(true)
+                        .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
+                    )
+                )
+            </div>
+        </div> 
+        <div id="revenueContainer" class="col-xs-3 stats-graph">
+             <h3 class="section-header">Revenue</h3>
+             <span id="RevenueLabel"></span>
+             <div class="sparkline-container">
+                @(Html.Kendo().Sparkline<CountryRevenue_Result>()
+                    .Name("Revenue")
+                    .Theme("metro")
+                    .AutoBind(false)
+                    .DataSource(ds => ds
+                        .Read(read => read.Action("CountryRevenue", "RegionalSales"))
+                    ) 
+                    .Series(series =>
+                    {
+                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4");
+                    })
+                    .CategoryAxis(axis=>axis
+                        .Date()
+                        .BaseUnit(ChartAxisBaseUnit.Months)
+                    )
+                )
+             </div>
+         </div>
+         <div id="ordersContainer" class="col-xs-3 stats-graph">
+            <h3 class="section-header">Orders</h3>
+            <span id="OrdersLabel"></span>
+            <div class="sparkline-container">
+                @(Html.Kendo().Sparkline<CountryOrders_Result>()
+                    .Name("Orders")
+                    .Theme("metro")
+                    .AutoBind(false)
+                    .DataSource(ds => ds
+                        .Read(read => read.Action("CountryOrders", "RegionalSales"))
+                    ) 
+                    .Series(series =>
+                    {
+                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4");
+                    })
+                    .CategoryAxis(axis=>axis
+                        .Date()
+                        .BaseUnit(ChartAxisBaseUnit.Months)
+                    )
+                )
+            </div>
+        </div> 
+        <div id="customersContainer" class="col-xs-3 stats-graph">
+             <h3 class="section-header">Customers</h3>
+             <span id="CustomersLabel"></span>      
+             <div class="sparkline-container">
+                @(Html.Kendo().Sparkline<CountryCustomers_Result>()
+                    .Name("Customers")
+                    .Theme("metro")
+                    .AutoBind(false)
+                    .DataSource(ds => ds
+                        .Read(read => read.Action("CountryCustomers", "RegionalSales"))
+                    ) 
+                    .Series(series =>
+                    {
+                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4");
+                    })
+                    .CategoryAxis(axis=>axis
+                        .Date()
+                        .BaseUnit(ChartAxisBaseUnit.Months)
+                    )
+                )
+              </div>
+        </div>
+    </div>
+
+    <div id="topProductsContainer">
+        @(Html.Kendo().Chart<CountryTopProducts_Result>()
+            .Name("TopSellingProducts") 
+            .Title(t => t.Text("TOP PRODUCT CATEGORIES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))
             .Theme("metro")
             .AutoBind(false)
-            .Events(e=>e.DataBound("onMarketShareDataBound"))
             .Legend(legend => legend
-                .Visible(false)
+                .Visible(true)
+                .Position(ChartLegendPosition.Top)
             )
+            .ChartArea(ch=>ch.Background("#eeeeee"))
             .DataSource(ds => ds
-                .Read(read => read.Action("MarketShareByCountry", "RegionalSales"))
-            )
+                .Group(g=>g.Add(f=>f.ProductName))
+                .Read(read => read.Action("TopSellingProducts", "RegionalSales")))
             .Series(series => {
-                series.Donut("Sales", "Country");
+                series.Line(model => model.Quantity).Style(ChartLineStyle.Smooth);
             })
+            .CategoryAxis(axis => axis
+                .Categories(model => model.Date)
+                .MajorGridLines(x=>x.Visible(false))
+                .Line(l=>l.Width(0))
+                .Labels(l=>l.Visible(false))                  
+            )
+            .ValueAxis(axis => axis.Numeric() 
+                .MajorUnit(50)
+                .MajorTicks(x=>x.Visible(false))
+                .MajorGridLines(m=>m.Visible(false))
+                .Line(l=>l.Visible(false))
+                .Labels(l=>l.Visible(false))
+            )
             .Tooltip(tooltip => tooltip
                 .Visible(true)
-                .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
-            )
+                .Template("#=data.series.name.replace(data.series.field, data.value)#"))
         )
-        </div>
-   </div> 
-    <div id="revenueContainer" class="col-xs-3 stats-graph" style="background: orange">
-    <h3 id="RevenueLabel" class="section-header">Revenue</h3>
-        <div class="sparkline-container">
-    @(Html.Kendo().Sparkline<CountryRevenue_Result>()
-        .Name("Revenue")
-        .Theme("metro")
-        .AutoBind(false)
-        .DataSource(ds => ds
-            .Read(read => read.Action("CountryRevenue", "RegionalSales"))
-        ) 
-        .Series(series =>
-        {
-            series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum);
-        })
-        .CategoryAxis(axis=>axis
-            .Date()
-            .BaseUnit(ChartAxisBaseUnit.Months)
-        )
-    )
-            </div>
-    </div> 
-    <div id="ordersContainer" class="col-xs-3 stats-graph">
-         <h3 id="OrdersLabel" class="section-header">Orders</h3>
-        <div class="sparkline-container">
-    @(Html.Kendo().Sparkline<CountryOrders_Result>()
-        .Name("Orders")
-        .Theme("metro")
-        .AutoBind(false)
-        .DataSource(ds => ds
-            .Read(read => read.Action("CountryOrders", "RegionalSales"))
-        ) 
-        .Series(series =>
-        {
-            series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum);
-        })
-        .CategoryAxis(axis=>axis
-            .Date()
-            .BaseUnit(ChartAxisBaseUnit.Months)
-        )
-    )
-            </div>
-    </div> 
-    <div id="customersContainer" class="col-xs-3 stats-graph">
-        <h3 id="CustomersLabel" class="section-header">Customers</h3>
-         <div class="sparkline-container">
-    @(Html.Kendo().Sparkline<CountryCustomers_Result>()
-        .Name("Customers")
-        .Theme("metro")
-        .AutoBind(false)
-        .DataSource(ds => ds
-            .Read(read => read.Action("CountryCustomers", "RegionalSales"))
-        ) 
-        .Series(series =>
-        {
-            series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum);
-        })
-        .CategoryAxis(axis=>axis
-            .Date()
-            .BaseUnit(ChartAxisBaseUnit.Months)
-        )
-    )
-             </div>
     </div>
 </div>
 
-<div id="topProductsContainer" style="background: yellow;">
-    @(Html.Kendo().Chart<CountryTopProducts_Result>()
-        .Name("TopSellingProducts") 
-        .Theme("metro")
-        .AutoBind(false)
-        .Legend(legend => legend
-            .Visible(false)
-        )
-        .DataSource(ds => ds
-            .Group(g=>g.Add(f=>f.ProductName))
-            .Read(read => read.Action("TopSellingProducts", "RegionalSales")))
-        .Series(series => {
-            series.Line(model => model.Quantity).Style(ChartLineStyle.Smooth);
-        })
-        .CategoryAxis(axis => axis
-            .Categories(model => model.Date)
-            .MajorGridLines(x=>x.Visible(false))
-            .Labels(labels => labels.Rotation(-90))
-        )
-        .ValueAxis(axis => axis.Numeric() 
-            .MajorUnit(50)
-            .MajorTicks(x=>x.Visible(false))
-        )
-        .Tooltip(tooltip => tooltip
-            .Visible(true)
-            .Template("#=data.series.name.replace(data.series.field, data.value)#"))
-    )
-</div>
-    </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
