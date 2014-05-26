@@ -29,6 +29,7 @@
         height:50px;
         width:300px;
     }*/
+
 </style>
 <script src="@Url.Content("~/Scripts/chroma.min.js")"></script> 
 <script type="text/javascript">
@@ -164,6 +165,15 @@
         })
 
         onCriteriaChange();
+
+        //set sparklines width / height
+        var containerWidth = $(".sparkline-container").parent().width();
+        var sparkLineWidth = (80 * containerWidth) / 100;
+        var sparkLineHeight = (80 * containerWidth) / 100;
+        var getSparkLines = $(".k-sparkline");
+        getSparkLines.each(function () {
+            $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
+        })
     }
 
     function onShapeMouseEnter(e) {
@@ -178,6 +188,16 @@
             e.shape.options.set("stroke.color", "white");
         }
     }
+
+    function setSparkLinesWidths() {
+        var containerWidth = $(".sparkline-container").parent().width();
+        var sparkLineWidth = (80 * containerWidth) / 100;
+        $(".k-sparkline").data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth } });
+    }
+
+    //$(window).on("resize", setSparkLinesWidths()); 
+    $(window).resize(setSparkLinesWidths);
+
 </script> 
 
 <div id="main-section-header" class="row">
@@ -206,14 +226,16 @@
 </div>
 
 <div id="regional-sales" class="main-section-content row">
-    <div>
+    <div id="map-wrapper" style="background: red">
+  
+    <div id="mapContainer"  style="background: blue">
+      <div class="" style="background: green">
         <span>Pick a Country to view stats</span>
         <h3>COUNTRY</h3>
         <h1 id="countryName"></h1>
         <h3>CUSTOMERS</h3>
         <div id="countryCustomers"><span></span></div>
     </div>
-    <div id="mapContainer">
         @(Html.Kendo().Map()
             .Name("map")
             .Center(50.000, 0)
@@ -239,16 +261,15 @@
             )
         )
     </div>
+   </div>
 
-<div id="statsContainer">
-    <span id="MarketShareLabel"></span>
-    <span id="RevenueLabel"></span>
-    <span id="OrdersLabel"></span>
-    <span id="CustomersLabel"></span>
-    <div id="marketShareContainer">
+<div id="statsContainer" style="background: pink;">    
+    <div id="marketShareContainer" class="col-xs-3 stats-graph" style="background: red;">
+        <h3 id="MarketShareLabel" class="section-header">Market share</h3>
+        <div class="sparkline-container">
         @(Html.Kendo().Chart<CountryMarketShare_Result>()
             .Name("MarketShare")
-            .Title("Market Share") 
+            //.Title("Market Share") 
             .Theme("metro")
             .AutoBind(false)
             .Events(e=>e.DataBound("onMarketShareDataBound"))
@@ -266,8 +287,11 @@
                 .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
             )
         )
+        </div>
    </div> 
-    <div id="revenueContainer">
+    <div id="revenueContainer" class="col-xs-3 stats-graph" style="background: orange">
+    <h3 id="RevenueLabel" class="section-header">Revenue</h3>
+        <div class="sparkline-container">
     @(Html.Kendo().Sparkline<CountryRevenue_Result>()
         .Name("Revenue")
         .Theme("metro")
@@ -284,8 +308,11 @@
             .BaseUnit(ChartAxisBaseUnit.Months)
         )
     )
+            </div>
     </div> 
-    <div id="ordersContainer">
+    <div id="ordersContainer" class="col-xs-3 stats-graph">
+         <h3 id="OrdersLabel" class="section-header">Orders</h3>
+        <div class="sparkline-container">
     @(Html.Kendo().Sparkline<CountryOrders_Result>()
         .Name("Orders")
         .Theme("metro")
@@ -302,8 +329,11 @@
             .BaseUnit(ChartAxisBaseUnit.Months)
         )
     )
+            </div>
     </div> 
-    <div id="customersContainer">
+    <div id="customersContainer" class="col-xs-3 stats-graph">
+        <h3 id="CustomersLabel" class="section-header">Customers</h3>
+         <div class="sparkline-container">
     @(Html.Kendo().Sparkline<CountryCustomers_Result>()
         .Name("Customers")
         .Theme("metro")
@@ -320,10 +350,11 @@
             .BaseUnit(ChartAxisBaseUnit.Months)
         )
     )
+             </div>
     </div>
 </div>
 
-<div id="topProductsContainer">
+<div id="topProductsContainer" style="background: yellow;">
     @(Html.Kendo().Chart<CountryTopProducts_Result>()
         .Name("TopSellingProducts") 
         .Theme("metro")

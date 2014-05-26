@@ -316,7 +316,8 @@ body,
 }
 
 #employee-about h3,
-#employeeSchedule h3 {
+#employeeSchedule h3,
+.section-header{
     font-size: 11px;
     color: #35373d;
     text-transform: uppercase;
@@ -377,6 +378,7 @@ body,
 
 #statsContainer .col-xs-3 {
     padding: 0;
+    height: 100%;
 }
 
 /* Products & Orders*/
