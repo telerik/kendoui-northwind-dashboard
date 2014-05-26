@@ -78,6 +78,12 @@
         sum = sum - (sum * data.Discount)
         return sum;
     }
+
+    $(window).on("resize", function () {
+        var containerWidth = $(".sparkline-container").parent().width();
+        var sparkLineWidth = (80 * containerWidth) / 100;
+        $(".k-sparkline").data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth } });
+    });
 </script>
     @(Html.Kendo().Grid<OrderViewModel>()
         .Name("orders")
@@ -237,6 +243,7 @@
         </div>
         <div class="product-details col-xs-3">
             <h5>Orders QTY.</h5>
+            <div class="sparkline-container">
                @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()                 
                         .Name("chart_#=OrderID#_#=ProductID#")
                         .Series(series => series
@@ -251,6 +258,7 @@
                         .DataSource(ds => ds.Read("ProductsSalesByMonth", "Products", new { ProductID = "#=ProductID#" }))
                         .ToClientTemplate()
                     )   
+            </div>
             </div>
              <div class="product-details col-xs-1">
                 <h5>In stock</h5>
