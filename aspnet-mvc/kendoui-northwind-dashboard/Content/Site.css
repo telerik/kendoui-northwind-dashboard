@@ -376,13 +376,31 @@ body,
     height: calc(100% - 86px);
 }
 
-.product-details  dd,
-.product-details dt {
+.product-details{
     display: inline-block;
-    width: 20%;
-
 }
 
+.product-details-image,
+.product-details-wrapper {
+    display: inline-block;
+}
+
+.product-details-wrapper {
+    color: #0d1016;
+}
+
+.product-details-image {
+    border-radius: 55px;
+}
+
+.product-details span {
+    font-size: 36px;
+}
+
+.product-details-wrapper h5 {
+    font-size: 11px; 
+    text-transform: uppercase;
+}
 
 /*max-width: 768px -> .col-xs- */
 @media screen and (max-width: 768px) {
