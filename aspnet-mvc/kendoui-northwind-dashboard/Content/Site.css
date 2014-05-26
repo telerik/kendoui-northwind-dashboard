@@ -453,6 +453,11 @@ body,
     margin-bottom: 20px;
 }
 
+/* About */
+#about {
+    padding: 15px;
+}
+
 /*max-width: 768px -> .col-xs- */
 @media screen and (max-width: 768px) {
     .column {
