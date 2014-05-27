@@ -173,10 +173,6 @@ body,
 
 }
 
-#main-section-content {
-    /*height: calc(100% - 154px);*/
-}
-
 #dash-logo,
 #main-section-header > h2{
     font-size: 18px;
@@ -491,6 +487,34 @@ body,
     text-transform: uppercase;
 }
 
+.k-detail-cell .k-tabstrip .k-content {
+    padding: 0.2em;
+}
+
+.shipping-details ul
+{
+    list-style:none;
+    font-style:italic;
+    margin: 15px;
+    padding: 0;
+}
+
+.shipping-details ul li
+{
+    margin: 0;
+    line-height: 1.7em;
+}
+
+.shipping-details label
+{
+    display:inline-block;
+    width:90px;
+    padding-right: 10px;
+    text-align: right;
+    font-style:normal;
+    font-weight:bold;
+}
+
 /* About */
 #map-wrapper {
     padding: 15px;
@@ -612,7 +636,7 @@ body,
     }
 }
 
-@media screen and (min-width: 380px) and (max-width: 396px) {
+@media screen and (min-width: 381px) and (max-width: 396px) {
     .select-period {
         display: none;
     }
@@ -644,6 +668,13 @@ body,
     }
 }
 
+@media screen and (min-width: 768px) and (max-width:1204px) {
+    #main-section-header h2 {
+       padding-right: 0;
+       font-size: 12px;
+    }
+}
+
 /* Custom */
 @media screen and (min-width: 768px) and (max-width: 831px) {
      #main-section-header h2 {
@@ -656,11 +687,8 @@ body,
 }
 
 @media screen and (min-width: 768px) and (max-width: 863px) {
-   #main-section-header h2 {
-       padding-right: 0;
-    }
+  
 }
-
 
 @media screen and (max-width:960px)  { 
     #MarketShareLabel, 
@@ -671,7 +699,6 @@ body,
         font-size: 24px;
     }
 }
-
 
 @media screen and (min-width: 863px) and (max-width:1040px)  { 
     #main-section-header h2 {
@@ -689,9 +716,6 @@ body,
     }
 }
 
-/* End custom */
-
-/* Custom rules */
 @media screen and (max-width: 1096px) {
     .employee-list-details .title,
     .employee-list-details .name {
@@ -736,16 +760,9 @@ body,
         display: none;
     } 
 }
+/* End custom */
 
-/* clear floats */
-.employee:after,
-.bio:after {
-    content:"";
-    clear:both;
-    display: block;
-}
-
-
+/* Empty charts overlays */
 #topProductsContainer,
 .sparkline-container {
   position: relative;
@@ -768,4 +785,12 @@ body,
   font-size: 34px;
   margin-top: -17px;
   top: 50%;
+}
+
+/* clear floats */
+.employee:after,
+.bio:after {
+    content:"";
+    clear:both;
+    display: block;
 }
