@@ -42,6 +42,16 @@
                 $("#countryCustomers span").text(customers);
             }
         });
+        var containerWidth = $(".sparkline-container").parent().width(),
+            getSparkLines = $(".k-sparkline"),
+            chartWidth = (80 * containerWidth) / 100;
+
+            getSparkLines.each(function () {
+                $(this).data("kendoSparkline").setOptions({ chartArea: { width: chartWidth} });
+            });
+
+            $("#TopSellingProducts").data("kendoChart").resize();
+            $("#MarketShare").data("kendoChart").resize();       
     }
 
     function onMarketShareDataBound(e) {
@@ -237,9 +247,8 @@
                 @(Html.Kendo().Chart<CountryMarketShare_Result>()
                     .Name("MarketShare")
                     .Theme("metro")
+                    .HtmlAttributes(new { @style="height: 100px;"})
                     .AutoBind(false)
-                    .ChartArea(ch=>ch.Margin(0))
-                    .PlotArea(pl=>pl.Margin(0))
                     .Events(e=>e.DataBound("onMarketShareDataBound"))
                     .Legend(legend => legend
                         .Visible(false)
@@ -265,6 +274,7 @@
                 @(Html.Kendo().Sparkline<CountryRevenue_Result>()
                     .Name("Revenue")
                     .Theme("metro")
+                    .HtmlAttributes(new { @style="height: 100px;"})
                     .AutoBind(false)
                     .DataSource(ds => ds
                         .Read(read => read.Action("CountryRevenue", "RegionalSales"))
@@ -289,6 +299,7 @@
                 @(Html.Kendo().Sparkline<CountryOrders_Result>()
                     .Name("Orders")
                     .Theme("metro")
+                    .HtmlAttributes(new { @style="height: 100px;"})
                     .AutoBind(false)
                     .DataSource(ds => ds
                         .Read(read => read.Action("CountryOrders", "RegionalSales"))
@@ -312,6 +323,7 @@
                 @(Html.Kendo().Sparkline<CountryCustomers_Result>()
                     .Name("Customers")
                     .Theme("metro")
+                    .HtmlAttributes(new { @style="height: 100px;"})
                     .AutoBind(false)
                     .DataSource(ds => ds
                         .Read(read => read.Action("CountryCustomers", "RegionalSales"))
@@ -331,8 +343,10 @@
 
     <div id="topProductsContainer">
         <div id="ProductsNoData">No data available</div>
+
+    <div id="topProductsContainer" class="section-gray">
         @(Html.Kendo().Chart<CountryTopProducts_Result>()
-            .Name("TopSellingProducts") 
+            .Name("TopSellingProducts")
             .Title(t => t.Text("TOP PRODUCT CATEGORIES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))
             .Theme("metro")
             .AutoBind(false)
@@ -342,25 +356,28 @@
             )
             .ChartArea(ch=>ch.Background("#eeeeee"))
             .Events(e=>e.DataBound("onTopProductsDataBound"))
+            .ChartArea(ch => ch.Background("#eeeeee"))
             .DataSource(ds => ds
-                .Group(g=>g.Add(f=>f.ProductName))
+                .Group(g => g.Add(f => f.ProductName))
                 .Read(read => read.Action("TopSellingProducts", "RegionalSales")))
-            .Series(series => {
+            .Series(series =>
+            {
                 series.Line(model => model.Quantity).Style(ChartLineStyle.Smooth).Markers(false);
-                
+
             })
+            .HtmlAttributes(new { @style="height: 200px;"})
             .CategoryAxis(axis => axis
                 .Categories(model => model.Date)
-                .MajorGridLines(m=>m.Visible(false))
-                .Line(l=>l.Width(0))
-                .Labels(l=>l.Visible(false))
+                .MajorGridLines(m => m.Visible(false))
+                .Line(l => l.Width(0))
+                .Labels(l => l.Visible(false))
             )
-            .ValueAxis(axis => axis.Numeric() 
+            .ValueAxis(axis => axis.Numeric()
                 .MajorUnit(50)
-                .MajorTicks(x=>x.Visible(false))
-                .MajorGridLines(m=>m.Visible(false))
-                .Line(l=>l.Visible(false))
-                .Labels(l=>l.Visible(false))
+                .MajorTicks(x => x.Visible(false))
+                .MajorGridLines(m => m.Visible(false))
+                .Line(l => l.Visible(false))
+                .Labels(l => l.Visible(false))
             )
             .Tooltip(tooltip => tooltip
                 .Visible(true)

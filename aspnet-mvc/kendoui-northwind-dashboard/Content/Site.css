@@ -393,6 +393,10 @@ body,
     background-color: #eeeeee;
 }
 
+#map-details span {
+   line-height: 13px;
+}
+
 #countryCustomers {
     font-size: 11px;
 }
@@ -407,6 +411,8 @@ body,
     overflow: auto;
     height: 100%;
     height: calc(100% - 86px);
+    color: #464648;
+    font-size: 11px;
 }
 
 .product-details{
