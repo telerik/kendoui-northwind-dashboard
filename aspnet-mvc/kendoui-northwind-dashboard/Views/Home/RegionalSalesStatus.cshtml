@@ -6,24 +6,40 @@
         selectedCountry = "USA";
 
     function setSparkLinesWidths() {
-        var containerWidth = $(".sparkline-container").parent().width();
-        var containerHeight = $(".sparkline-container").parent().height();
-        var getDonutChart = $("#MarketShare").data("kendoChart");
-        var getLineChart = $("#TopSellingProducts").data("kendoChart");
-        var sparkLineWidth = containerWidth;
-        var sparkLineHeight = (40 * containerWidth) / 100;
-        var donutWidth = containerWidth;
-        var donutHeight = (80 * containerHeight) / 100;
-        var getSparkLines = $(".k-sparkline");
-        getSparkLines.each(function () {
-            $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
-        })
-        getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight, padding: 0, margin: 0 } });
-        getLineChart.setOptions({ chartArea: { height: donutHeight } });
+        var containerWidth = $(".sparkline-container").parent().width(),
+            containerHeight = $(".sparkline-container").parent().height(),
+           // test = (80 * ($("#topProductsContainer").height(),
+            getDonutChart = $("#MarketShare").data("kendoChart"),
+            getLineChart = $("#TopSellingProducts").data("kendoChart")
+            getSparkLines = $(".k-sparkline"),
+            chartWidth = (80 * containerWidth) / 100,
+            chartHeight = (40 * containerHeight) / 100;
+
+            getSparkLines.each(function () {
+                $(this).data("kendoSparkline").setOptions({ chartArea: { width: chartWidth, height: chartHeight } });
+            })
+   
+        //var sparkLineWidth = containerWidth;
+        //var sparkLineHeight = (40 * containerWidth) / 100;
+        //console.log(containerHeight)
+        //console.log(sparkLineHeight)
+        //var donutWidth = containerWidth;
+        //var donutHeight = (80 * containerHeight) / 100;
+        //var getSparkLines = $(".k-sparkline");
+        //getSparkLines.each(function () {
+        //    $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
+        //})
+
+      //  getSparkLines.each(function () {
+      //      $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
+      //})
+        //getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight, padding: 0, margin: 0 } });
+       // getLineChart.setOptions({ chartArea: { height: donutHeight } });
         //$("#MarketShare").height(donutHeight)
 
-        // $("#TopSellingProducts").data("kendoChart").resize();
-        //$("#MarketShare").data("kendoChart").resize();
+         $("#TopSellingProducts").data("kendoChart").resize();
+        // $("#MarketShare").data("kendoChart").resize();
+         $("#MarketShare").data("kendoChart").setOptions({ chartArea: { width: chartWidth, height: chartHeight } });
     }
 
     function onMarketShareDataBound(e) {
