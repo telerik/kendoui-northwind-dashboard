@@ -237,15 +237,6 @@ namespace KendoUI.Northwind.Dashboard.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CountryTopProducts_Result>("CountryTopProducts", countryParameter, fromDateParameter, toDateParameter);
         }
     
-        public virtual ObjectResult<MonthlySalesByEmployee_Result> MonthlySalesByEmployee(Nullable<int> employeeID)
-        {
-            var employeeIDParameter = employeeID.HasValue ?
-                new ObjectParameter("EmployeeID", employeeID) :
-                new ObjectParameter("EmployeeID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MonthlySalesByEmployee_Result>("MonthlySalesByEmployee", employeeIDParameter);
-        }
-    
         public virtual ObjectResult<SalesAmounts_Result> SalesAmounts(Nullable<int> employeeID)
         {
             var employeeIDParameter = employeeID.HasValue ?
@@ -253,6 +244,15 @@ namespace KendoUI.Northwind.Dashboard.Models
                 new ObjectParameter("EmployeeID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesAmounts_Result>("SalesAmounts", employeeIDParameter);
+        }
+    
+        public virtual ObjectResult<MonthlySalesByEmployee_Result> MonthlySalesByEmployee(Nullable<int> employeeID)
+        {
+            var employeeIDParameter = employeeID.HasValue ?
+                new ObjectParameter("EmployeeID", employeeID) :
+                new ObjectParameter("EmployeeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MonthlySalesByEmployee_Result>("MonthlySalesByEmployee", employeeIDParameter);
         }
     }
 }

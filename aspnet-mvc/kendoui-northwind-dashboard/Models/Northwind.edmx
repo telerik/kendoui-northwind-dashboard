@@ -977,10 +977,10 @@
             <Parameter Name="FromDate" Mode="In" Type="String" />
             <Parameter Name="ToDate" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="MonthlySalesByEmployee" ReturnType="Collection(NorthwindModel.MonthlySalesByEmployee_Result)">
-            <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="SalesAmounts" ReturnType="Collection(NorthwindModel.SalesAmounts_Result)">
+          <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MonthlySalesByEmployee" ReturnType="Collection(NorthwindModel.MonthlySalesByEmployee_Result)">
             <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
@@ -1525,15 +1525,15 @@
           <Property Type="DateTime" Name="Date" Nullable="true" />
           <Property Type="Int32" Name="Quantity" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="MonthlySalesByEmployee_Result">
-          <Property Type="Int32" Name="EmployeeID" Nullable="true" />
-          <Property Type="Double" Name="EmployeeSales" Nullable="true" />
-          <Property Type="DateTime" Name="Date" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="SalesAmounts_Result">
           <Property Type="Double" Name="TotalSales" Nullable="true" />
           <Property Type="Double" Name="EmployeeSales" Nullable="true" />
           <Property Type="DateTime" Name="Date" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MonthlySalesByEmployee_Result">
+          <Property Type="Int32" Name="EmployeeID" Nullable="true" />
+          <Property Type="Double" Name="EmployeeSales" Nullable="true" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2013,19 +2013,19 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MonthlySalesByEmployee" FunctionName="NorthwindModel.Store.MonthlySalesByEmployee">
+          <FunctionImportMapping FunctionImportName="SalesAmounts" FunctionName="NorthwindModel.Store.SalesAmounts">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="NorthwindModel.MonthlySalesByEmployee_Result">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              <ComplexTypeMapping TypeName="NorthwindModel.SalesAmounts_Result">
+                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
                 <ScalarProperty Name="EmployeeSales" ColumnName="EmployeeSales" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SalesAmounts" FunctionName="NorthwindModel.Store.SalesAmounts">
+          <FunctionImportMapping FunctionImportName="MonthlySalesByEmployee" FunctionName="NorthwindModel.Store.MonthlySalesByEmployee">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="NorthwindModel.SalesAmounts_Result">
-                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+              <ComplexTypeMapping TypeName="NorthwindModel.MonthlySalesByEmployee_Result">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="EmployeeSales" ColumnName="EmployeeSales" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
               </ComplexTypeMapping>

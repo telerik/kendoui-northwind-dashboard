@@ -15,6 +15,6 @@ namespace KendoUI.Northwind.Dashboard.Models
     {
         public Nullable<int> EmployeeID { get; set; }
         public Nullable<double> EmployeeSales { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public System.DateTime Date { get; set; }
     }
 }
