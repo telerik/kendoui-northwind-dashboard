@@ -78,7 +78,7 @@
         employeeSales.dataSource.filter({ field: "EmployeeID", operator: "eq", value: employee.EmployeeID });
 
         teamSales.dataSource.read(filter);
-        //get the totals from the same action method?
+        
         employeeQuarterSales.dataSource.read(filter);
         employeeAverageSales.dataSource.read(filter);
     }
@@ -119,7 +119,7 @@
             <label for="StartDate" class="select-period">Stats from</label>
             @(Html.Kendo().DatePicker() 
                 .Name("StartDate")
-                .Value(new DateTime(1996, 7, 1))
+                .Value(new DateTime(1996, 1, 1))
                 .Events(e=>e.Change("onCriteriaChange"))
             )
             <span class="k-invalid-msg" data-for="StartDate"></span>
@@ -128,7 +128,7 @@
             <label for="EndDate" class="select-period">To</label>
             @(Html.Kendo().DatePicker() 
                 .Name("EndDate")
-                .Value(new DateTime(1997, 7, 1))
+                .Value(new DateTime(1999, 1, 1))
                 .Events(e=>e.Change("onCriteriaChange"))
             )
             <span class="k-invalid-msg" data-for="EndDate"></span>
