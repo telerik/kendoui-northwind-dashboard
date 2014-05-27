@@ -258,7 +258,7 @@
                         .Name("chart_#=OrderID#_#=ProductID#")
                         .Series(series => series
                             .Column(column => column.Quantity, categoryExpression: column => column.Date)
-                            .Aggregate(ChartSeriesAggregate.Count))
+                            .Aggregate(ChartSeriesAggregate.Count).Gap(0.2))
                         .CategoryAxis(axis => axis
                             .Date()
                             .BaseUnit(ChartAxisBaseUnit.Months))
@@ -289,61 +289,7 @@
         </div>
    </div>  
 </script>
-
-<script id="Product_DetailTemplate_Origin" type="text/x-kendo-template">
-    <img src="/Content/Products/#=ProductID#.jpg" >
-    <div id="product_detailtemplate_#=ProductID#">
-    <div class="product-details">    
-        <div class="product-name"></div>
-        <div class="product-category"></div>
-    </div>
-    <div class="details-stock"></div>
-    <div class="details-orders"></div>
-        <dd>  
-            @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()
-                .HtmlAttributes(new { style="width: 400px"})
-                    .Name("chart_#=OrderID#_#=ProductID#")
-                    .Series(series => series
-                        .Column(column => column.Quantity, categoryExpression: column => column.Date)
-                        .Aggregate(ChartSeriesAggregate.Count))
-                    .CategoryAxis(axis => axis
-                        .Date()
-                        .BaseUnit(ChartAxisBaseUnit.Months))
-                    .ValueAxis(axis => axis
-                        .Numeric()
-                        .Line(line => line.Visible(true)))
-                    .DataSource(ds => ds.Read("ProductsSalesByMonth", "Products", new { ProductID = "#=ProductID#" }))
-                    .ToClientTemplate()
-                )   
-        </dd>
-       @* <dt class="product-details-cat">In Stock:</dt>
-        <dd class="product-details-val details-stock"></dd>
-        <dt class="product-details-cat">On Order: </dt> 
-        <dd class="product-details-val"></dd>
-        <dt class="product-details-cat">Reorder: </dt> 
-        <dd class="product-details-val"></dd>
-        <dt class="product-details-cat">QTY.PER UNIT: </dt>
-        <dd class="product-details-val"></dd>*@
-    </dl>
-    </div>
-  
-    </script>
-
-
-
-@*<script id="Product_SummaryTemplate" type="text/x-kendo-template">
-    <strong>#=data.ProductName#</strong>
-    <span>#=data.Category?Category.CategoryName:''#</span>
-    <span>CHART</span>
-    <span>In Stock: #=data.UnitsInStock#</span>
-    <span>On Order: #=data.UnitsOnOrder#</span>
-    <span>Reorder: #=data.ReorderLevel#</span>
-    <span>QTY.PER UNIT: #=data.QuantityPerUnit#</span>
-</script>*@
-
-
-
-    </div>
+</div>
 
 <style scoped>
     .k-detail-cell .k-tabstrip .k-content {

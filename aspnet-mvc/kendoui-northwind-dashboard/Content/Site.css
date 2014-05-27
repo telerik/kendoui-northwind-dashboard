@@ -405,6 +405,10 @@ body,
     padding-bottom: 30px;
 }
 
+#topProductsContainer h3{
+    padding-left: 15px;
+}
+
 /* Products & Orders*/
 #products-orders-main-content {
     border: none;
@@ -504,6 +508,11 @@ body,
 #about p {
     padding-bottom: 1em;
     max-width: 960px;
+}
+
+#about ul {
+    list-style: disc;
+    color: #428bca;
 }
 
 .section-title {
