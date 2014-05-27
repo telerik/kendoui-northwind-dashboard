@@ -6,24 +6,16 @@
         selectedCountry = "USA";
 
     function setSparkLinesWidths() {
-        var containerWidth = $(".sparkline-container").parent().width();
-        var containerHeight = $(".sparkline-container").parent().height();
-        var getDonutChart = $("#MarketShare").data("kendoChart");
-        var getLineChart = $("#TopSellingProducts").data("kendoChart");
-        var sparkLineWidth = containerWidth;
-        var sparkLineHeight = (40 * containerWidth) / 100;
-        var donutWidth = containerWidth;
-        var donutHeight = (80 * containerHeight) / 100;
-        var getSparkLines = $(".k-sparkline");
-        getSparkLines.each(function () {
-            $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
-        })
-        getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight, padding: 0, margin: 0 } });
-        getLineChart.setOptions({ chartArea: { height: donutHeight } });
-        //$("#MarketShare").height(donutHeight)
+        var containerWidth = $(".sparkline-container").parent().width(),
+            getSparkLines = $(".k-sparkline"),
+            sparkLineWidth = (80 * containerWidth) / 100;
 
-        // $("#TopSellingProducts").data("kendoChart").resize();
-        //$("#MarketShare").data("kendoChart").resize();
+        getSparkLines.each(function () {
+            $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth } });
+        });
+
+        $("#TopSellingProducts").data("kendoChart").resize();
+        $("#MarketShare").data("kendoChart").resize();
     }
 
     function ListCustomers(country) {
@@ -76,14 +68,9 @@
 
     function onTopProductsDataBound() {
         var items = this.dataSource.data().length;
-        if (items) {
-            $("#ProductsNoData").hide();
-            $("#TopSellingProducts").show();
-
-        } else {
-            $("#ProductsNoData").show();
-            $("#TopSellingProducts").hide();
-        }
+        $("#ProductsNoData").toggle(items===0);
+      //  $("#TopSellingProducts").toggle();
+        
     }
 
     function onCriteriaChange() {
@@ -257,20 +244,20 @@
                         .Read(read => read.Action("MarketShareByCountry", "RegionalSales"))
                     )
                     .Series(series => {
-                        series.Donut("Sales", "Country");
+                        series.Donut("Sales", "Country").Padding(0);
                     })
                     .Tooltip(tooltip => tooltip
                         .Visible(true)
                         .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #")
                     )
                 )
+                <div id="MarketShareNoData" class="overlay"><div>No data available</div></div>
             </div>
         </div> 
         <div id="revenueContainer" class="col-xs-3 stats-graph">
              <h3 class="section-header">Revenue</h3>
              <span id="RevenueLabel"></span>
-             <div class="sparkline-container">
-                 <div id="RevenueNoData">No data available</div>  
+             <div class="sparkline-container">                  
                 @(Html.Kendo().Sparkline<CountryRevenue_Result>()
                     .Name("Revenue")
                     .Theme("metro")
@@ -289,13 +276,13 @@
                     )
                     .Tooltip(t=>t.Format("{0:c2}"))
                 )
+                 <div id="RevenueNoData" class="overlay"><div>No data available</div></div> 
              </div>
          </div>
          <div id="ordersContainer" class="col-xs-3 stats-graph">
             <h3 class="section-header">Orders</h3>
             <span id="OrdersLabel"></span>
-            <div class="sparkline-container">
-                <div id="OrdersNoData">No data available</div> 
+            <div class="sparkline-container">                 
                 @(Html.Kendo().Sparkline<CountryOrders_Result>()
                     .Name("Orders")
                     .Theme("metro")
@@ -313,13 +300,13 @@
                         .BaseUnit(ChartAxisBaseUnit.Months)
                     )
                 )
+                <div id="OrdersNoData" class="overlay"><div>No data available</div></div>
             </div>
         </div> 
         <div id="customersContainer" class="col-xs-3 stats-graph">
              <h3 class="section-header">Customers</h3>
              <span id="CustomersLabel"></span>      
-             <div class="sparkline-container">
-                 <div id="CustomersNoData">No data available</div>
+             <div class="sparkline-container">                 
                 @(Html.Kendo().Sparkline<CountryCustomers_Result>()
                     .Name("Customers")
                     .Theme("metro")
@@ -337,17 +324,19 @@
                         .BaseUnit(ChartAxisBaseUnit.Months)
                     )
                 )
-              </div>
+                 <div id="CustomersNoData" class="overlay"><div>No data available</div></div>
+            </div>
         </div>
     </div>
 
-    <div id="topProductsContainer">
-        <div id="ProductsNoData">No data available</div>
+  @*  <div id="topProductsContainer">*@
+        
 
     <div id="topProductsContainer" class="section-gray">
+        <h3 class="section-header">Top product categories</h3>        
         @(Html.Kendo().Chart<CountryTopProducts_Result>()
             .Name("TopSellingProducts")
-            .Title(t => t.Text("TOP PRODUCT CATEGORIES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))
+           // .Title(t => t.Text("TOP PRODUCT CATEGORIES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))
             .Theme("metro")
             .AutoBind(false)
             .Legend(legend => legend
@@ -383,6 +372,7 @@
                 .Visible(true)
                 .Template("#=data.series.name.replace(data.series.field, data.value)#"))
         )
+        <div id="ProductsNoData" class="overlay"><div>No data available</div></div>
     </div>
 </div>
 

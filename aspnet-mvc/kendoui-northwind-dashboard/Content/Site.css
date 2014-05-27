@@ -652,8 +652,30 @@ body,
     }
 }
 
+
+@media screen and (max-width:960px)  { 
+    #MarketShareLabel, 
+    #RevenueLabel,
+    #OrdersLabel,
+    #CustomersLabel,
+    #countryName {
+        font-size: 24px;
+    }
+}
+
+
 @media screen and (min-width: 863px) and (max-width:1040px)  { 
     #main-section-header h2 {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 505px) {
+     #MarketShareLabel,
+     #RevenueLabel,
+     #OrdersLabel,
+     #CustomersLabel,
+     #countryName {
         font-size: 14px;
     }
 }
@@ -712,4 +734,29 @@ body,
     content:"";
     clear:both;
     display: block;
+}
+
+
+#topProductsContainer,
+.sparkline-container {
+  position: relative;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: .2;
+  filter: alpha(opacity=60); 
+  background: #6495ed;      
+  text-align: center;
+}
+
+.overlay div {
+  position: relative;
+  font-size: 34px;
+  margin-top: -17px;
+  top: 50%;
 }
