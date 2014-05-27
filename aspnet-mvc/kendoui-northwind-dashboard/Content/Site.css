@@ -170,7 +170,6 @@ body,
 
 #employee-list {
     height: 100%;
-
 }
 
 #dash-logo,
@@ -184,6 +183,7 @@ body,
 
 #main-section-header > h2 {
     padding-left: 1.667em;
+    white-space: nowrap;
 }
 
 #main-section-header {
@@ -669,10 +669,7 @@ body,
 }
 
 @media screen and (min-width: 768px) and (max-width:1204px) {
-    #main-section-header h2 {
-       padding-right: 0;
-       font-size: 12px;
-    }
+   
 }
 
 /* Custom */
@@ -687,7 +684,10 @@ body,
 }
 
 @media screen and (min-width: 768px) and (max-width: 863px) {
-  
+   #main-section-header h2 {
+       padding-right: 0;
+       font-size: 12px;
+    }
 }
 
 @media screen and (max-width:960px)  { 
