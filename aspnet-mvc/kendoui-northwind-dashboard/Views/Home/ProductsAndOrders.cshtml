@@ -5,23 +5,21 @@
     <div style="clear:both;"></div>
 </div>
 
-<link href="~/Content/flags.css" rel="stylesheet" />
+@*<link href="~/Content/flags.css" rel="stylesheet" />*@
 
 <div id="products-orders-main-content" class="main-section-content">
     <script type="text/javascript">
+        $(window).on("resize", function () {
+            var containerWidth = $(".sparkline-container").parent().width();
+            var sparkLineWidth = (80 * containerWidth) / 100;
+            $(".k-sparkline").data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth } });
+        });
+
         function onOrderDetailsEdit(e) {
-            if (e.model.isNew()) {
-                e.container.find("td.k-hierarchy-cell").css({ visibility: "hidden" });
-            } else {
+            if (!e.model.isNew()) {
                 e.container.find("[name=ProductID]").data("kendoDropDownList").enable(false);
             }
         } 
-
-        function onOrdersEdit(e) {
-            if (e.model.isNew()) {
-                e.container.find("td.k-hierarchy-cell").css({ visibility: "hidden" });
-            }
-        }
 
         function onDataBound(e) {
             var firstRow = this.tbody.find("tr.k-master-row").first();
@@ -45,12 +43,6 @@
             sum = sum - (sum * data.Discount)
             return sum;
         }
-
-        $(window).on("resize", function () {
-            var containerWidth = $(".sparkline-container").parent().width();
-            var sparkLineWidth = (80 * containerWidth) / 100;
-            $(".k-sparkline").data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth } });
-        });
 
         function onError(e, gridName) {
             if (e.errors) {
@@ -147,7 +139,6 @@
         })
         .Editable(e => e.Mode(GridEditMode.PopUp))
         .Events(e => e
-            .Edit("onOrdersEdit")
             .DataBound("onDataBound")
         )
         .Pageable()
@@ -174,7 +165,7 @@
             .Read("Orders_Read", "Orders")
             .Create("Orders_Create", "Orders")
             .Update("Orders_Update", "Orders")
-            .Destroy("Orders_Update", "Orders")
+            .Destroy("Orders_Destroy", "Orders")
         )
     )
 
@@ -210,7 +201,7 @@
                     {
                         columns.ForeignKey(f => f.ProductID, (System.Collections.IEnumerable)ViewData["products"], "ProductID", "ProductName")
                             .Title("PRODUCT NAME")
-                            .EditorTemplateName("GridForeignKey");
+                            .EditorTemplateName("CustomGridForeignKey");
                         columns.Bound(f => f.UnitPrice)
                             .Format("{0:c}")
                             .Title("UNUT PRICE")

@@ -25,10 +25,12 @@ namespace KendoUI.Northwind.Dashboard.Models
 
         [Required]
         [UIHint("Integer")]
+        [Range(1,1000)]
         public int Quantity { get; set; }
 
         [Required]
         [UIHint("Float")]
+        [Range(0, 1)]
         public float Discount { get; set; }
     }
 }
