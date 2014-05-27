@@ -6,40 +6,42 @@
         selectedCountry = "USA";
 
     function setSparkLinesWidths() {
-        var containerWidth = $(".sparkline-container").parent().width(),
-            containerHeight = $(".sparkline-container").parent().height(),
-           // test = (80 * ($("#topProductsContainer").height(),
-            getDonutChart = $("#MarketShare").data("kendoChart"),
-            getLineChart = $("#TopSellingProducts").data("kendoChart")
-            getSparkLines = $(".k-sparkline"),
-            chartWidth = (80 * containerWidth) / 100,
-            chartHeight = (40 * containerHeight) / 100;
-
-            getSparkLines.each(function () {
-                $(this).data("kendoSparkline").setOptions({ chartArea: { width: chartWidth, height: chartHeight } });
-            })
-   
-        //var sparkLineWidth = containerWidth;
-        //var sparkLineHeight = (40 * containerWidth) / 100;
-        //console.log(containerHeight)
-        //console.log(sparkLineHeight)
-        //var donutWidth = containerWidth;
-        //var donutHeight = (80 * containerHeight) / 100;
-        //var getSparkLines = $(".k-sparkline");
-        //getSparkLines.each(function () {
-        //    $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
-        //})
-
-      //  getSparkLines.each(function () {
-      //      $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
-      //})
-        //getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight, padding: 0, margin: 0 } });
-       // getLineChart.setOptions({ chartArea: { height: donutHeight } });
+        var containerWidth = $(".sparkline-container").parent().width();
+        var containerHeight = $(".sparkline-container").parent().height();
+        var getDonutChart = $("#MarketShare").data("kendoChart");
+        var getLineChart = $("#TopSellingProducts").data("kendoChart");
+        var sparkLineWidth = containerWidth;
+        var sparkLineHeight = (40 * containerWidth) / 100;
+        var donutWidth = containerWidth;
+        var donutHeight = (80 * containerHeight) / 100;
+        var getSparkLines = $(".k-sparkline");
+        getSparkLines.each(function () {
+            $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
+        })
+        getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight, padding: 0, margin: 0 } });
+        getLineChart.setOptions({ chartArea: { height: donutHeight } });
         //$("#MarketShare").height(donutHeight)
 
-         $("#TopSellingProducts").data("kendoChart").resize();
-        // $("#MarketShare").data("kendoChart").resize();
-         $("#MarketShare").data("kendoChart").setOptions({ chartArea: { width: chartWidth, height: chartHeight } });
+        // $("#TopSellingProducts").data("kendoChart").resize();
+        //$("#MarketShare").data("kendoChart").resize();
+    }
+
+    function ListCustomers(country) {
+        $("#countryName").text(country);
+        $.ajax({
+            url: "/RegionalSales/CountryCompanies",
+            dataType: "json",
+            data: { Country: country },
+            type: "POST",
+            success: function (response) {
+                var customers = "";
+                for (var i = 0; i < response.length; i++) {
+                    customers = customers + response[i].CompanyName + ", ";
+                }
+                customers = customers.substring(0, customers.length - 2);
+                $("#countryCustomers span").text(customers);
+            }
+        });
     }
 
     function onMarketShareDataBound(e) {
@@ -51,8 +53,28 @@
         }  
         $("#MarketShareLabel").text(kendo.toString(percentage, "p2"));
         $("#RevenueLabel").text(kendo.toString(revenue, "c2"));
+
+        if (revenue) {
+            $("#RevenueNoData").hide();
+            $("#Revenue").show();
+
+        } else {
+            $("#RevenueNoData").show();
+            $("#Revenue").hide();
+        }
     }
 
+    function onTopProductsDataBound() {
+        var items = this.dataSource.data().length;
+        if (items) {
+            $("#ProductsNoData").hide();
+            $("#TopSellingProducts").show();
+
+        } else {
+            $("#ProductsNoData").show();
+            $("#TopSellingProducts").hide();
+        }
+    }
 
     function onCriteriaChange() {
         var MarketShare = $("#MarketShare").data("kendoChart"),
@@ -70,6 +92,13 @@
             type: "POST",
             success: function (response) {
                 $("#OrdersLabel").text(response.Orders);
+                if (response.Orders) {
+                    $("#OrdersNoData").hide();
+                    $("#Orders").show();
+                } else {
+                    $("#OrdersNoData").show();
+                    $("#Orders").hide();
+                }
             }
         });
 
@@ -80,6 +109,13 @@
             type: "POST",
             success: function (response) {
                 $("#CustomersLabel").text(response.Customers);
+                if (response.Customers[0]) {
+                    $("#CustomersNoData").hide();
+                    $("#Customers").show();
+                } else {
+                    $("#CustomersNoData").show();
+                    $("#Customers").hide();
+                }
             }
         });
 
@@ -89,21 +125,7 @@
         Orders.dataSource.read({ Country: selectedCountry, FromDate: fromDate, ToDate: toDate });
         Customers.dataSource.read({ Country: selectedCountry, FromDate: fromDate, ToDate: toDate });
 
-        $("#countryName").text(selectedCountry);
-        $.ajax({
-            url: "/RegionalSales/CountryCompanies",
-            dataType: "json",
-            data: { Country: selectedCountry },
-            type: "POST",
-            success: function (response) {
-                var customers = "";
-                for (var i = 0; i < response.length; i++) {
-                    customers = customers + response[i].CompanyName + ", ";
-                }
-                customers = customers.substring(0, customers.length - 2);
-                $("#countryCustomers span").text(customers);
-            }
-        });
+        ListCustomers(selectedCountry);
 
         setSparkLinesWidths();
     }
@@ -111,7 +133,6 @@
     function onShapeCreated(e) {
         var color = scale(e.shape.dataItem.properties.sales).hex();
         e.shape.fill(color);
-        console.log("onShapeCreated");
     }
 
     function onShapeClick(e) {
@@ -240,6 +261,7 @@
              <h3 class="section-header">Revenue</h3>
              <span id="RevenueLabel"></span>
              <div class="sparkline-container">
+                 <div id="RevenueNoData">No data available</div>  
                 @(Html.Kendo().Sparkline<CountryRevenue_Result>()
                     .Name("Revenue")
                     .Theme("metro")
@@ -263,6 +285,7 @@
             <h3 class="section-header">Orders</h3>
             <span id="OrdersLabel"></span>
             <div class="sparkline-container">
+                <div id="OrdersNoData">No data available</div> 
                 @(Html.Kendo().Sparkline<CountryOrders_Result>()
                     .Name("Orders")
                     .Theme("metro")
@@ -285,6 +308,7 @@
              <h3 class="section-header">Customers</h3>
              <span id="CustomersLabel"></span>      
              <div class="sparkline-container">
+                 <div id="CustomersNoData">No data available</div>
                 @(Html.Kendo().Sparkline<CountryCustomers_Result>()
                     .Name("Customers")
                     .Theme("metro")
@@ -306,6 +330,7 @@
     </div>
 
     <div id="topProductsContainer">
+        <div id="ProductsNoData">No data available</div>
         @(Html.Kendo().Chart<CountryTopProducts_Result>()
             .Name("TopSellingProducts") 
             .Title(t => t.Text("TOP PRODUCT CATEGORIES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))
@@ -316,6 +341,7 @@
                 .Position(ChartLegendPosition.Top)
             )
             .ChartArea(ch=>ch.Background("#eeeeee"))
+            .Events(e=>e.DataBound("onTopProductsDataBound"))
             .DataSource(ds => ds
                 .Group(g=>g.Add(f=>f.ProductName))
                 .Read(read => read.Action("TopSellingProducts", "RegionalSales")))
