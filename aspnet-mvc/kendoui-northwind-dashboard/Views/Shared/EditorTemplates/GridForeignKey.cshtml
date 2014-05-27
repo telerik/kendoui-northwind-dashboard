@@ -2,7 +2,5 @@
            
 @(
  Html.Kendo().DropDownListFor(m => m)        
-        .OptionLabel("Please select")
-        .ValuePrimitive(true)
         .BindTo((SelectList)ViewData[ViewData.TemplateInfo.GetFullHtmlFieldName("") + "_Data"])
 )

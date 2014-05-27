@@ -1,4 +1,5 @@
 ﻿@using KendoUI.Northwind.Dashboard.Models;
+@using System.Configuration;
 <div id="main-section-header" class="row">
     <h2 id="team-efficiency" class="col-xs-3">PRODUCTS & ORDERS</h2>
     <div style="clear:both;"></div>
@@ -87,7 +88,12 @@
 </script>
     @(Html.Kendo().Grid<OrderViewModel>()
         .Name("orders")
-        .ToolBar(t => t.Create().Text("Create new Order"))
+        .ToolBar(t => {
+            if (bool.Parse(ConfigurationManager.AppSettings["EditingEnabled"]))
+            {
+                t.Create().Text("Create new Order");
+            }
+        })
         .Editable(e => e.Mode(GridEditMode.InLine))
         .Events(e => e
             .Edit("onOrdersEdit")
@@ -117,10 +123,14 @@
             c.ForeignKey(f => f.ShipVia, (System.Collections.IEnumerable)ViewData["shippers"], "ShipperID", "CompanyName")
                .Title("SHIP VIA")
                .EditorTemplateName("GridForeignKey");
-            c.Command(f => {
-                f.Edit();
-                f.Destroy();
-            }).Width(200);
+               if (bool.Parse(ConfigurationManager.AppSettings["EditingEnabled"]))
+               {
+                   c.Command(f =>
+                   {
+                       f.Edit();
+                       f.Destroy();
+                   }).Width(200);
+               }
     })
     .Pageable()
     .Sortable()
