@@ -482,18 +482,36 @@ body,
 }
 
 /* About */
-#about,
 #map-wrapper {
     padding: 15px;
 }
 
 #about {
     font-size: 15px;
-    line-height: 30px;
+    line-height: 24px;
 }
 
-.sub-title {
+#about > div {
+    padding: 60px;
+}
+
+#about p {
+    padding-bottom: 1em;
+    max-width: 960px;
+}
+
+.section-title {
+    font-size: 36px;
+    color: #35373d;
+    padding-bottom: 0.5em;
+}
+
+.section-sub-title {
     font-weight: bold;
+}
+
+.section-gray {
+    background-color: #eeeeee;
 }
 
 /*max-width: 768px -> .col-xs- */
