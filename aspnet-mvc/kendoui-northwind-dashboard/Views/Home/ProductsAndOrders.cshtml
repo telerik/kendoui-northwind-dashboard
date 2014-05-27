@@ -3,6 +3,10 @@
     <h2 id="team-efficiency" class="col-xs-3">PRODUCTS & ORDERS</h2>
     <div style="clear:both;"></div>
 </div>
+@*<h3>TODO:</h3>
+<ul>
+    <li>Filter by date range</li>
+</ul>*@
 
 <link href="~/Content/flags.css" rel="stylesheet" />
 
@@ -97,9 +101,9 @@
                 .Title("ORDER ID")
                 .Width(120);
             c.Bound(f => f.OrderDate)
-                .Title("ORDER DATE")
-                .Format("{0:d}")
-                .Width(150);
+               .Title("ORDER DATE")
+               .Format("{0:d}")
+               .Width(150);
             c.ForeignKey(f => f.CustomerID, (System.Collections.IEnumerable)ViewData["customers"], "CustomerID", "CompanyName")
                 .Title("CUSTOMER")
                 .EditorTemplateName("GridForeignKey");
@@ -111,8 +115,8 @@
                 .ClientTemplate("<div class='country #=ShipCountry#'></div>#=ShipCountry#")
                 .Width(150);
             c.ForeignKey(f => f.ShipVia, (System.Collections.IEnumerable)ViewData["shippers"], "ShipperID", "CompanyName")
-                .Title("SHIP VIA")
-                .EditorTemplateName("GridForeignKey");
+               .Title("SHIP VIA")
+               .EditorTemplateName("GridForeignKey");
             c.Command(f => {
                 f.Edit();
                 f.Destroy();
@@ -208,23 +212,25 @@
     )
 </script>
 
-<script type="text/javascript">
-    function onDetailInit(e) {
-        console.log(e);
-        var model = e.data;
-        var detail = e.detailRow;
-        $.ajax({
-            url: '@Url.Action("Get_Product", "Products")',
-                data: {ID: model.ProductID},
-                success: function (receivedProduct) {        
-                    detail.find(".product-name").text(receivedProduct.ProductName);
-                    detail.find(".product-category").text(receivedProduct.Category.CategoryName);
-                    detail.find(".details-stock").text(receivedProduct.UnitsInStock);
-                    detail.find(".details-orders").text(receivedProduct.UnitsOnOrder);
-                    detail.find(".details-re-order").text(receivedProduct.ReorderLevel);                                     }
-        })                
-    }
-</script>
+    <script type="text/javascript">
+
+        function onDetailInit(e) {
+            console.log(e);
+            var model = e.data;
+            var detail = e.detailRow;
+            $.ajax({
+                url: '@Url.Action("Get_Product", "Products")',
+                    data: {ID: model.ProductID},
+                    success: function (receivedProduct) {        
+                        detail.find(".product-name").text(receivedProduct.ProductName);
+                        detail.find(".product-category").text(receivedProduct.Category.CategoryName);
+                        detail.find(".details-stock").text(receivedProduct.UnitsInStock);
+                        detail.find(".details-orders").text(receivedProduct.UnitsOnOrder);
+                        detail.find(".details-re-order").text(receivedProduct.ReorderLevel);                                     }
+            })
+                
+        }
+    </script>
 
 <script id="Product_DetailTemplate" type="text/x-kendo-template">       
     <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">           
@@ -240,11 +246,9 @@
             <div class="sparkline-container">
                @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()                 
                         .Name("chart_#=OrderID#_#=ProductID#")
-                        .ChartArea(ch=>ch.Background("transparent"))
                         .Series(series => series
                             .Column(column => column.Quantity, categoryExpression: column => column.Date)
-                            .Aggregate(ChartSeriesAggregate.Count)
-                            .Gap(0.2))
+                            .Aggregate(ChartSeriesAggregate.Count))
                         .CategoryAxis(axis => axis
                             .Date()
                             .BaseUnit(ChartAxisBaseUnit.Months))
@@ -252,7 +256,7 @@
                             .Numeric()
                             .Line(line => line.Visible(true)))
                         .DataSource(ds => ds.Read("ProductsSalesByMonth", "Products", new { ProductID = "#=ProductID#" }))
-                        .ToClientTemplate()                        
+                        .ToClientTemplate()
                     )   
             </div>
             </div>
@@ -275,7 +279,61 @@
         </div>
    </div>  
 </script>
-</div>
+
+<script id="Product_DetailTemplate_Origin" type="text/x-kendo-template">
+    <img src="/Content/Products/#=ProductID#.jpg" >
+    <div id="product_detailtemplate_#=ProductID#">
+    <div class="product-details">    
+        <div class="product-name"></div>
+        <div class="product-category"></div>
+    </div>
+    <div class="details-stock"></div>
+    <div class="details-orders"></div>
+        <dd>  
+            @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()
+                .HtmlAttributes(new { style="width: 400px"})
+                    .Name("chart_#=OrderID#_#=ProductID#")
+                    .Series(series => series
+                        .Column(column => column.Quantity, categoryExpression: column => column.Date)
+                        .Aggregate(ChartSeriesAggregate.Count))
+                    .CategoryAxis(axis => axis
+                        .Date()
+                        .BaseUnit(ChartAxisBaseUnit.Months))
+                    .ValueAxis(axis => axis
+                        .Numeric()
+                        .Line(line => line.Visible(true)))
+                    .DataSource(ds => ds.Read("ProductsSalesByMonth", "Products", new { ProductID = "#=ProductID#" }))
+                    .ToClientTemplate()
+                )   
+        </dd>
+       @* <dt class="product-details-cat">In Stock:</dt>
+        <dd class="product-details-val details-stock"></dd>
+        <dt class="product-details-cat">On Order: </dt> 
+        <dd class="product-details-val"></dd>
+        <dt class="product-details-cat">Reorder: </dt> 
+        <dd class="product-details-val"></dd>
+        <dt class="product-details-cat">QTY.PER UNIT: </dt>
+        <dd class="product-details-val"></dd>*@
+    </dl>
+    </div>
+  
+    </script>
+
+
+
+@*<script id="Product_SummaryTemplate" type="text/x-kendo-template">
+    <strong>#=data.ProductName#</strong>
+    <span>#=data.Category?Category.CategoryName:''#</span>
+    <span>CHART</span>
+    <span>In Stock: #=data.UnitsInStock#</span>
+    <span>On Order: #=data.UnitsOnOrder#</span>
+    <span>Reorder: #=data.ReorderLevel#</span>
+    <span>QTY.PER UNIT: #=data.QuantityPerUnit#</span>
+</script>*@
+
+
+
+    </div>
 
 <style scoped>
     .k-detail-cell .k-tabstrip .k-content {
