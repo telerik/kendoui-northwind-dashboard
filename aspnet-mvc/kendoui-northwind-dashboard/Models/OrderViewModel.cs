@@ -8,10 +8,13 @@ namespace KendoUI.Northwind.Dashboard.Models
 {
     public class OrderViewModel
     {
+        [ScaffoldColumn(false)]
         public int OrderID { get; set; }
 
+        [UIHint("CustomGridForeignKey")]
         public string CustomerID { get; set; }
 
+        [ScaffoldColumn(false)]
         public string ContactName { get; set; }
 
         public decimal? Freight { get; set; }
@@ -32,8 +35,10 @@ namespace KendoUI.Northwind.Dashboard.Models
 
         public string ShipName { get; set; }
 
+        [UIHint("CustomGridForeignKey")]
         public int? EmployeeID { get; set; }
 
+        [UIHint("CustomGridForeignKey")]
         public int? ShipVia { get; set; }
 
         public string ShipPostalCode { get; set; }

@@ -514,8 +514,10 @@
     <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
     <Content Include="Views\Home\RegionalSalesStatus.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Country.cshtml" />
     <Content Include="Views\Home\TeamEfficiency.cshtml" />
+    <Content Include="Views\Home\EditorTemplates\ShipCountry.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CustomGridForeignKey.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Float.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

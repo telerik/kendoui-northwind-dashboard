@@ -80,6 +80,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             {
                 using (var northwind = new NorthwindEntities())
                 {
+
                     var entity = new Order
                     {
                         CustomerID = order.CustomerID,
@@ -107,8 +108,8 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 
             var countries = GetOrders().GroupBy(o => o.ShipCountry).Select(group => new
             {
-                Country = group.Key
-            });
+                Country = group.Key == null ? " Other" : group.Key
+            }).OrderBy(c => c.Country).ToList();
 
             return Json(countries, JsonRequestBehavior.AllowGet);
         }
