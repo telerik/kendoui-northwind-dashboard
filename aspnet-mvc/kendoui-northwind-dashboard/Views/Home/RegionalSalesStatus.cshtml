@@ -124,14 +124,23 @@
 
     function setSparkLinesWidths() {
         var containerWidth = $(".sparkline-container").parent().width();
+        var containerHeight = $(".sparkline-container").parent().height();
         var getDonutChart = $("#MarketShare").data("kendoChart");
+        var getLineChart = $("#TopSellingProducts").data("kendoChart");
         var sparkLineWidth = containerWidth;
         var sparkLineHeight = (40 * containerWidth) / 100;
+        var donutWidth = containerWidth;
+        var donutHeight = (80 * containerHeight) / 100;
         var getSparkLines = $(".k-sparkline");
         getSparkLines.each(function () {
             $(this).data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
         })
-        getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight } });
+        getDonutChart.setOptions({ chartArea: { width: sparkLineWidth, height: sparkLineHeight, padding: 0, margin: 0 } });
+        getLineChart.setOptions({ chartArea: { height: donutHeight } });
+        //$("#MarketShare").height(donutHeight)
+
+       // $("#TopSellingProducts").data("kendoChart").resize();
+        //$("#MarketShare").data("kendoChart").resize();
     }
 
 
@@ -243,6 +252,8 @@
                     .Name("MarketShare")
                     .Theme("metro")
                     .AutoBind(false)
+                    .ChartArea(ch=>ch.Margin(0))
+                    .PlotArea(pl=>pl.Margin(0))
                     .Events(e=>e.DataBound("onMarketShareDataBound"))
                     .Legend(legend => legend
                         .Visible(false)
@@ -273,7 +284,7 @@
                     ) 
                     .Series(series =>
                     {
-                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4");
+                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
                     })
                     .CategoryAxis(axis=>axis
                         .Date()
@@ -295,7 +306,7 @@
                     ) 
                     .Series(series =>
                     {
-                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4");
+                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
                     })
                     .CategoryAxis(axis=>axis
                         .Date()
@@ -317,7 +328,7 @@
                     ) 
                     .Series(series =>
                     {
-                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4");
+                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
                     })
                     .CategoryAxis(axis=>axis
                         .Date()

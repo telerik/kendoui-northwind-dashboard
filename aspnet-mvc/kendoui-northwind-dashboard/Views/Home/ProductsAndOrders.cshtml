@@ -240,9 +240,11 @@
             <div class="sparkline-container">
                @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()                 
                         .Name("chart_#=OrderID#_#=ProductID#")
+                        .ChartArea(ch=>ch.Background("transparent"))
                         .Series(series => series
                             .Column(column => column.Quantity, categoryExpression: column => column.Date)
-                            .Aggregate(ChartSeriesAggregate.Count))
+                            .Aggregate(ChartSeriesAggregate.Count)
+                            .Gap(0.2))
                         .CategoryAxis(axis => axis
                             .Date()
                             .BaseUnit(ChartAxisBaseUnit.Months))
@@ -250,7 +252,7 @@
                             .Numeric()
                             .Line(line => line.Visible(true)))
                         .DataSource(ds => ds.Read("ProductsSalesByMonth", "Products", new { ProductID = "#=ProductID#" }))
-                        .ToClientTemplate()
+                        .ToClientTemplate()                        
                     )   
             </div>
             </div>

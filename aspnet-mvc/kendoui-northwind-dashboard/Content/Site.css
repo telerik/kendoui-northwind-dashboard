@@ -397,6 +397,10 @@ body,
     font-size: 11px;
 }
 
+#topProductsContainer {
+    padding-bottom: 30px;
+}
+
 /* Products & Orders*/
 #products-orders-main-content {
     border: none;
@@ -563,7 +567,11 @@ body,
 
     #employee-list h3 {
         display: none;
-    }  
+    }
+
+    #rights {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 380px) {
@@ -661,6 +669,9 @@ body,
     }
     .product-details-wrapper h5 {
         top: 0;
+    }
+    .product-name-cat {
+        display: none;
     }
 }
 
