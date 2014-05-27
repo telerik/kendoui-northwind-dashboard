@@ -6,7 +6,9 @@
         selectedCountry = "USA";
 
     function resizeMap() {
-        $("#map").data("kendoMap").resize();
+        var map = $("#map").data("kendoMap");
+        map.resize();
+        map.center([50.000, 0]);
     }
 
     function setSparkLinesWidths() {
