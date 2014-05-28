@@ -116,7 +116,8 @@
         })
         .Columns(columns =>
         {
-            columns.Bound(f => f.OrderID)
+            columns.Template(t => { })
+                .ClientTemplate("#=OrderID#")
                 .Title("ORDER ID")
                 .Width(120);
             columns.Bound(f => f.OrderDate)
@@ -124,9 +125,11 @@
                .Format("{0:d}")
                .Width(150);
             columns.ForeignKey(f => f.CustomerID, (System.Collections.IEnumerable)ViewData["customers"], "CustomerID", "CompanyName")
-                .Title("CUSTOMER");
+                .Title("CUSTOMER")
+                .Width(300);
             columns.ForeignKey(f => f.EmployeeID, (System.Collections.IEnumerable)ViewData["employees"], "EmployeeID", "EmployeeName")
-                .Title("EMPLOYEE");
+                .Title("EMPLOYEE")
+                .Width(300);
             columns.Bound(f => f.ShipCountry)
                 .Title("SHIP COUNTRY")
                 .ClientTemplate("<div class='country #=ShipCountry#'></div>#=ShipCountry#")
@@ -146,7 +149,7 @@
         .Events(e => e
             .DataBound("onDataBound")
         )
-        .Pageable()
+        .Pageable(pageable => pageable.Refresh(true))
         .Sortable()
         .Selectable()
         .Navigatable()
@@ -239,7 +242,7 @@
                         e.Edit("onOrderDetailsEdit");
                     })
                     .Selectable()
-                    .Pageable()
+                    .Pageable(pageable => pageable.Refresh(true))
                     .Navigatable()
                     .ClientDetailTemplateId("Product_DetailTemplate")
                     .DataSource(dataSource => dataSource
