@@ -210,14 +210,15 @@
                         columns.Bound(f => f.UnitPrice)
                             .Format("{0:c}")
                             .Title("UNUT PRICE")
-                            .Width(120);
+                            .Width(220);
                         columns.Bound(f => f.Quantity)
                             .Title("QUANTITY")
-                            .Width(120);
+                            .Width(220);
                         columns.Bound(f => f.Discount)
                             .Title("DISCOUNT")
                             .Format("{0:p}")
-                            .ClientFooterTemplate("Grand total:").Width(120);
+                            .ClientFooterTemplate("Grand total:")
+                            .Width(220);
                         columns.Template(f => new { })
                             .Title("TOTAL")
                             .ClientTemplate("\\#=kendo.toString(GetOrderItemPrice(data), \"c\")\\#")
