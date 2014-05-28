@@ -11,6 +11,8 @@
             var containerWidth = $(".sparkline-container").parent().width();
             var sparkLineWidth = (80 * containerWidth) / 100;
             $(".k-sparkline").data("kendoSparkline").setOptions({ chartArea: { width: sparkLineWidth } });
+
+            resizeGrid();
         });
 
         function onOrderDetailsEdit(e) {
@@ -103,10 +105,24 @@
                 }
             });
         })
+
+        function resizeGrid() {
+            var gridElement = $("#orders"),
+                dataArea = gridElement.find(".k-grid-content"),
+                gridHeight = gridElement.innerHeight(),
+                otherElements = gridElement.children().not(".k-grid-content"),
+                otherElementsHeight = 0;
+                otherElements.each(function () {
+                    otherElementsHeight += $(this).outerHeight();
+                });
+                dataArea.height(gridHeight - otherElementsHeight);
+        }
     </script>
 
     @(Html.Kendo().Grid<OrderViewModel>()
         .Name("orders")
+        .HtmlAttributes(new { style="height: 100%"})
+        .Scrollable()
         .ToolBar(t =>
         {
             if (bool.Parse(ConfigurationManager.AppSettings["EditingEnabled"]))
@@ -157,7 +173,7 @@
         .ClientDetailTemplateId("Order_DetailTemplate")
         .DataSource(dataSource => dataSource
             .Ajax()
-            .PageSize(10)
+            .PageSize(20)
             .Model(m =>
             {
                 m.Id(f => f.OrderID);
@@ -310,12 +326,18 @@
                     <div class="sparkline-container">
                        @(Html.Kendo().Sparkline<ProductsSalesByMonth_Result>()
                                 .Name("chart_#=OrderDetailID#")
+                                .Theme("metro")
                                 .Series(series => series
                                     .Column(column => column.Quantity, categoryExpression: column => column.Date)
-                                    .Aggregate(ChartSeriesAggregate.Count))
+                                    .Aggregate(ChartSeriesAggregate.Count)
+                                    .Gap(0.2))
                                 .CategoryAxis(axis => axis
                                     .Date()
-                                    .BaseUnit(ChartAxisBaseUnit.Months))
+                                    .Visible(true)
+                                    .Labels(labels => labels.Visible(false))
+                                    .MajorTicks(mTicks => mTicks.Visible(false))
+                                    .BaseUnit(ChartAxisBaseUnit.Months)
+                                    .Line(line => line.Visible(true).Color("black")))
                                 .ValueAxis(axis => axis
                                     .Numeric()
                                     .Line(line => line.Visible(true)))
