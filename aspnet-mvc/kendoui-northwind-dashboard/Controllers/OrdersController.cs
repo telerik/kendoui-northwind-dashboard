@@ -51,24 +51,29 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             {
                 using (var northwind = new NorthwindEntities())
                 {
-                    var entity = new Order
+                    var entity = northwind.Orders.FirstOrDefault(o => o.OrderID == order.OrderID);
+                    if (entity == null)
                     {
+                        string errorMessage = string.Format("Cannot update record with OrderID:{0} as it's not available.", order.OrderID);
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    else
+                    {
+                        entity.CustomerID = order.CustomerID;
+                        entity.EmployeeID = order.EmployeeID;
+                        entity.OrderDate = order.OrderDate;
+                        entity.ShipCountry = order.ShipCountry;
+                        entity.ShipVia = order.ShipVia;
+                        entity.ShippedDate = order.ShippedDate;
+                        entity.ShipName = order.ShipName;
+                        entity.ShipAddress = order.ShipAddress;
+                        entity.ShipCity = order.ShipCity;
+                        entity.ShipPostalCode = order.ShipPostalCode;
 
-                        CustomerID = order.CustomerID,
-                        OrderID = order.OrderID,
-                        EmployeeID = order.EmployeeID,
-                        OrderDate = order.OrderDate,
-                        ShipCountry = order.ShipCountry,
-                        ShipVia = order.ShipVia,
-                        ShippedDate = order.ShippedDate,
-                        ShipName = order.ShipName,
-                        ShipAddress = order.ShipAddress,
-                        ShipCity = order.ShipCity,
-                        ShipPostalCode = order.ShipPostalCode
-                    };
-                    northwind.Orders.Attach(entity);
-                    northwind.Entry(entity).State = EntityState.Modified;
-                    northwind.SaveChanges();
+                        northwind.Orders.Attach(entity);
+                        northwind.Entry(entity).State = EntityState.Modified;
+                        northwind.SaveChanges();
+                    }
                 }
             }
             return Json(new[] { order }.ToDataSourceResult(request, ModelState));
