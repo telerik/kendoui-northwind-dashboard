@@ -526,7 +526,7 @@ body,
 }
 
 #about > div {
-    padding: 60px;
+    padding: 90px 60px;
 }
 
 #about p {
@@ -542,11 +542,13 @@ body,
 .section-title {
     font-size: 36px;
     color: #35373d;
-    padding-bottom: 0.5em;
+    padding-bottom: 1em;
 }
 
 .section-sub-title {
     font-weight: bold;
+    padding-top: 1em;
+    padding-bottom: .5em;
 }
 
 .section-gray {
@@ -570,7 +572,7 @@ body,
     font-size: 22px;
     font-weight: normal;
     text-align: center;
-    margin: 1.467em 0;
+    margin: 0 0 1em 0;
 }
 
 .download-btn:hover {
