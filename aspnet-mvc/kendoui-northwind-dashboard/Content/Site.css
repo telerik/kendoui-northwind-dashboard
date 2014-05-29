@@ -550,7 +550,35 @@ body,
 }
 
 .section-gray {
-    background-color: #eeeeee;
+    background-color: #f3f5f7;
+}
+
+.download-btn {
+    color: #fff;
+    background-color: #ee5315;
+    border: 1px solid #ee5315;
+    background-clip: padding-box;
+    position: relative;
+    display: inline-block;
+    padding: 0.667em 2.000em;
+    line-height: 0.933em;
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    border-radius: 2px;
+    -webkit-appearance: none;
+    font-size: 22px;
+    font-weight: normal;
+    text-align: center;
+    margin: 1.467em 0;
+}
+
+.download-btn:hover {
+    background-color: #c2410e;
+    border-color: #c2410e;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
 }
 
 /*max-width: 768px -> .col-xs- */
