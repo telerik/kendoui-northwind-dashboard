@@ -261,7 +261,8 @@
                     ) 
                     .Series(series =>
                     {
-                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
+                        series.Column(x => x.Value).CategoryField("Date").Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
+                        
                     })
                     .CategoryAxis(axis=>axis
                         .Date()
@@ -275,7 +276,7 @@
          <div id="ordersContainer" class="col-xs-3 stats-graph">
             <h3 class="section-header">Orders</h3>
             <span id="OrdersLabel"></span>
-            <div class="sparkline-container">                 
+            <div class="sparkline-container">
                 @(Html.Kendo().Sparkline<CountryOrders_Result>()
                     .Name("Orders")
                     .Theme("metro")
@@ -286,7 +287,7 @@
                     ) 
                     .Series(series =>
                     {
-                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
+                        series.Column(x => x.Value).CategoryField("Date").Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
                     })
                     .CategoryAxis(axis=>axis
                         .Date()
@@ -310,7 +311,7 @@
                     ) 
                     .Series(series =>
                     {
-                        series.Column(x => x.Value, categoryExpression: x => x.Date).Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
+                        series.Column(x => x.Value).CategoryField("Date").Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2);
                     })
                     .CategoryAxis(axis=>axis
                         .Date()

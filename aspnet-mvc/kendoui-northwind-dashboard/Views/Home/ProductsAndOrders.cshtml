@@ -328,7 +328,7 @@
                                 .Name("chart_#=OrderDetailID#")
                                 .Theme("metro")
                                 .Series(series => series
-                                    .Column(column => column.Quantity, categoryExpression: column => column.Date)
+                                    .Column(column => column.Quantity).CategoryField("Date")
                                     .Aggregate(ChartSeriesAggregate.Count)
                                     .Gap(0.2))
                                 .CategoryAxis(axis => axis

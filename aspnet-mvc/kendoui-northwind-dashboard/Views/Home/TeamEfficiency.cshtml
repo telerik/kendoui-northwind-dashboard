@@ -216,8 +216,8 @@
                 .DataSource(ds => ds.Read(read => read.Action("EmployeeAndTeamSales", "Team")))
                 .Series(series =>
                 {
-                    series.Column(model => model.EmployeeSales, categoryExpression: model => model.Date).Name("Employee Sales").Aggregate(ChartSeriesAggregate.Sum);
-                    series.Column(model => model.TotalSales, categoryExpression: model => model.Date).Name("Team Sales").Aggregate(ChartSeriesAggregate.Sum);
+                    series.Column(model => model.EmployeeSales).CategoryField("Date") .Name("Employee Sales").Aggregate(ChartSeriesAggregate.Sum);
+                    series.Column(model => model.TotalSales).CategoryField("Date").Name("Team Sales").Aggregate(ChartSeriesAggregate.Sum);
                 })
                 .CategoryAxis(axis => axis
                     .Date()
