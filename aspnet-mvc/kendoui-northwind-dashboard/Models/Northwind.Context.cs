@@ -29,8 +29,6 @@ namespace KendoUI.Northwind.Dashboard.Models
         }
     
         public DbSet<Category> Categories { get; set; }
-        public DbSet<CustomerDemographic> CustomerDemographics { get; set; }
-        public DbSet<Customer> Customers { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Order_Detail> Order_Details { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -42,7 +40,6 @@ namespace KendoUI.Northwind.Dashboard.Models
         public DbSet<Alphabetical_list_of_product> Alphabetical_list_of_products { get; set; }
         public DbSet<Category_Sales_for_1997> Category_Sales_for_1997 { get; set; }
         public DbSet<Current_Product_List> Current_Product_Lists { get; set; }
-        public DbSet<Customer_and_Suppliers_by_City> Customer_and_Suppliers_by_Cities { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Order_Details_Extended> Order_Details_Extendeds { get; set; }
         public DbSet<Order_Subtotal> Order_Subtotals { get; set; }
@@ -54,6 +51,8 @@ namespace KendoUI.Northwind.Dashboard.Models
         public DbSet<Sales_Totals_by_Amount> Sales_Totals_by_Amounts { get; set; }
         public DbSet<Summary_of_Sales_by_Quarter> Summary_of_Sales_by_Quarters { get; set; }
         public DbSet<Summary_of_Sales_by_Year> Summary_of_Sales_by_Years { get; set; }
+        public DbSet<CustomerDemographic> CustomerDemographics { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     
         public virtual ObjectResult<CustOrderHist_Result> CustOrderHist(string customerID)
         {

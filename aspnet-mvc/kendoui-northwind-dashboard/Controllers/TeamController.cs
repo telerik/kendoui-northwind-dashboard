@@ -53,7 +53,9 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult EmployeeSales([DataSourceRequest]DataSourceRequest request)
         {
             var northwind = new NorthwindEntities();
-            var sales = northwind.Orders.Join(northwind.Customers, c => c.CustomerID, o => o.CustomerID, (o, c) => new { Order = o, Customer = c }).ToList().Select(o => new SaleViewModel
+            var data = northwind.Orders.Join(northwind.Customers, c => c.CustomerID, o => o.CustomerID, (o, c) => new { Order = o, Customer = c }).ToList();
+            
+            var sales = data.Select(o => new SaleViewModel
             {
                 SaleID = o.Order.OrderID,
                 EmployeeID = o.Order.EmployeeID,

@@ -34,9 +34,9 @@ namespace KendoUI.Northwind.Dashboard.Models
         public string ShipPostalCode { get; set; }
         public string ShipCountry { get; set; }
     
-        public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual ICollection<Order_Detail> Order_Details { get; set; }
         public virtual Shipper Shipper { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

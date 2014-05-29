@@ -8,9 +8,9 @@ CREATE PROCEDURE ProductsSalesByMonth
 	@ProductID INT
 AS
 BEGIN
-	SELECT DATEFROMPARTS(DATEPART(YEAR, Orders.OrderDate), DATEPART(MONTH, Orders.OrderDate), 1) AS Date,  [Order Details].Quantity FROM Orders
+	SELECT CAST(CONVERT(VARCHAR, DATEPART(YEAR, Orders.OrderDate)) + '-' + CONVERT(VARCHAR, DATEPART(MONTH, Orders.OrderDate)) + '-1'  AS DATETIME) AS Date,  [Order Details].Quantity FROM Orders
 	INNER JOIN [Order Details] ON Orders.OrderID = [Order Details].OrderID
 	WHERE [Order Details].ProductID = @ProductID
-	GROUP BY DATEFROMPARTS(DATEPART(YEAR, Orders.OrderDate), DATEPART(MONTH, Orders.OrderDate), 1), [Order Details].Quantity
+	GROUP BY CAST(CONVERT(VARCHAR, DATEPART(YEAR, Orders.OrderDate)) + '-' + CONVERT(VARCHAR, DATEPART(MONTH, Orders.OrderDate)) + '-1'  AS DATETIME), [Order Details].Quantity
 END
 GO

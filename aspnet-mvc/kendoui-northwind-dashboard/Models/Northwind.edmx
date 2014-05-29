@@ -46,14 +46,6 @@
       [Current Product List].[ProductName] AS [ProductName]
       FROM [dbo].[Current Product List] AS [Current Product List]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Customer and Suppliers by City" EntityType="NorthwindModel.Store.Customer and Suppliers by City" store:Type="Views" store:Schema="dbo" store:Name="Customer and Suppliers by City">
-            <DefiningQuery>SELECT 
-      [Customer and Suppliers by City].[City] AS [City], 
-      [Customer and Suppliers by City].[CompanyName] AS [CompanyName], 
-      [Customer and Suppliers by City].[ContactName] AS [ContactName], 
-      [Customer and Suppliers by City].[Relationship] AS [Relationship]
-      FROM [dbo].[Customer and Suppliers by City] AS [Customer and Suppliers by City]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="Invoices" EntityType="NorthwindModel.Store.Invoices" store:Type="Views" store:Schema="dbo" store:Name="Invoices">
             <DefiningQuery>SELECT 
       [Invoices].[ShipName] AS [ShipName], 
@@ -269,7 +261,6 @@
           <Property Name="Country" Type="nvarchar" MaxLength="15" />
           <Property Name="Phone" Type="nvarchar" MaxLength="24" />
           <Property Name="Fax" Type="nvarchar" MaxLength="24" />
-          <Property Name="Bool" Type="bit" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -309,7 +300,7 @@
           </Key>
           <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="ProductID" Type="int" Nullable="false" />
-          <Property Name="UnitPrice" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="UnitPrice" Type="money" Nullable="false" />
           <Property Name="Quantity" Type="smallint" Nullable="false" />
           <Property Name="Discount" Type="real" Nullable="false" />
         </EntityType>
@@ -324,7 +315,7 @@
           <Property Name="RequiredDate" Type="datetime" />
           <Property Name="ShippedDate" Type="datetime" />
           <Property Name="ShipVia" Type="int" />
-          <Property Name="Freight" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="Freight" Type="money" />
           <Property Name="ShipName" Type="nvarchar" MaxLength="40" />
           <Property Name="ShipAddress" Type="nvarchar" MaxLength="60" />
           <Property Name="ShipCity" Type="nvarchar" MaxLength="15" />
@@ -341,7 +332,7 @@
           <Property Name="SupplierID" Type="int" />
           <Property Name="CategoryID" Type="int" />
           <Property Name="QuantityPerUnit" Type="nvarchar" MaxLength="20" />
-          <Property Name="UnitPrice" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="UnitPrice" Type="money" />
           <Property Name="UnitsInStock" Type="smallint" />
           <Property Name="UnitsOnOrder" Type="smallint" />
           <Property Name="ReorderLevel" Type="smallint" />
@@ -388,7 +379,7 @@
           <Property Name="RegionID" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Alphabetical list of products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Alphabetical list of products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Alphabetical list of products">
           <Key>
@@ -410,7 +401,7 @@
           <Property Name="CategoryName" Type="nvarchar" Nullable="false" MaxLength="15" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Category Sales for 1997' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Category Sales for 1997' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Category Sales for 1997">
           <Key>
@@ -420,7 +411,7 @@
           <Property Name="CategorySales" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Current Product List' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Current Product List' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Current Product List">
           <Key>
@@ -431,20 +422,7 @@
           <Property Name="ProductName" Type="nvarchar" Nullable="false" MaxLength="40" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Customer and Suppliers by City' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="Customer and Suppliers by City">
-          <Key>
-            <PropertyRef Name="CompanyName" />
-            <PropertyRef Name="Relationship" />
-          </Key>
-          <Property Name="City" Type="nvarchar" MaxLength="15" />
-          <Property Name="CompanyName" Type="nvarchar" Nullable="false" MaxLength="40" />
-          <Property Name="ContactName" Type="nvarchar" MaxLength="30" />
-          <Property Name="Relationship" Type="varchar" Nullable="false" MaxLength="9" />
-        </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Invoices' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Invoices' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Invoices">
           <Key>
@@ -486,7 +464,7 @@
           <Property Name="Freight" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Order Details Extended' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Order Details Extended' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Order Details Extended">
           <Key>
@@ -506,7 +484,7 @@
           <Property Name="ExtendedPrice" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Order Subtotals' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Order Subtotals' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Order Subtotals">
           <Key>
@@ -516,7 +494,7 @@
           <Property Name="Subtotal" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Orders Qry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Orders Qry' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Orders Qry">
           <Key>
@@ -545,7 +523,7 @@
           <Property Name="Country" Type="nvarchar" MaxLength="15" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Product Sales for 1997' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Product Sales for 1997' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Product Sales for 1997">
           <Key>
@@ -557,7 +535,7 @@
           <Property Name="ProductSales" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Products Above Average Price' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Products Above Average Price' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Products Above Average Price">
           <Key>
@@ -567,7 +545,7 @@
           <Property Name="UnitPrice" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Products by Category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Products by Category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Products by Category">
           <Key>
@@ -582,7 +560,7 @@
           <Property Name="Discontinued" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Sales by Category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Sales by Category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Sales by Category">
           <Key>
@@ -596,7 +574,7 @@
           <Property Name="ProductSales" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Sales Totals by Amount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Sales Totals by Amount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Sales Totals by Amount">
           <Key>
@@ -609,7 +587,7 @@
           <Property Name="ShippedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Summary of Sales by Quarter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Summary of Sales by Quarter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Summary of Sales by Quarter">
           <Key>
@@ -620,7 +598,7 @@
           <Property Name="Subtotal" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWIND.MDF.dbo.Summary of Sales by Year' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\REPOS\KENDO-DASHBOARD\ASPNET-MVC\KENDOUI-NORTHWIND-DASHBOARD\APP_DATA\NORTHWND.MDF.dbo.Summary of Sales by Year' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Summary of Sales by Year">
           <Key>
@@ -853,8 +831,6 @@
       <Schema Namespace="NorthwindModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="NorthwindEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="NorthwindModel.Category" />
-          <EntitySet Name="CustomerDemographics" EntityType="NorthwindModel.CustomerDemographic" />
-          <EntitySet Name="Customers" EntityType="NorthwindModel.Customer" />
           <EntitySet Name="Employees" EntityType="NorthwindModel.Employee" />
           <EntitySet Name="Order_Details" EntityType="NorthwindModel.Order_Detail" />
           <EntitySet Name="Orders" EntityType="NorthwindModel.Order" />
@@ -866,7 +842,6 @@
           <EntitySet Name="Alphabetical_list_of_products" EntityType="NorthwindModel.Alphabetical_list_of_product" />
           <EntitySet Name="Category_Sales_for_1997" EntityType="NorthwindModel.Category_Sales_for_1997" />
           <EntitySet Name="Current_Product_Lists" EntityType="NorthwindModel.Current_Product_List" />
-          <EntitySet Name="Customer_and_Suppliers_by_Cities" EntityType="NorthwindModel.Customer_and_Suppliers_by_City" />
           <EntitySet Name="Invoices" EntityType="NorthwindModel.Invoice" />
           <EntitySet Name="Order_Details_Extendeds" EntityType="NorthwindModel.Order_Details_Extended" />
           <EntitySet Name="Order_Subtotals" EntityType="NorthwindModel.Order_Subtotal" />
@@ -881,10 +856,6 @@
           <AssociationSet Name="FK_Products_Categories" Association="NorthwindModel.FK_Products_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Customers" Association="NorthwindModel.FK_Orders_Customers">
-            <End Role="Customers" EntitySet="Customers" />
-            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Employees_Employees" Association="NorthwindModel.FK_Employees_Employees">
             <End Role="Employees" EntitySet="Employees" />
@@ -913,10 +884,6 @@
           <AssociationSet Name="FK_Territories_Region" Association="NorthwindModel.FK_Territories_Region">
             <End Role="Region" EntitySet="Regions" />
             <End Role="Territories" EntitySet="Territories" />
-          </AssociationSet>
-          <AssociationSet Name="CustomerCustomerDemo" Association="NorthwindModel.CustomerCustomerDemo">
-            <End Role="CustomerDemographics" EntitySet="CustomerDemographics" />
-            <End Role="Customers" EntitySet="Customers" />
           </AssociationSet>
           <AssociationSet Name="EmployeeTerritories" Association="NorthwindModel.EmployeeTerritories">
             <End Role="Employees" EntitySet="Employees" />
@@ -981,8 +948,18 @@
           <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MonthlySalesByEmployee" ReturnType="Collection(NorthwindModel.MonthlySalesByEmployee_Result)">
-            <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
+          <Parameter Name="EmployeeID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="CustomerDemographics" EntityType="NorthwindModel.CustomerDemographic" />
+          <EntitySet Name="Customers" EntityType="NorthwindModel.Customer" />
+          <AssociationSet Name="FK_Orders_Customers" Association="NorthwindModel.FK_Orders_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="CustomerCustomerDemo" Association="NorthwindModel.CustomerCustomerDemo">
+            <End Role="CustomerDemographic" EntitySet="CustomerDemographics" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -993,33 +970,6 @@
           <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Products" Relationship="NorthwindModel.FK_Products_Categories" FromRole="Categories" ToRole="Products" />
-        </EntityType>
-        <EntityType Name="CustomerDemographic">
-          <Key>
-            <PropertyRef Name="CustomerTypeID" />
-          </Key>
-          <Property Name="CustomerTypeID" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
-          <Property Name="CustomerDesc" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Customers" Relationship="NorthwindModel.CustomerCustomerDemo" FromRole="CustomerDemographics" ToRole="Customers" />
-        </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="CustomerID" />
-          </Key>
-          <Property Name="CustomerID" Type="String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="true" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
-          <Property Name="ContactName" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
-          <Property Name="ContactTitle" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
-          <Property Name="Address" Type="String" MaxLength="60" Unicode="true" FixedLength="false" />
-          <Property Name="City" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
-          <Property Name="Region" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
-          <Property Name="PostalCode" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
-          <Property Name="Country" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
-          <Property Name="Phone" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
-          <Property Name="Fax" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Orders" Relationship="NorthwindModel.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
-          <NavigationProperty Name="CustomerDemographics" Relationship="NorthwindModel.CustomerCustomerDemo" FromRole="Customers" ToRole="CustomerDemographics" />
-          <Property Type="Boolean" Name="Bool" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -1055,7 +1005,7 @@
           </Key>
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="ProductID" Type="Int32" Nullable="false" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="Quantity" Type="Int16" Nullable="false" />
           <Property Name="Discount" Type="Single" Nullable="false" />
           <NavigationProperty Name="Order" Relationship="NorthwindModel.FK_Order_Details_Orders" FromRole="Order_Details" ToRole="Orders" />
@@ -1072,17 +1022,17 @@
           <Property Name="RequiredDate" Type="DateTime" Precision="3" />
           <Property Name="ShippedDate" Type="DateTime" Precision="3" />
           <Property Name="ShipVia" Type="Int32" />
-          <Property Name="Freight" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="Freight" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="ShipName" Type="String" MaxLength="40" Unicode="true" FixedLength="false" />
           <Property Name="ShipAddress" Type="String" MaxLength="60" Unicode="true" FixedLength="false" />
           <Property Name="ShipCity" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
           <Property Name="ShipRegion" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
           <Property Name="ShipPostalCode" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
           <Property Name="ShipCountry" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Customer" Relationship="NorthwindModel.FK_Orders_Customers" FromRole="Orders" ToRole="Customers" />
           <NavigationProperty Name="Employee" Relationship="NorthwindModel.FK_Orders_Employees" FromRole="Orders" ToRole="Employees" />
           <NavigationProperty Name="Order_Details" Relationship="NorthwindModel.FK_Order_Details_Orders" FromRole="Orders" ToRole="Order_Details" />
           <NavigationProperty Name="Shipper" Relationship="NorthwindModel.FK_Orders_Shippers" FromRole="Orders" ToRole="Shippers" />
+          <NavigationProperty Name="Customer" Relationship="NorthwindModel.FK_Orders_Customers" FromRole="Order" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -1093,7 +1043,7 @@
           <Property Name="SupplierID" Type="Int32" />
           <Property Name="CategoryID" Type="Int32" />
           <Property Name="QuantityPerUnit" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="UnitsInStock" Type="Int16" />
           <Property Name="UnitsOnOrder" Type="Int16" />
           <Property Name="ReorderLevel" Type="Int16" />
@@ -1180,16 +1130,6 @@
           </Key>
           <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductName" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Customer_and_Suppliers_by_City">
-          <Key>
-            <PropertyRef Name="CompanyName" />
-            <PropertyRef Name="Relationship" />
-          </Key>
-          <Property Name="City" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
-          <Property Name="ContactName" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
-          <Property Name="Relationship" Type="String" Nullable="false" MaxLength="9" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="Invoice">
           <Key>
@@ -1357,18 +1297,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Orders_Customers">
-          <End Role="Customers" Type="NorthwindModel.Customer" Multiplicity="0..1" />
-          <End Role="Orders" Type="NorthwindModel.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customers">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Employees_Employees">
           <End Role="Employees" Type="NorthwindModel.Employee" Multiplicity="0..1" />
           <End Role="Employees1" Type="NorthwindModel.Employee" Multiplicity="*" />
@@ -1453,10 +1381,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="CustomerCustomerDemo">
-          <End Role="CustomerDemographics" Type="NorthwindModel.CustomerDemographic" Multiplicity="*" />
-          <End Role="Customers" Type="NorthwindModel.Customer" Multiplicity="*" />
-        </Association>
         <Association Name="EmployeeTerritories">
           <End Role="Employees" Type="NorthwindModel.Employee" Multiplicity="*" />
           <End Role="Territories" Type="NorthwindModel.Territory" Multiplicity="*" />
@@ -1535,6 +1459,48 @@
           <Property Type="Double" Name="EmployeeSales" Nullable="true" />
           <Property Type="DateTime" Name="Date" Nullable="false" />
         </ComplexType>
+        <EntityType Name="CustomerDemographic">
+          <Key>
+            <PropertyRef Name="CustomerTypeID" />
+          </Key>
+          <Property Type="String" Name="CustomerTypeID" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="CustomerDesc" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customers" Relationship="NorthwindModel.CustomerCustomerDemo" FromRole="CustomerDemographic" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Type="String" Name="CustomerID" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ContactName" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ContactTitle" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Region" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PostalCode" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Country" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Phone" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Fax" MaxLength="24" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="NorthwindModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
+          <NavigationProperty Name="CustomerDemographics" Relationship="NorthwindModel.CustomerCustomerDemo" FromRole="Customer" ToRole="CustomerDemographic" />
+        </EntityType>
+        <Association Name="FK_Orders_Customers">
+          <End Type="NorthwindModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="NorthwindModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustomerCustomerDemo">
+          <End Type="NorthwindModel.CustomerDemographic" Role="CustomerDemographic" Multiplicity="*" />
+          <End Type="NorthwindModel.Customer" Role="Customer" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1548,32 +1514,6 @@
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Picture" ColumnName="Picture" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CustomerDemographics">
-            <EntityTypeMapping TypeName="NorthwindModel.CustomerDemographic">
-              <MappingFragment StoreEntitySet="CustomerDemographics">
-                <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
-                <ScalarProperty Name="CustomerDesc" ColumnName="CustomerDesc" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="NorthwindModel.Customer">
-              <MappingFragment StoreEntitySet="Customers">
-                <ScalarProperty Name="Bool" ColumnName="Bool" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
-                <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1725,16 +1665,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Customer_and_Suppliers_by_Cities">
-            <EntityTypeMapping TypeName="NorthwindModel.Customer_and_Suppliers_by_City">
-              <MappingFragment StoreEntitySet="Customer and Suppliers by City">
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
-                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="NorthwindModel.Invoice">
               <MappingFragment StoreEntitySet="Invoices">
@@ -1880,14 +1810,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="CustomerCustomerDemo" TypeName="NorthwindModel.CustomerCustomerDemo" StoreEntitySet="CustomerCustomerDemo">
-            <EndProperty Name="CustomerDemographics">
-              <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
-            </EndProperty>
-            <EndProperty Name="Customers">
-              <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="EmployeeTerritories" TypeName="NorthwindModel.EmployeeTerritories" StoreEntitySet="EmployeeTerritories">
             <EndProperty Name="Employees">
               <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
@@ -2031,6 +1953,39 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CustomerDemographics">
+            <EntityTypeMapping TypeName="NorthwindModel.CustomerDemographic">
+              <MappingFragment StoreEntitySet="CustomerDemographics">
+                <ScalarProperty Name="CustomerDesc" ColumnName="CustomerDesc" />
+                <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="NorthwindModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="CustomerCustomerDemo" TypeName="NorthwindModel.CustomerCustomerDemo" StoreEntitySet="CustomerCustomerDemo">
+            <EndProperty Name="Customer">
+              <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+            </EndProperty>
+            <EndProperty Name="CustomerDemographic">
+              <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

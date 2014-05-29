@@ -230,9 +230,6 @@
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerViewModel.cs" />
-    <Compile Include="Models\Customer_and_Suppliers_by_City.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CustOrderHist_Result.cs">
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
