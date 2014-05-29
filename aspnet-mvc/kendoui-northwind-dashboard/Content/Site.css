@@ -572,7 +572,7 @@ body,
     font-size: 22px;
     font-weight: normal;
     text-align: center;
-    margin: 0 0 1em 0;
+    margin: 0;
 }
 
 .download-btn:hover {
