@@ -166,6 +166,7 @@ body,
     width: auto;
     overflow: hidden;
     height: 100%;
+    background-color: #eee;
 }
 
 #employee-list {
@@ -192,6 +193,7 @@ body,
     -moz-box-shadow: 1px 0 4px #ededee;
     -webkit-box-shadow: 1px 0 4px #ededee;
     box-shadow: 1px 0 4px #ededee;
+    background-color: #fff;
 }
 
 /* team efficiency */
@@ -208,6 +210,7 @@ body,
 #employee-details-wrapper {
     height: 100%;
     overflow-y: auto;
+    background-color: #fff;
 }
 
 #employee-details {
@@ -332,6 +335,7 @@ body,
 #employeeSchedule {
     padding-left: 30px;
     padding-bottom: 20px;
+    background-color: #fff;
 }
 
 .placeholder {
@@ -375,6 +379,10 @@ body,
 }
 
 /* Regional sales */
+#statsContainer {
+    background-color: #fff;
+}
+
 #regional-sales {
     border: none;
     overflow-y: auto;
@@ -398,7 +406,8 @@ body,
 }
 
 #topProductsContainer {
-    padding-bottom: 30px;
+   
+    padding: 15px;
 }
 
 #topProductsContainer h3{
@@ -413,6 +422,18 @@ body,
     height: calc(100% - 86px);
     color: #464648;
     font-size: 11px;
+}
+
+#products-orders-main-content .k-tooltip {
+    width: 140px;
+}
+
+#products-orders-main-content .k-tooltip th{
+    text-align: left;
+}
+
+#products-orders-main-content .k-tooltip td{
+    border: 0;
 }
 
 .product-details{
@@ -475,7 +496,7 @@ body,
 }
 
 .stats-graph {
-    padding: 15px;
+    padding: 15px 30px 30px;
 }
 
 #MarketShareLabel,
@@ -520,6 +541,11 @@ body,
     padding: 15px;
 }
 
+#map {
+    height: 350px;
+    outline: 0;
+}
+
 #about {
     font-size: 15px;
     line-height: 24px;
@@ -551,8 +577,8 @@ body,
     padding-bottom: .5em;
 }
 
-.section-gray {
-    background-color: #f3f5f7;
+.section-white {
+    background-color: #fff;
 }
 
 .download-btn {

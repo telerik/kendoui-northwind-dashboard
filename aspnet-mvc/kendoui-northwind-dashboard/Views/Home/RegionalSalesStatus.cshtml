@@ -194,8 +194,8 @@
             @(Html.Kendo().Map()
                 .Name("map")
                 .Center(50.000, 0)
-                .Zoom(2)
-                .Layers(layers => 
+                .Zoom(2)              
+                .Layers(layers =>
                 {
                     layers.Add()
                         .Style(style => style
@@ -323,7 +323,7 @@
         </div>
     </div>
 
-    <div id="topProductsContainer" class="section-gray">
+    <div id="topProductsContainer">
         <h3 class="section-header">Top selling products</h3>
         @(Html.Kendo().Chart<CountryTopProducts_Result>()
             .Name("TopSellingProducts")
@@ -344,7 +344,7 @@
                 series.Line(model => model.Quantity).Style(ChartLineStyle.Smooth).Markers(false);
 
             })
-            .HtmlAttributes(new { @style="height: 200px;"})
+            .HtmlAttributes(new { @style="height: 260px;"})
             .CategoryAxis(axis => axis
                 .Categories(model => model.Date)
                 .MajorGridLines(m => m.Visible(false))

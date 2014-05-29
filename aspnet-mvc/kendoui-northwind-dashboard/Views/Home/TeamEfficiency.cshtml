@@ -64,8 +64,8 @@
     function onCriteriaChange() { 
         var employeeList = $("#EmployeesList").data("kendoListView"),
             employee = employeeList.dataSource.getByUid(employeeList.select().attr("data-uid")),
-            employeeQuarterSales = $("#EmployeeQuarterSales").data("kendoSparkline"),
-            employeeAverageSales = $("#EmployeeAverageSales").data("kendoSparkline"),
+            employeeQuarterSales = $("#EmployeeQuarterSales").data("kendoChart"),
+            employeeAverageSales = $("#EmployeeAverageSales").data("kendoChart"),
             teamSales = $("#TeamSales").data("kendoChart"),
             employeeSales = $("#EmployeeSales").data("kendoScheduler"),
             startDate = $("#StartDate").data("kendoDatePicker"),
@@ -101,8 +101,8 @@
     $(window).on("resize", function () {
         kendo.resize($("#TeamSales"));
         var containerWidth = $(".sparkline-container").parent().width();       
-        $("#EmployeeQuarterSales").data("kendoSparkline").setOptions({ chartArea: { width: containerWidth } });
-        $("#EmployeeAverageSales").data("kendoSparkline").setOptions({ chartArea: { width: containerWidth } });
+        $("#EmployeeQuarterSales").data("kendoChart").setOptions({ chartArea: { width: containerWidth } });
+        $("#EmployeeAverageSales").data("kendoChart").setOptions({ chartArea: { width: containerWidth } });
     });
 </script>
 
@@ -163,9 +163,10 @@
                 <h3>Quarter to date sales</h3>
                 <span id="EmployeeQuarterSalesLabel"></span>
                 <div class="sparkline-container">
-                    @(Html.Kendo().Sparkline<QuarterToDateSalesViewModel>()
+                    @(Html.Kendo().Chart<QuarterToDateSalesViewModel>()
                         .Name("EmployeeQuarterSales")
                         .Theme("metro")
+                        .HtmlAttributes(new {style = "height:30px;" } )
                         .AutoBind(false)
                         .Tooltip(false)
                         .Events(e=>e.DataBound("onQuarterSalesDataBound"))
@@ -176,6 +177,9 @@
                         {
                             series.Bullet(m => m.Current, m => m.Target);
                         })
+                        .Legend(leg => leg.Visible(false))
+                        .CategoryAxis(cat => cat.Labels(lab => lab.Visible(false)).MajorGridLines(m => m.Visible(false)).Visible(false))
+                        .ValueAxis(val => val.Numeric().Labels(lab =>lab.Visible(false)).MajorGridLines(m => m.Visible(false)).MajorTicks(mT => mT.Visible(false)))
                     )
                 </div>
             </div>
@@ -183,9 +187,10 @@
                 <h3>Monthly Average Sales</h3>
                 <span id="EmployeeAverageSalesLabel"></span>
                 <div class="sparkline-container">
-                    @(Html.Kendo().Sparkline<MonthlySalesByEmployee_Result>()
+                    @(Html.Kendo().Chart<MonthlySalesByEmployee_Result>()
                         .Name("EmployeeAverageSales")
                         .Theme("metro")
+                        .HtmlAttributes(new {style = "height:30px;" } )
                         .AutoBind(false)
                         .Events(e=>e.DataBound("onAverageSalesDataBound"))
                         .DataSource(ds => ds
@@ -194,12 +199,15 @@
                         ) 
                         .Series(series =>
                         {
-                            series.Line(model => model.EmployeeSales).Width(1.5).Tooltip(t => t.Template("#=kendo.toString(value, 'c2')#"));
+                            series.Line(model => model.EmployeeSales).Width(1.5).Markers(m => m.Visible(false)).Tooltip(t => t.Template("#=kendo.toString(value, 'c2')#"));
                         }) 
                         .CategoryAxis(c=>c
                             .Date()
                             .Categories(x=>x.Date)
+                            .Visible(false).MajorGridLines(m => m.Visible(false)).MajorTicks(mT => mT.Visible(false))
                         )
+                        .Legend(leg => leg.Visible(false))
+                        .ValueAxis(val => val.Numeric().Visible(false).Labels(lab =>lab.Visible(false)).MajorGridLines(m => m.Visible(false)).MajorTicks(mT => mT.Visible(false)))
                     )
                 </div> 
             </div> 
