@@ -314,7 +314,7 @@
         <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">
             <div class="product-details col-xs-3">
                 #if(ProductID) {#
-                    <img src="/Content/Products/#=ProductID#.jpg" class="product-details-image">
+                    <img src="@Url.Content("~/Content/Products/")#=ProductID#.jpg" class="product-details-image">
                 #}#
                 <div class="product-name-cat">
                     <div class="product-name"></div>
