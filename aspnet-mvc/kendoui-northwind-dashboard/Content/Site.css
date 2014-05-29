@@ -830,9 +830,9 @@ body,
   position: absolute;
   top: 0;
   left: 0;
-  opacity: .2;
+  opacity: .1;
   filter: alpha(opacity=60); 
-  background: #6495ed;      
+  background: #fff;      
   text-align: center;
 }
 
