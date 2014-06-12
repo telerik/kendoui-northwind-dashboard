@@ -24,7 +24,15 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult ProductsSalesByMonth(int ProductID)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.ProductsSalesByMonth(ProductID);
+
+            var result = from o in northwind.Orders
+                        join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                        where od.ProductID == ProductID
+                    select new {
+                        Date = o.OrderDate,
+                        Quantity = od.Quantity
+                    };
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
