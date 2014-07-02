@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.kendostatic.com/2014.1.528/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.1.528/js/kendo.all.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.1.528/js/kendo.aspnetmvc.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="Content/Site.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!--open container-->
+        <div class="row row-offcanvas row-offcanvas-left">
+            <!--open row-->
+            <div id="nav-section" class="col-xs-12 column">
+                <!--open nav column-->
+                <div class="navbar-default">
+                    <button id="toggle-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <h1 id="dash-logo" class="center-block">Northwind&#183;Dash</h1>
+                <div class="collapse navbar-collapse" id="sidebar-nav" role="navigation">
+                    <ul class="nav">
+                        <li id="RegionalSalesStatus">
+                            <a href="index.html">
+                                <span class="icon icon-chart-column"></span>Regional Sales Status</a>
+                        </li>
+                        <li id="ProductsAndOrders">
+                            <a href="products-orders.html">
+                                <span class="icon icon-star-empty"></span>Products &amp; Orders</a>
+                        </li>
+                        <li id="TeamEfficiency">
+                            <a href="team-efficiency.html">
+                                <span class="icon icon-faves"></span>Team Efficiency</a>
+                        </li>
+                        <li id="About">
+                            <a href="about.html">
+                                <span class="icon icon-info"></span>About</a>
+                        </li>
+                    </ul>
+                    <span id="rights">Copyright © 2002-2014 Telerik. All rights reserved.</span>
+                </div>
+            </div>
+            <!--close left column-->
+            <div id="main-section" class="col-xs-12 column">
+                <!--open main column-->
+                 Products and Orders
+            </div>
+            <!--close main column-->
+        </div>
+        <!--close row-->
+    </div>
+    <!--close container-->
+
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle=offcanvas]').click(function() {
+                $('.row-offcanvas').toggleClass('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
