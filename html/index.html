@@ -94,22 +94,20 @@
                             <h3 class="section-header">Market share</h3>
                             <span id="MarketShareLabel"></span>
                             <div class="sparkline-container">
-                                @(Html.Kendo().Chart
-                                <CountryMarketShare_Result>() .Name("MarketShare") .Theme("metro") .HtmlAttributes(new { @style="height: 100px;"}) .AutoBind(false) .Events(e=>e.DataBound("onMarketShareDataBound")) .Legend(legend => legend .Visible(false) ) .DataSource(ds => ds .Read(read => read.Action("MarketShareByCountry", "RegionalSales")) ) .Series(series => { series.Donut("Sales", "Country").Padding(0); }) .Tooltip(tooltip => tooltip .Visible(true) .Template("#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #") ) )
-                                    <div id="MarketShareNoData" class="overlay">
-                                        <div>No data available</div>
-                                    </div>
+                                <div id="MarketShare" style="height:100px"></div>
+                                <div id="MarketShareNoData" class="overlay">
+                                    <div>No data available</div>
+                                </div>
                             </div>
                         </div>
                         <div id="revenueContainer" class="col-xs-3 stats-graph">
                             <h3 class="section-header">Revenue</h3>
                             <span id="RevenueLabel"></span>
                             <div class="sparkline-container">
-                                @(Html.Kendo().Sparkline
-                                <CountryRevenue_Result>() .Name("Revenue") .Theme("metro") .HtmlAttributes(new { @style="height: 100px;"}) .AutoBind(false) .DataSource(ds => ds .Read(read => read.Action("CountryRevenue", "RegionalSales")) ) .Series(series => { series.Column(x => x.Value).CategoryField("Date").Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2); }) .CategoryAxis(axis=>axis .Date() .BaseUnit(ChartAxisBaseUnit.Months) ) .Tooltip(t=>t.Format("{0:c2}")) )
-                                    <div id="RevenueNoData" class="overlay">
-                                        <div>No data available</div>
-                                    </div>
+                                <div id="Revenue" style="height:100px"></div>
+                                <div id="RevenueNoData" class="overlay">
+                                    <div>No data available</div>
+                                </div>
                             </div>
                         </div>
                         <div id="ordersContainer" class="col-xs-3 stats-graph">
@@ -164,6 +162,29 @@
                 map.center([50.000, 0]);
             }
 
+            function onMarketShareDataBound(e) {
+                var percentage = 0,
+                    revenue = 0;
+                if (this.dataSource.data().length == 2) {
+                    percentage = (this.dataSource.at(1).Sales / this.dataSource.at(0).Sales);
+                    revenue = this.dataSource.at(1).Sales;
+                }
+
+                $("#MarketShareLabel").text(kendo.toString(percentage, "p2"));
+                $("#RevenueLabel").text(kendo.toString(revenue, "c2"));
+
+                $("#RevenueNoData").toggle(revenue === 0);
+                $("#MarketShareNoData").toggle(percentage === 0);
+                if (percentage === 0) {
+                    $("#MarketShare").css({
+                        visibility: "hidden"
+                    });
+                } else {
+                    $("#MarketShare").css({
+                        visibility: "visible"
+                    });
+                }
+            }
 
             $('[data-toggle=offcanvas]').click(function() {
                 $('.row-offcanvas').toggleClass('active');
@@ -208,7 +229,154 @@
                 zoomable: false
             })
 
-            function onCriteriaChange() {}
+            $("#MarketShare").kendoChart({
+                theme: "metro",
+                dataBound: onMarketShareDataBound,
+                legend: {
+                    visible: false
+                },
+                dataSource: {
+                    transport: {
+                        read: {
+                            dataType: "json",
+                            url: "http://knnikolov/northwind/api/sales/GetMarketShare"
+                        }
+                    }
+                },
+                seriesDefaults: {
+                    type: "donut"
+                },
+                series: [{
+                    field: "Sales",
+                    categoryField: "Country",
+                }],
+                tooltip: {
+                    visible: true,
+                    template: "#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #"
+                }
+            })
+
+            $("#Revenue").kendoSparkline({
+                theme: "metro",
+                type: "column",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "http://knnikolov/northwind/api/sales/GetCountryRevenue"
+                        }
+                    }
+                },
+                series: [{
+                    categoryField: "Date",
+                    aggregate: "sum",
+                    color: "#1996e4",
+                    gap: 0.2,
+                    field: "Value"
+                }],
+                categoryAxis: {
+                    type: "date",
+                    baseUnit: "months"
+                },
+                valueAxis: {
+                    crosshair: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    template: "#=kendo.toString(value, 'c2')# "
+                }
+            })
+
+            function onCriteriaChange() {
+                var MarketShare = $("#MarketShare").data("kendoChart"),
+                    TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
+                    Revenue = $("#Revenue").data("kendoSparkline"),
+                    Orders = $("#Orders").data("kendoSparkline"),
+                    Customers = $("#Customers").data("kendoSparkline"),
+                    fromDate = $("#StartDate").data("kendoDatePicker").value(),
+                    toDate = $("#EndDate").data("kendoDatePicker").value();
+
+                /*$.ajax({
+                    url: "@Url.Action("
+                    CountryOrdersTotal ", "
+                    RegionalSales ")",
+                    dataType: "json",
+                    data: {
+                        Country: selectedCountry,
+                        FromDate: fromDate.toJSON(),
+                        ToDate: toDate.toJSON()
+                    },
+                    type: "POST",
+                    success: function(response) {
+                        $("#OrdersLabel").text(response.Orders);
+                        $("#OrdersNoData").toggle(response.Orders === 0);
+                    }
+                });
+
+                $.ajax({
+                    url: "@Url.Action("
+                    CountryCustomersTotal ", "
+                    RegionalSales ")",
+                    dataType: "json",
+                    data: {
+                        Country: selectedCountry,
+                        FromDate: fromDate.toJSON(),
+                        ToDate: toDate.toJSON()
+                    },
+                    type: "POST",
+                    success: function(response) {
+                        $("#CustomersLabel").text(response.Customers);
+                        $("#CustomersNoData").toggle(response.Customers[0] === 0);
+                    }
+                });*/
+                debugger;
+                MarketShare.dataSource.read({
+                    Country: selectedCountry,
+                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    ToDate: toDate
+                });
+                /*TopSellingProducts.dataSource.read({
+                    Country: selectedCountry,
+                    FromDate: fromDate,
+                    ToDate: toDate
+                });*/
+                Revenue.dataSource.read({
+                    Country: selectedCountry,
+                    FromDate: fromDate,
+                    ToDate: toDate
+                });
+                /*Orders.dataSource.read({
+                    Country: selectedCountry,
+                    FromDate: fromDate,
+                    ToDate: toDate
+                });
+                Customers.dataSource.read({
+                    Country: selectedCountry,
+                    FromDate: fromDate,
+                    ToDate: toDate
+                });    
+
+                ListCustomers(selectedCountry);*/
+
+                setSparkLinesWidths();
+            }
+
+            function setSparkLinesWidths() {
+                var containerWidth = $(".sparkline-container").parent().width(),
+                    getSparkLines = $(".k-sparkline"),
+                    sparkLineWidth = (80 * containerWidth) / 100;
+
+                getSparkLines.each(function() {
+                    $(this).data("kendoSparkline").setOptions({
+                        chartArea: {
+                            width: sparkLineWidth
+                        }
+                    });
+                });
+
+               // $("#TopSellingProducts").data("kendoChart").resize();
+                $("#MarketShare").data("kendoChart").resize();
+            }
 
             function onShapeCreated(e) {
                 var color = scale(e.shape.dataItem.properties.sales).hex();
