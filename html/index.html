@@ -114,22 +114,20 @@
                             <h3 class="section-header">Orders</h3>
                             <span id="OrdersLabel"></span>
                             <div class="sparkline-container">
-                                @(Html.Kendo().Sparkline
-                                <CountryOrders_Result>() .Name("Orders") .Theme("metro") .HtmlAttributes(new { @style="height: 100px;"}) .AutoBind(false) .DataSource(ds => ds .Read(read => read.Action("CountryOrders", "RegionalSales")) ) .Series(series => { series.Column(x => x.Value).CategoryField("Date").Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2); }) .CategoryAxis(axis=>axis .Date() .BaseUnit(ChartAxisBaseUnit.Months) ) )
-                                    <div id="OrdersNoData" class="overlay">
-                                        <div>No data available</div>
-                                    </div>
+                                <div id="Orders" style="height:100px"></div>
+                                <div id="OrdersNoData" class="overlay">
+                                    <div>No data available</div>
+                                </div>
                             </div>
                         </div>
                         <div id="customersContainer" class="col-xs-3 stats-graph">
                             <h3 class="section-header">Customers</h3>
                             <span id="CustomersLabel"></span>
                             <div class="sparkline-container">
-                                @(Html.Kendo().Sparkline
-                                <CountryCustomers_Result>() .Name("Customers") .Theme("metro") .HtmlAttributes(new { @style="height: 100px;"}) .AutoBind(false) .DataSource(ds => ds .Read(read => read.Action("CountryCustomers", "RegionalSales")) ) .Series(series => { series.Column(x => x.Value).CategoryField("Date").Aggregate(ChartSeriesAggregate.Sum).Color("#1996e4").Gap(0.2); }) .CategoryAxis(axis=>axis .Date() .BaseUnit(ChartAxisBaseUnit.Months) ) )
-                                    <div id="CustomersNoData" class="overlay">
-                                        <div>No data available</div>
-                                    </div>
+                                <div id="Customers" style="height:100px;"></div>
+                                <div id="CustomersNoData" class="overlay">
+                                    <div>No data available</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -231,6 +229,7 @@
 
             $("#MarketShare").kendoChart({
                 theme: "metro",
+                autoBind: false,
                 dataBound: onMarketShareDataBound,
                 legend: {
                     visible: false
@@ -259,6 +258,7 @@
             $("#Revenue").kendoSparkline({
                 theme: "metro",
                 type: "column",
+                autoBind: false,
                 dataSource: {
                     transport: {
                         read: {
@@ -277,13 +277,56 @@
                     type: "date",
                     baseUnit: "months"
                 },
-                valueAxis: {
-                    crosshair: {
-                        visible: false
-                    }
-                },
                 tooltip: {
                     template: "#=kendo.toString(value, 'c2')# "
+                }
+            })
+
+            $("#Orders").kendoSparkline({
+                theme: "metro",
+                type: "column",
+                autoBind: false,
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "http://knnikolov/northwind/api/sales/GetCountryOrders"
+                        }
+                    }
+                },
+                series: [{
+                    categoryField: "Date",
+                    aggregate: "sum",
+                    color: "#1996e4",
+                    gap: 0.2,
+                    field: "Value"
+                }],
+                categoryAxis: {
+                    type: "date",
+                    baseUnit: "months"
+                }
+            })
+
+            $("#Customers").kendoSparkline({
+                theme: "metro",
+                type: "column",
+                autoBind: false,
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "http://knnikolov/northwind/api/sales/GetCountryCustomers"
+                        }
+                    }
+                },
+                series: [{
+                    categoryField: "Date",
+                    aggregate: "sum",
+                    color: "#1996e4",
+                    gap: 0.2,
+                    field: "Value"
+                }],
+                categoryAxis: {
+                    type: "date",
+                    baseUnit: "months"
                 }
             })
 
@@ -296,44 +339,39 @@
                     fromDate = $("#StartDate").data("kendoDatePicker").value(),
                     toDate = $("#EndDate").data("kendoDatePicker").value();
 
-                /*$.ajax({
-                    url: "@Url.Action("
-                    CountryOrdersTotal ", "
-                    RegionalSales ")",
+                $.ajax({
+                    url: "http://knnikolov/northwind/api/sales/GetCountryOrdersTotal",
                     dataType: "json",
                     data: {
                         Country: selectedCountry,
                         FromDate: fromDate.toJSON(),
                         ToDate: toDate.toJSON()
                     },
-                    type: "POST",
+                    type: "GET",
                     success: function(response) {
-                        $("#OrdersLabel").text(response.Orders);
-                        $("#OrdersNoData").toggle(response.Orders === 0);
+                        $("#OrdersLabel").text(response);
+                        $("#OrdersNoData").toggle(response === 0);
                     }
                 });
 
                 $.ajax({
-                    url: "@Url.Action("
-                    CountryCustomersTotal ", "
-                    RegionalSales ")",
+                    url: "http://knnikolov/northwind/api/sales/GetCountryCustomersTotal",
                     dataType: "json",
                     data: {
                         Country: selectedCountry,
                         FromDate: fromDate.toJSON(),
                         ToDate: toDate.toJSON()
                     },
-                    type: "POST",
+                    type: "GET",
                     success: function(response) {
-                        $("#CustomersLabel").text(response.Customers);
-                        $("#CustomersNoData").toggle(response.Customers[0] === 0);
+                        $("#CustomersLabel").text(response);
+                        $("#CustomersNoData").toggle(response === 0);
                     }
-                });*/
-                debugger;
+                });
                 MarketShare.dataSource.read({
                     Country: selectedCountry,
                     FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
-                    ToDate: toDate
+                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
                 /*TopSellingProducts.dataSource.read({
                     Country: selectedCountry,
@@ -342,23 +380,57 @@
                 });*/
                 Revenue.dataSource.read({
                     Country: selectedCountry,
-                    FromDate: fromDate,
-                    ToDate: toDate
+                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
-                /*Orders.dataSource.read({
+                Orders.dataSource.read({
                     Country: selectedCountry,
-                    FromDate: fromDate,
-                    ToDate: toDate
+                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
                 Customers.dataSource.read({
                     Country: selectedCountry,
-                    FromDate: fromDate,
-                    ToDate: toDate
-                });    
+                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                });
 
-                ListCustomers(selectedCountry);*/
+                ListCustomers(selectedCountry);
 
                 setSparkLinesWidths();
+            }
+
+            function ListCustomers(country) {
+                $("#countryName").text(country);
+                $.ajax({
+                    url: "http://knnikolov/northwind/api/sales/GetCountryCompanies",
+                    dataType: "json",
+                    data: {
+                        Country: country
+                    },
+                    type: "GET",
+                    success: function(response) {
+                        var customers = "";
+                        for (var i = 0; i < response.length; i++) {
+                            customers = customers + response[i].CompanyName + ", ";
+                        }
+                        customers = customers.substring(0, customers.length - 2);
+                        $("#countryCustomers span").text(customers);
+                    }
+                });
+                var containerWidth = $(".sparkline-container").parent().width(),
+                    getSparkLines = $(".k-sparkline"),
+                    chartWidth = (80 * containerWidth) / 100;
+
+                getSparkLines.each(function() {
+                    $(this).data("kendoSparkline").setOptions({
+                        chartArea: {
+                            width: chartWidth
+                        }
+                    });
+                });
+
+                //$("#TopSellingProducts").data("kendoChart").resize();
+                $("#MarketShare").data("kendoChart").resize();
             }
 
             function setSparkLinesWidths() {
@@ -374,7 +446,7 @@
                     });
                 });
 
-               // $("#TopSellingProducts").data("kendoChart").resize();
+                // $("#TopSellingProducts").data("kendoChart").resize();
                 $("#MarketShare").data("kendoChart").resize();
             }
 
@@ -414,6 +486,7 @@
                 }
             }
             $(window).resize(resizeMap);
+            onCriteriaChange();
         });
     </script>
 </body>
