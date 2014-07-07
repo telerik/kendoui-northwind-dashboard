@@ -134,11 +134,10 @@
 
                     <div id="topProductsContainer">
                         <h3 class="section-header">Top selling products</h3>
-                        @(Html.Kendo().Chart
-                        <CountryTopProducts_Result>() .Name("TopSellingProducts") .Theme("metro") .AutoBind(false) .Legend(legend => legend .Visible(true) .Position(ChartLegendPosition.Top) ) .ChartArea(ch=>ch.Background("#eeeeee")) .Events(e=>e.DataBound("onTopProductsDataBound")) .ChartArea(ch => ch.Background("#eeeeee")) .DataSource(ds => ds .Group(g => g.Add(f => f.ProductName)) .Read(read => read.Action("TopSellingProducts", "RegionalSales"))) .Series(series => { series.Line(model => model.Quantity).Style(ChartLineStyle.Smooth).Markers(false); }) .HtmlAttributes(new { @style="height: 260px;"}) .CategoryAxis(axis => axis .Categories(model => model.Date) .MajorGridLines(m => m.Visible(false)) .Line(l => l.Width(0)) .Labels(l => l.Visible(false)) ) .ValueAxis(axis => axis.Numeric() .MajorUnit(50) .MajorTicks(x => x.Visible(false)) .MajorGridLines(m => m.Visible(false)) .Line(l => l.Visible(false)) .Labels(l => l.Visible(false)) ) .Tooltip(tooltip => tooltip .Visible(true) .Template("#=data.series.name.replace(data.series.field, data.value)#")) )
-                            <div id="ProductsNoData" class="overlay">
-                                <div>No data available</div>
-                            </div>
+                        <div id="TopSellingProducts" style="height:260px"></div>
+                        <div id="ProductsNoData" class="overlay">
+                            <div>No data available</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -287,6 +286,9 @@
                 type: "column",
                 autoBind: false,
                 dataSource: {
+                    schema: {
+                        field: {Date: "date"}
+                    },
                     transport: {
                         read: {
                             url: "http://knnikolov/northwind/api/sales/GetCountryOrders"
@@ -328,6 +330,39 @@
                     type: "date",
                     baseUnit: "months"
                 }
+            })
+
+            $("#TopSellingProducts").kendoChart({
+                theme: "metro",
+                autoBind: false,
+                legend: {
+                    visible: true,
+                    position: "top"
+                },
+                chartArea: {
+                    background: "#eeeeee"
+                },
+                dataBound: onTopProductsDataBound,
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "http://knnikolov/northwind/api/sales/GetTopSellingProducts"
+                        }
+                    },
+                    group: "ProductName"
+                },
+                series: [{
+                    field: "Quantity",
+                    line : {
+                        style: "smooth"
+                    },
+                    markers: {
+                        visible:false
+                    }
+                }],
+                categoryAxis : {
+                }
+
             })
 
             function onCriteriaChange() {
@@ -484,6 +519,11 @@
                     e.shape.options.set("fill.color", color);
                     e.shape.options.set("stroke.color", "white");
                 }
+            }
+
+            function onTopProductsDataBound() {
+                var items = this.dataSource.data().length;
+                $("#ProductsNoData").toggle(items === 0);
             }
             $(window).resize(resizeMap);
             onCriteriaChange();
