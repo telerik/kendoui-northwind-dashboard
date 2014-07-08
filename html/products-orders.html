@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
@@ -54,18 +55,24 @@
             <!--close left column-->
             <div id="main-section" class="col-xs-12 column">
                 <!--open main column-->
-                 Products and Orders
+                <div id="Orders">kur</div>
             </div>
             <!--close main column-->
         </div>
         <!--close row-->
     </div>
     <!--close container-->
-
     <script>
         $(document).ready(function() {
-            $('[data-toggle=offcanvas]').click(function() {
-                $('.row-offcanvas').toggleClass('active');
+            $(window).on("resize", function() {
+                var containerWidth = $(".sparkline-container").parent().width();
+                var sparkLineWidth = (80 * containerWidth) / 100;
+                $(".k-sparkline").data("kendoSparkline").setOptions({
+                    chartArea: {
+                        width: sparkLineWidth
+                    }
+                });
+                resizeGrid();
             });
         });
     </script>
