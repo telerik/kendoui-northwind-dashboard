@@ -237,7 +237,7 @@
                     transport: {
                         read: {
                             dataType: "json",
-                            url: "http://knnikolov/northwind/api/sales/GetMarketShare"
+                            url: "http://knnikolov/web/api/sales/GetMarketShare"
                         }
                     }
                 },
@@ -261,7 +261,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            url: "http://knnikolov/northwind/api/sales/GetCountryRevenue"
+                            url: "http://knnikolov/web/api/sales/GetCountryRevenue"
                         }
                     }
                 },
@@ -288,7 +288,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            url: "http://knnikolov/northwind/api/sales/GetCountryOrders"
+                            url: "http://knnikolov/web/api/sales/GetCountryOrders"
                         }
                     }
                 },
@@ -312,7 +312,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            url: "http://knnikolov/northwind/api/sales/GetCountryCustomers"
+                            url: "http://knnikolov/web/api/sales/GetCountryCustomers"
                         }
                     }
                 },
@@ -343,7 +343,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            url: "http://knnikolov/northwind/api/sales/GetTopSellingProducts"
+                            url: "http://knnikolov/web/api/sales/GetTopSellingProducts"
                         }
                     },
                     group: "ProductName"
@@ -401,7 +401,7 @@
                     toDate = $("#EndDate").data("kendoDatePicker").value();
 
                 $.ajax({
-                    url: "http://knnikolov/northwind/api/sales/GetCountryOrdersTotal",
+                    url: "http://knnikolov/web/api/sales/GetCountryOrdersTotal",
                     dataType: "json",
                     data: {
                         Country: selectedCountry,
@@ -416,7 +416,7 @@
                 });
 
                 $.ajax({
-                    url: "http://knnikolov/northwind/api/sales/GetCountryCustomersTotal",
+                    url: "http://knnikolov/web/api/sales/GetCountryCustomersTotal",
                     dataType: "json",
                     data: {
                         Country: selectedCountry,
@@ -463,7 +463,7 @@
             function ListCustomers(country) {
                 $("#countryName").text(country);
                 $.ajax({
-                    url: "http://knnikolov/northwind/api/sales/GetCountryCompanies",
+                    url: "http://knnikolov/web/api/sales/GetCountryCompanies",
                     dataType: "json",
                     data: {
                         Country: country
