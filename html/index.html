@@ -348,16 +348,45 @@
                     },
                     group: "ProductName"
                 },
+                seriesDefaults: {
+                    type: "line",
+                    style: "smooth"
+                },
                 series: [{
                     field: "Quantity",
-                    line : {
-                        style: "smooth"
-                    },
                     markers: {
-                        visible:false
+                        visible: false
                     }
                 }],
-                categoryAxis : {
+                categoryAxis: [{
+                    majorGridLines: {
+                        visible: false
+                    },
+                    line: {
+                        width: 0
+                    },
+                    labels: {
+                        visible: false
+                    }
+                }],
+                valueAxis: {
+                    majorUnit: 50,
+                    majorTicks: {
+                        visible: false
+                    },
+                    majorGridLines: {
+                        visible: false
+                    },
+                    line: {
+                        visible: false
+                    },
+                    labels: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#=data.series.name.replace(data.series.field, data.value)#"
                 }
 
             })
@@ -405,11 +434,11 @@
                     FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
                     ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
-                /*TopSellingProducts.dataSource.read({
+                TopSellingProducts.dataSource.read({
                     Country: selectedCountry,
-                    FromDate: fromDate,
-                    ToDate: toDate
-                });*/
+                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                });
                 Revenue.dataSource.read({
                     Country: selectedCountry,
                     FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
