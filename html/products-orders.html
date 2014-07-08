@@ -55,7 +55,11 @@
             <!--close left column-->
             <div id="main-section" class="col-xs-12 column">
                 <!--open main column-->
-                <div id="Orders">kur</div>
+                <div id="main-section-header" class="row">
+                    <h2 id="team-efficiency" class="col-xs-3">PRODUCTS & ORDERS</h2>
+                    <div style="clear:both;"></div>
+                </div>
+                <div id="Orders"></div>
             </div>
             <!--close main column-->
         </div>
@@ -74,6 +78,43 @@
                 });
                 resizeGrid();
             });
+
+            $('#Orders').kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "http://knnikolov/web/api/productsandorders/GetOrders"
+                        }
+                    },
+                    pageSize: 20,
+                    schema: {
+                        model: {
+                            id: "OrderID",
+                            fields: {
+                                OrderID: {
+                                    editable: false
+                                },
+                                OrderDate: {
+                                    editable: false
+                                },
+                            }
+                        }
+                    }
+                },
+                columns: [{
+                    field: "OrderID",
+                    title: "Order Id"
+                }, {
+                    field: "OrderDate",
+                    format: "{0: yyyy-MM-dd}",
+                    width: 150
+                }],
+                sortable: true,
+                selectable: true,
+                navigatable: true,
+                filterable: true,
+                scrollable: true,
+            })
         });
     </script>
 </body>
