@@ -32,6 +32,26 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return orders;
         }
 
+        public List<OrderDetailViewModel> GetOrderDetails(int OrderID)
+        {
+            var orders = GetOrderDetails().Where(o => o.OrderID.Equals(OrderID));
+            return orders.ToList();
+        }
+
+        private static IEnumerable<OrderDetailViewModel> GetOrderDetails()
+        {
+            var northwind = new NorthwindEntities();
+            var order_details = northwind.Order_Details.Select(od => new OrderDetailViewModel
+            {
+                OrderID = od.OrderID,
+                ProductID = od.ProductID,
+                UnitPrice = od.UnitPrice,
+                Quantity = od.Quantity,
+                Discount = od.Discount
+            });
+
+            return order_details;
+        }
        
     }
 }
