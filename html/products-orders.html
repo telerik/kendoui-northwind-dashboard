@@ -123,12 +123,99 @@
                     title: "SHIP VIA"
                 }],
                 sortable: true,
-                pageable:true,
+                pageable: true,
                 navigatable: true,
                 filterable: true,
-                scrollable: true
+                scrollable: true,
+                detailTemplate: kendo.template($("#order-detail-template").html()),
+                detailInit: detailInit
             })
-        });
+            
+            function detailInit(e) {
+                var detailRow = e.detailRow;
+                var orderId = e.data.OrderID;
+                
+                detailRow.find(".tabstrip").kendoTabStrip();
+
+                detailRow.find(".details-grid").kendoGrid({
+                    autoBind: false,
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "http://knnikolov/web/api/productsandorders/GetOrderDetails"
+                            }
+                        },
+                        schema:{
+                            parse: function(data){
+                                for(var i = 0; i< data.length; i++){
+                                    var sum = data[i].UnitPrice * data[i].Quantity;
+                                    sum = sum - (sum * data[i].Discount)
+                                    data[i].Total = sum;
+                                }
+                                return data;
+                            }
+                        },
+                        aggregate: [ { field: "Total", aggregate: "sum" }]
+                    },
+                    columns: [{
+                        field: "ProductName",
+                        title: "PRODUCT NAME"
+                    }, {
+                        field: "UnitPrice",
+                        title: "UNIT PRICE",
+                        format: "{0:c}",
+                        width: 220
+                    }, {
+                        field: "Quantity",
+                        title: "QUANTITY",
+                        width: 220
+                    }, {
+                        field: "Discount",
+                        title: "DISCOUNT",
+                        format: "{0:p}",
+                        width: 200,
+                        footerTemplate: "Grand total:"
+                    }, {
+                        field: "Total",
+                        title: "TOTAL",
+                        format: "{0:c}",
+                        footerTemplate: "<span name='sum'>#=kendo.toString(sum, 'c')#</span>",
+                        width:120
+                    }]
+                })
+
+                detailRow.find(".details-grid").getKendoGrid().dataSource.read({
+                    "OrderID": orderId
+                });
+            }
+        });    
+    </script>
+<script id="order-detail-template" type="text/x-kendo-tmpl">
+        <h4>Details for order \\##=OrderID# </h4>
+        <div class="tabstrip">
+            <ul>
+                <li class="k-state-active">
+                    PRODUCTS
+                </li>
+                <li>
+                    SHIPPING DETAILS
+                </li>
+            </ul>
+            <div class="details-grid">
+                
+            </div>
+            <div>
+                 <div class='shipping-details'>
+                     <ul>
+                         <li><label>Name:</label>#= ShipName #</li>
+                         <li><label>Country:</label>#= ShipCountry #</li>
+                         <li><label>City:</label>#= ShipCity #</li>
+                         <li><label>Address:</label>#= ShipAddress #</li>
+                         <li><label>Postal Code:</label>#= ShipPostalCode #</li>
+                     </ul>
+                 </div>
+            </div>
+        </div>
     </script>
 </body>
 
