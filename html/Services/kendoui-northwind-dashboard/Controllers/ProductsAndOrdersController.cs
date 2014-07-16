@@ -44,6 +44,13 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return productDetail;
         }
 
+        public List<ProductsSalesByMonth_Result> GetProductSalesByMonth(int ProductID)
+        {
+            var northwind = new NorthwindEntities();
+            List<ProductsSalesByMonth_Result> result = northwind.ProductsSalesByMonth(ProductID).ToList();
+            return result;
+        }
+
         private static IEnumerable<OrderDetailViewModel> GetOrderDetails()
         {
             var northwind = new NorthwindEntities();
@@ -79,6 +86,6 @@ namespace KendoUI.Northwind.Dashboard.Controllers
 
             return products;
         }
-       
+
     }
 }
