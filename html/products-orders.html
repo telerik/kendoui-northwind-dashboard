@@ -130,11 +130,11 @@
                 detailTemplate: kendo.template($("#order-detail-template").html()),
                 detailInit: detailInit
             })
-            
+
             function detailInit(e) {
                 var detailRow = e.detailRow;
                 var orderId = e.data.OrderID;
-                
+
                 detailRow.find(".tabstrip").kendoTabStrip();
 
                 detailRow.find(".details-grid").kendoGrid({
@@ -145,9 +145,9 @@
                                 url: "http://knnikolov/web/api/productsandorders/GetOrderDetails"
                             }
                         },
-                        schema:{
-                            parse: function(data){
-                                for(var i = 0; i< data.length; i++){
+                        schema: {
+                            parse: function(data) {
+                                for (var i = 0; i < data.length; i++) {
                                     var sum = data[i].UnitPrice * data[i].Quantity;
                                     sum = sum - (sum * data[i].Discount)
                                     data[i].Total = sum;
@@ -155,7 +155,10 @@
                                 return data;
                             }
                         },
-                        aggregate: [ { field: "Total", aggregate: "sum" }]
+                        aggregate: [{
+                            field: "Total",
+                            aggregate: "sum"
+                        }]
                     },
                     columns: [{
                         field: "ProductName",
@@ -180,15 +183,36 @@
                         title: "TOTAL",
                         format: "{0:c}",
                         footerTemplate: "<span name='sum'>#=kendo.toString(sum, 'c')#</span>",
-                        width:120
-                    }]
+                        width: 120
+                    }],
+                    detailTemplate: kendo.template($("#product-detail-template").html()),
+                    detailInit: productDetailInit
                 })
 
                 detailRow.find(".details-grid").getKendoGrid().dataSource.read({
                     "OrderID": orderId
                 });
             }
-        });    
+
+            function productDetailInit(e) {
+                var model = e.data;
+                var detail = e.detailRow;
+                $.ajax({
+                    url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
+                    data: {
+                        ID: model.ProductID
+                    },
+                    success: function(receivedProduct) {
+                        debugger;
+                        detail.find(".product-name").text(receivedProduct.ProductName);
+                        detail.find(".product-category").text(receivedProduct.Category ? receivedProduct.Category.CategoryName : '');
+                        detail.find(".details-stock").text(receivedProduct.UnitsInStock);
+                        detail.find(".details-orders").text(receivedProduct.UnitsOnOrder);
+                        detail.find(".details-re-order").text(receivedProduct.ReorderLevel);
+                    }
+                })
+            }
+        });
     </script>
 <script id="order-detail-template" type="text/x-kendo-tmpl">
         <h4>Details for order \\##=OrderID# </h4>
@@ -216,6 +240,43 @@
                  </div>
             </div>
         </div>
+    </script>
+     <script id="product-detail-template" type="text/x-kendo-template">
+        <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">
+            <div class="product-details col-xs-3">
+                #if(ProductID) {#
+                    <img src="http://knnikolov/web/Content/Products/11.jpg" class="product-details-image">
+                #}#
+                <div class="product-name-cat">
+                    <div class="product-name"></div>
+                    <div class="product-category"></div>
+                </div>
+                </div>
+                <div class="product-details col-xs-3">
+                    <h5>Orders QTY.</h5>
+                    <div class="sparkline-container">
+                       Sparkline is here
+                    </div>
+                    </div>
+                     <div class="product-details col-xs-1">
+                        <h5>In stock</h5>
+                        <span class="details-stock"></span>
+                    </div>
+                    <div class="product-details col-xs-1">
+                        <h5>In order</h5>
+                        <span class="details-orders"></span>
+                    </div>
+                    <div class="product-details col-xs-1">
+                        <h5>Reorder</h5>
+                        <span class="details-re-order"></span>
+                    </div>
+                    <div class="product-details col-xs-3">
+                        <h5>Qty. per unit</h5>
+                        <span class="details-re-order"></span><span class="product-metric">kg pkg.</span>
+                    </div>
+                </div>
+            </div>
+       </div>  
     </script>
 </body>
 
