@@ -213,6 +213,50 @@
                         detail.find(".details-re-order").text(receivedProduct.ReorderLevel);
                     }
                 })
+                var sparkline = e.detailRow.find('.details-sparkline').kendoSparkline({
+                    theme:"metro",
+                    type:"column",
+                    autoBind:false,
+                    dataSource:{
+                        transport:{
+                            read:{
+                                dataType : "json",
+                                url: "http://knnikolov/web/api/productsandorders/GetProductSalesByMonth"
+                            }
+                        }
+                    },
+                    series: [{
+                        categoryField: "Date",
+                        aggregate: "count",
+                        gap: 0.2,
+                        field: "Quantity",
+                        tooltip:{
+                            template: "QUANTITY: #:value#"
+                        }
+                    }],
+                    categoryAxis:{
+                        type: "date",
+                        visible:true,
+                        labels:{
+                            visible:false
+                        },
+                        majorTicks:{
+                            visible:false
+                        },
+                        baseUnit: "months",
+                        line:{
+                            visible: true,
+                            color: "#000000"
+                        }
+                    },
+                    valueAxis:{
+                        line: {
+                            visible: true
+                        }
+                    }
+                }).data('kendoSparkline');
+                sparkline.dataSource.read({"ProductID": model.ProductID});
+                
             }
         });
     </script>
@@ -257,7 +301,7 @@
                 <div class="product-details col-xs-3">
                     <h5>Orders QTY.</h5>
                     <div class="sparkline-container">
-                       Sparkline is here
+                       <div class="details-sparkline"></div>
                     </div>
                     </div>
                      <div class="product-details col-xs-1">
