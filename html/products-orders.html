@@ -186,7 +186,10 @@
                         width: 120
                     }],
                     detailTemplate: kendo.template($("#product-detail-template").html()),
-                    detailInit: productDetailInit
+                    detailInit: productDetailInit,
+                    pageable:true,
+                    selectable:true,
+                    navigateable:true
                 })
 
                 detailRow.find(".details-grid").getKendoGrid().dataSource.read({
@@ -203,7 +206,6 @@
                         ID: model.ProductID
                     },
                     success: function(receivedProduct) {
-                        debugger;
                         detail.find(".product-name").text(receivedProduct.ProductName);
                         detail.find(".product-category").text(receivedProduct.Category ? receivedProduct.Category.CategoryName : '');
                         detail.find(".details-stock").text(receivedProduct.UnitsInStock);
@@ -245,7 +247,7 @@
         <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">
             <div class="product-details col-xs-3">
                 #if(ProductID) {#
-                    <img src="http://knnikolov/web/Content/Products/11.jpg" class="product-details-image">
+                    <img src="http://knnikolov/web/Content/Products/#=ProductID#.jpg" class="product-details-image">
                 #}#
                 <div class="product-name-cat">
                     <div class="product-name"></div>
