@@ -38,6 +38,12 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return orders.ToList();
         }
 
+        public ProductViewModel GetProductDetails(int ID)
+        {
+            ProductViewModel productDetail = ProductDetails().Where(product => product.ProductID == ID).SingleOrDefault();
+            return productDetail;
+        }
+
         private static IEnumerable<OrderDetailViewModel> GetOrderDetails()
         {
             var northwind = new NorthwindEntities();
@@ -51,6 +57,27 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             });
 
             return order_details;
+        }
+
+        private static IQueryable<ProductViewModel> ProductDetails()
+        {
+            var northwind = new NorthwindEntities();
+            var products = northwind.Products.Select(product => new ProductViewModel
+            {
+                ProductID = product.ProductID,
+                ProductName = product.ProductName,
+                Category = new CategoryViewModel()
+                {
+                    CategoryID = product.Category.CategoryID,
+                    CategoryName = product.Category.CategoryName
+                },
+                UnitsInStock = (short)product.UnitsInStock,
+                UnitsOnOrder = (short)product.UnitsOnOrder,
+                ReorderLevel = (short)product.ReorderLevel,
+                QuantityPerUnit = product.QuantityPerUnit
+            });
+
+            return products;
         }
        
     }

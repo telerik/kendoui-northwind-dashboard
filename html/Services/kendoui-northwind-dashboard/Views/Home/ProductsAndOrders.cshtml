@@ -254,7 +254,7 @@
                     .Events(e =>
                     {
                         e.DataBound("onOrderDetailsDataBound");
-                        e.DetailInit("onDetailInit");
+                        e.DetailInit("productDetailInit");
                         e.Edit("onOrderDetailsEdit");
                     })
                     .Selectable()
@@ -293,7 +293,7 @@
 
     <script type="text/javascript">
 
-        function onDetailInit(e) {
+        function productDetailInit(e) {
             var model = e.data;
             var detail = e.detailRow;
             $.ajax({
