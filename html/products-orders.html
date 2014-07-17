@@ -68,8 +68,8 @@
     <!--close container-->
     <script>
         $(document).ready(function() {
-            var employees;
-            
+            var employees, shippers;
+
             $(window).on("resize", function() {
                 var containerWidth = $(".sparkline-container").parent().width();
                 var sparkLineWidth = (80 * containerWidth) / 100;
@@ -80,18 +80,22 @@
                 });
                 resizeGrid();
             });
-                        
-            $.ajax({
-                    url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
-                    success: function(data) {
-                        employees = data;
-                        initGrid();
-                    }
-                })
-            
-                                                        
-            function initGrid(){
-                    $('#Orders').kendoGrid({
+            $.when($.ajax({
+                url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
+                success: function(data) {
+                    employees = data;
+                }
+            }), $.ajax({
+                url: 'http://knnikolov/web/api/productsandorders/GetShipperDetails',
+                success: function(data) {
+                    shippers = data;
+                }
+            })).done(function() {
+                initGrid();
+            })
+
+            function initGrid() {
+                $('#Orders').kendoGrid({
                     dataSource: {
                         transport: {
                             read: {
@@ -123,17 +127,18 @@
                         width: 150
                     }, {
                         field: "CustomerID",
-                        title: "CUSTOMER" 
+                        title: "CUSTOMER"
                     }, {
                         field: "EmployeeID",
                         title: "EMPLOYEE",
-                        value: employees
+                        values: employees
                     }, {
                         field: "ShipCountry",
                         title: "SHIP COUNTRY"
                     }, {
                         field: "ShipVia",
-                        title: "SHIP VIA"
+                        title: "SHIP VIA",
+                        values: shippers
                     }],
                     sortable: true,
                     pageable: true,
@@ -144,6 +149,7 @@
                     detailInit: detailInit
                 })
             }
+
             function detailInit(e) {
                 var detailRow = e.detailRow;
                 var orderId = e.data.OrderID;
@@ -200,9 +206,9 @@
                     }],
                     detailTemplate: kendo.template($("#product-detail-template").html()),
                     detailInit: productDetailInit,
-                    pageable:true,
-                    selectable:true,
-                    navigateable:true
+                    pageable: true,
+                    selectable: true,
+                    navigateable: true
                 })
 
                 detailRow.find(".details-grid").getKendoGrid().dataSource.read({
@@ -227,13 +233,13 @@
                     }
                 })
                 var sparkline = e.detailRow.find('.details-sparkline').kendoSparkline({
-                    theme:"metro",
-                    type:"column",
-                    autoBind:false,
-                    dataSource:{
-                        transport:{
-                            read:{
-                                dataType : "json",
+                    theme: "metro",
+                    type: "column",
+                    autoBind: false,
+                    dataSource: {
+                        transport: {
+                            read: {
+                                dataType: "json",
                                 url: "http://knnikolov/web/api/productsandorders/GetProductSalesByMonth"
                             }
                         }
@@ -243,33 +249,35 @@
                         aggregate: "count",
                         gap: 0.2,
                         field: "Quantity",
-                        tooltip:{
+                        tooltip: {
                             template: "QUANTITY: #:value#"
                         }
                     }],
-                    categoryAxis:{
+                    categoryAxis: {
                         type: "date",
-                        visible:true,
-                        labels:{
-                            visible:false
+                        visible: true,
+                        labels: {
+                            visible: false
                         },
-                        majorTicks:{
-                            visible:false
+                        majorTicks: {
+                            visible: false
                         },
                         baseUnit: "months",
-                        line:{
+                        line: {
                             visible: true,
                             color: "#000000"
                         }
                     },
-                    valueAxis:{
+                    valueAxis: {
                         line: {
                             visible: true
                         }
                     }
                 }).data('kendoSparkline');
-                sparkline.dataSource.read({"ProductID": model.ProductID});
-                
+                sparkline.dataSource.read({
+                    "ProductID": model.ProductID
+                });
+
             }
         });
     </script>
