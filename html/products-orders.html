@@ -80,6 +80,7 @@
                 });
                 resizeGrid();
             });
+
             $.when($.ajax({
                 url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
                 success: function(data) {
@@ -117,6 +118,7 @@
                             }
                         }
                     },
+                    dataBound: onDataBound,
                     columns: [{
                         field: "OrderID",
                         title: "ORDER ID"
@@ -153,67 +155,77 @@
             function detailInit(e) {
                 var detailRow = e.detailRow;
                 var orderId = e.data.OrderID;
+                var products;
 
                 detailRow.find(".tabstrip").kendoTabStrip();
 
-                detailRow.find(".details-grid").kendoGrid({
-                    autoBind: false,
-                    dataSource: {
-                        transport: {
-                            read: {
-                                url: "http://knnikolov/web/api/productsandorders/GetOrderDetails"
-                            }
-                        },
-                        schema: {
-                            parse: function(data) {
-                                for (var i = 0; i < data.length; i++) {
-                                    var sum = data[i].UnitPrice * data[i].Quantity;
-                                    sum = sum - (sum * data[i].Discount)
-                                    data[i].Total = sum;
+                $.when($.ajax({
+                    url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
+                    success: function(data) {
+                        products = data;
+                    }
+                })).done(function() {
+                    detailRow.find(".details-grid").kendoGrid({
+                        autoBind: false,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "http://knnikolov/web/api/productsandorders/GetOrderDetails"
                                 }
-                                return data;
-                            }
+                            },
+                            schema: {
+                                parse: function(data) {
+                                    for (var i = 0; i < data.length; i++) {
+                                        var sum = data[i].UnitPrice * data[i].Quantity;
+                                        sum = sum - (sum * data[i].Discount)
+                                        data[i].Total = sum;
+                                    }
+                                    return data;
+                                }
+                            },
+                            aggregate: [{
+                                field: "Total",
+                                aggregate: "sum"
+                            }]
                         },
-                        aggregate: [{
+                        dataBound: onDataBound,
+                        columns: [{
+                            field: "ProductID",
+                            title: "PRODUCT NAME",
+                            values: products
+                        }, {
+                            field: "UnitPrice",
+                            title: "UNIT PRICE",
+                            format: "{0:c}",
+                            width: 220
+                        }, {
+                            field: "Quantity",
+                            title: "QUANTITY",
+                            width: 220
+                        }, {
+                            field: "Discount",
+                            title: "DISCOUNT",
+                            format: "{0:p}",
+                            width: 200,
+                            footerTemplate: "Grand total:"
+                        }, {
                             field: "Total",
-                            aggregate: "sum"
-                        }]
-                    },
-                    columns: [{
-                        field: "ProductName",
-                        title: "PRODUCT NAME"
-                    }, {
-                        field: "UnitPrice",
-                        title: "UNIT PRICE",
-                        format: "{0:c}",
-                        width: 220
-                    }, {
-                        field: "Quantity",
-                        title: "QUANTITY",
-                        width: 220
-                    }, {
-                        field: "Discount",
-                        title: "DISCOUNT",
-                        format: "{0:p}",
-                        width: 200,
-                        footerTemplate: "Grand total:"
-                    }, {
-                        field: "Total",
-                        title: "TOTAL",
-                        format: "{0:c}",
-                        footerTemplate: "<span name='sum'>#=kendo.toString(sum, 'c')#</span>",
-                        width: 120
-                    }],
-                    detailTemplate: kendo.template($("#product-detail-template").html()),
-                    detailInit: productDetailInit,
-                    pageable: true,
-                    selectable: true,
-                    navigateable: true
-                })
+                            title: "TOTAL",
+                            format: "{0:c}",
+                            footerTemplate: "<span name='sum'>#=kendo.toString(sum, 'c')#</span>",
+                            width: 120
+                        }],
+                        detailTemplate: kendo.template($("#product-detail-template").html()),
+                        detailInit: productDetailInit,
+                        pageable: true,
+                        selectable: true,
+                        navigateable: true
+                    })
 
-                detailRow.find(".details-grid").getKendoGrid().dataSource.read({
-                    "OrderID": orderId
-                });
+                    detailRow.find(".details-grid").getKendoGrid().dataSource.read({
+                        "OrderID": orderId
+                    });
+                })
             }
 
             function productDetailInit(e) {
@@ -278,6 +290,11 @@
                     "ProductID": model.ProductID
                 });
 
+            }
+            
+            function onDataBound(e) {
+                var firstRow = this.tbody.find("tr.k-master-row").first();
+                this.expandRow(firstRow);                
             }
         });
     </script>
