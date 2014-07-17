@@ -87,6 +87,24 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return result;
         }
 
+        public List<ProductDetailsViewModel> GetProductDetails()
+        {
+            var northwind = new NorthwindEntities();
+            List<Product> products = northwind.Products.ToList();
+            List<ProductDetailsViewModel> result = new List<ProductDetailsViewModel>();
+
+            foreach (Product product in products)
+            {
+                ProductDetailsViewModel productDetails = new ProductDetailsViewModel
+                {
+                    value = product.ProductID,
+                    text = product.ProductName
+                };
+                result.Add(productDetails);
+            }
+            return result;
+        }
+
         private static IEnumerable<OrderDetailViewModel> GetOrderDetails()
         {
             var northwind = new NorthwindEntities();
