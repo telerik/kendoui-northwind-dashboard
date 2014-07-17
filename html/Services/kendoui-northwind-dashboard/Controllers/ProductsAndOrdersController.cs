@@ -51,6 +51,42 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return result;
         }
 
+        public List<EmployeeDetailViewModel> GetEmployeeDetails()
+        {
+            var northwind = new NorthwindEntities();
+            List<Employee> employees = northwind.Employees.ToList();
+            List<EmployeeDetailViewModel> result = new List<EmployeeDetailViewModel>();
+
+            foreach (Employee emp in employees)
+            {
+                EmployeeDetailViewModel employeeDetails = new EmployeeDetailViewModel
+                {
+                    value = emp.EmployeeID,
+                    text = emp.FirstName + " " + emp.LastName
+                };
+                result.Add(employeeDetails);
+            }
+            return result;
+        }
+
+        public List<ShipperDetailViewModel> GetShipperDetails()
+        {
+            var northwind = new NorthwindEntities();
+            List<Shipper> shippers = northwind.Shippers.ToList();
+            List<ShipperDetailViewModel> result = new List<ShipperDetailViewModel>();
+
+            foreach (Shipper shipper in shippers)
+            {
+                ShipperDetailViewModel shipperDetails = new ShipperDetailViewModel
+                {
+                    value = shipper.ShipperID,
+                    text = shipper.CompanyName
+                };
+                result.Add(shipperDetails);
+            }
+            return result;
+        }
+
         private static IEnumerable<OrderDetailViewModel> GetOrderDetails()
         {
             var northwind = new NorthwindEntities();
