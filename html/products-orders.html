@@ -291,10 +291,22 @@
                 });
 
             }
-            
+
             function onDataBound(e) {
                 var firstRow = this.tbody.find("tr.k-master-row").first();
-                this.expandRow(firstRow);                
+                this.expandRow(firstRow);
+            }
+
+            function resizeGrid() {
+                var gridElement = $("#Orders"),
+                    dataArea = gridElement.find(".k-grid-content"),
+                    gridHeight = gridElement.innerHeight(),
+                    otherElements = gridElement.children().not(".k-grid-content"),
+                    otherElementsHeight = 0;
+                otherElements.each(function() {
+                    otherElementsHeight += $(this).outerHeight();
+                });
+                dataArea.height(gridHeight - otherElementsHeight);
             }
         });
     </script>
