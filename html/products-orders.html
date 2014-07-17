@@ -68,6 +68,8 @@
     <!--close container-->
     <script>
         $(document).ready(function() {
+            var employees;
+            
             $(window).on("resize", function() {
                 var containerWidth = $(".sparkline-container").parent().width();
                 var sparkLineWidth = (80 * containerWidth) / 100;
@@ -78,59 +80,70 @@
                 });
                 resizeGrid();
             });
-
-            $('#Orders').kendoGrid({
-                dataSource: {
-                    transport: {
-                        read: {
-                            url: "http://knnikolov/web/api/productsandorders/GetOrders"
-                        }
-                    },
-                    pageSize: 20,
-                    schema: {
-                        model: {
-                            id: "OrderID",
-                            fields: {
-                                OrderID: {
-                                    editable: false
-                                },
-                                OrderDate: {
-                                    defaultValue: new Date()
-                                },
+                        
+            $.ajax({
+                    url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
+                    success: function(data) {
+                        employees = data;
+                        initGrid();
+                    }
+                })
+            
+                                                        
+            function initGrid(){
+                    $('#Orders').kendoGrid({
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "http://knnikolov/web/api/productsandorders/GetOrders"
+                            }
+                        },
+                        pageSize: 20,
+                        schema: {
+                            model: {
+                                id: "OrderID",
+                                fields: {
+                                    OrderID: {
+                                        editable: false
+                                    },
+                                    OrderDate: {
+                                        defaultValue: new Date()
+                                    },
+                                }
                             }
                         }
-                    }
-                },
-                columns: [{
-                    field: "OrderID",
-                    title: "ORDER ID"
-                }, {
-                    field: "OrderDate",
-                    title: "ORDER DATE",
-                    format: "{0: yyyy-MM-dd}",
-                    width: 150
-                }, {
-                    field: "Customer",
-                    title: "CUSTOMER"
-                }, {
-                    field: "Employee",
-                    title: "EMPLOYEE"
-                }, {
-                    field: "ShipCountry",
-                    title: "SHIP COUNTRY"
-                }, {
-                    field: "ShipVia",
-                    title: "SHIP VIA"
-                }],
-                sortable: true,
-                pageable: true,
-                navigatable: true,
-                filterable: true,
-                scrollable: true,
-                detailTemplate: kendo.template($("#order-detail-template").html()),
-                detailInit: detailInit
-            })
-
+                    },
+                    columns: [{
+                        field: "OrderID",
+                        title: "ORDER ID"
+                    }, {
+                        field: "OrderDate",
+                        title: "ORDER DATE",
+                        format: "{0: yyyy-MM-dd}",
+                        width: 150
+                    }, {
+                        field: "CustomerID",
+                        title: "CUSTOMER" 
+                    }, {
+                        field: "EmployeeID",
+                        title: "EMPLOYEE",
+                        value: employees
+                    }, {
+                        field: "ShipCountry",
+                        title: "SHIP COUNTRY"
+                    }, {
+                        field: "ShipVia",
+                        title: "SHIP VIA"
+                    }],
+                    sortable: true,
+                    pageable: true,
+                    navigatable: true,
+                    filterable: true,
+                    scrollable: true,
+                    detailTemplate: kendo.template($("#order-detail-template").html()),
+                    detailInit: detailInit
+                })
+            }
             function detailInit(e) {
                 var detailRow = e.detailRow;
                 var orderId = e.data.OrderID;
