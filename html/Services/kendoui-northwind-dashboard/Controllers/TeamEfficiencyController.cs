@@ -28,5 +28,22 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return employees.ToList();
         }
 
+        public List<QuarterToDateSalesViewModel> GetEmployeeQuarterSales(int EmployeeID, DateTime endDate)
+        {
+            DateTime startDate = endDate.AddMonths(-3);
+            var northwind = new NorthwindEntities();
+            var sales = northwind.Orders.Where(w => w.EmployeeID == EmployeeID)
+                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails })
+                .Where(d => d.Order.OrderDate >= startDate && d.Order.OrderDate <= endDate).ToList()
+                .Select(o => new QuarterToDateSalesViewModel
+                {
+                    Current = (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice) - (o.OrderDetails.Quantity * o.OrderDetails.UnitPrice * (decimal)o.OrderDetails.Discount)
+                });
+            var result = new List<QuarterToDateSalesViewModel>() { 
+                     new QuarterToDateSalesViewModel {Current = sales.Sum(s=>s.Current), Target = 15000, OrderDate = endDate}
+            };
+            return result.ToList();
+        }
+
     }
 }

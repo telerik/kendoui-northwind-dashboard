@@ -54,14 +54,6 @@
             </div>
             <!--close left column-->
             <div id="main-section" class="col-xs-12 column">
-                <script type="text/x-kendo-tmpl" id="employeeBioTemplate">
-                    < div > < h3 > ABOUT < /h3>
-        <img src="@(Url.Content("~/content / employees / "))#:EmployeeID#.png"
-                    class = "img-responsive employee-details-image" / > < dl class = "employee-bio-details" > < dt class = "name" > #: FirstName##: LastName# < /dt>
-            <dd class="title">#:Title#</dd > < dd class = "phone" > < span class = "icon icon-mobile" > < /span>#:HomePhone#</dd > < dd > < a href = '\\#'
-                    class = 'bioTooltip' > >> FULL BIO < span style = 'display:none;' > #: Notes# < /span></a > < /dd>
-        </dl > < /div>
-                </script>
                 @(Html.Kendo().Tooltip() .For("#employeeBio") .Filter("a") .ContentHandler("getBio") )
 
                 <div id="main-section-header" class="row">
@@ -97,8 +89,7 @@
                                         <h3>Quarter to date sales</h3>
                                         <span id="EmployeeQuarterSalesLabel"></span>
                                         <div class="sparkline-container">
-                                            @(Html.Kendo().Chart
-                                            <QuarterToDateSalesViewModel>() .Name("EmployeeQuarterSales") .Theme("metro") .HtmlAttributes(new {style = "height:30px;" } ) .AutoBind(false) .Tooltip(false) .Events(e=>e.DataBound("onQuarterSalesDataBound")) .DataSource(ds => ds .Read(read => read.Action("EmployeeQuarterSales", "Team")) ) .Series(series => { series.Bullet(m => m.Current, m => m.Target); }) .Legend(leg => leg.Visible(false)) .CategoryAxis(cat => cat.Labels(lab => lab.Visible(false)).MajorGridLines(m => m.Visible(false)).Visible(false)) .ValueAxis(val => val.Numeric().Labels(lab =>lab.Visible(false)).MajorGridLines(m => m.Visible(false)).MajorTicks(mT => mT.Visible(false))) )
+                                            <div id="employee-quarter-sales" style="height:30px"></div>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-4">
@@ -132,21 +123,21 @@
 
     <script>
         $(document).ready(function() {
-            $('[data-toggle=offcanvas]').click(function() {
-                $('.row-offcanvas').toggleClass('active');
+            $("[data-toggle=offcanvas]").click(function() {
+                $(".row-offcanvas").toggleClass("active");
             });
             
-            $('#start-date').kendoDatePicker({
+            $("#start-date").kendoDatePicker({
                 value: new Date(1996, 0, 1),
                 change: onCriteriaChange
             })
             
-            $('#end-date').kendoDatePicker({
+            $("#end-date").kendoDatePicker({
                 value: new Date(1998,7,1),
                 change: onCriteriaChange
             })
             
-            $('#employees-list').kendoListView({
+            $("#employees-list").kendoListView({
                 template: $('#employeeItemTemplate').html(),
                 dataSource: {
                     transport: {
@@ -161,6 +152,55 @@
                 dataBound: onListDataBound,
                 change: onCriteriaChange
             })
+            
+            $("#employee-quarter-sales").kendoChart({
+                theme: "metro",
+                autoBind:false,
+                tooltip:false,
+                dataBound:onQuarterSalesDataBound,
+                dataSource: {
+                    transport: {
+                        read: {
+                            dataType : "json",
+                            url: 'http://knnikolov/web/api/teamefficiency/GetEmployeeQuarterSales'
+                        }
+                    }
+                },
+                 series: [{
+                     type: "bullet",
+                     currentField: "Current",
+                     targetField: "Target"
+                     
+                 }],
+                 legend: {
+                     visible:false
+                 },
+                 categoryAxis: {
+                     labels: {
+                         visible: false
+                     },
+                     majorGridLines: {
+                         visible: false
+                     }
+                 },
+                 valueAxis: {
+                     type: "numeric",
+                     labels: {
+                         visible: false
+                     },
+                     majorTicks:{
+                         visible : false
+                     },
+                     majorGridLines: {
+                         visible: false
+                     }
+                 }    
+                
+            })            
+            $('#employee-quarter-sales').getKendoChart().dataSource.read({
+                    EmployeeID: 1,
+                    endDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", '1998,8,1')
+                });
 
         });
 
@@ -198,6 +238,10 @@
             employeeAverageSales.dataSource.read(filter);
             */
         }
+        function onQuarterSalesDataBound(e) {
+            var data = this.dataSource.at(0);
+            $("#EmployeeQuarterSalesLabel").text(kendo.toString(data.Current,"c2"));
+        }
     </script>
             
     <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
@@ -210,6 +254,18 @@
                    </dl>
                </div>
             </div> 
+    </script>
+    <script type="text/x-kendo-tmpl" id="employeeBioTemplate">
+        <div>
+            <h3>ABOUT</h3>
+            <img src="http://knnikolov/web/Content/Employees/#:EmployeeID#.png" class="img-responsive employee-details-image" /> 
+            <dl class="employee-bio-details">
+                <dt class="name">#:FirstName# #:LastName#</dt>
+                    <dd class="title">#:Title#</dd>
+                    <dd class="phone"><span class="icon icon-mobile"></span>#:HomePhone#</dd>
+                    <dd><a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span></a></dd>
+           </dl>
+        </div> 
     </script>
 </body>
 
