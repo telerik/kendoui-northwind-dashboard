@@ -45,5 +45,13 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return result.ToList();
         }
 
+        public List<MonthlySalesByEmployee_Result> GetEmployeeAverageSales(int EmployeeID, DateTime startDate, DateTime endDate)
+        {
+            var northwind = new NorthwindEntities();
+            var result = northwind.MonthlySalesByEmployee(EmployeeID).Where(d => d.Date >= startDate && d.Date <= endDate);
+
+            return result.ToList();
+        }
+
     }
 }
