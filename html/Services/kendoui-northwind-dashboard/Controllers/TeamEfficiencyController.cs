@@ -53,5 +53,13 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return result.ToList();
         }
 
+        public List<SalesAmounts_Result> GetEmployeeAndTeamSales(int EmployeeID, DateTime startDate, DateTime endDate)
+        {
+            var northwind = new NorthwindEntities();
+            var result = northwind.SalesAmounts(EmployeeID).Where(d => d.Date >= startDate && d.Date <= endDate);
+            return result.ToList();
+        }
+
+
     }
 }
