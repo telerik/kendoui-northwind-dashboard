@@ -102,8 +102,7 @@
                                 </div>
                             </div>
                             <div id="employeeStats" class="col-xs-12">
-                                @(Html.Kendo().Chart
-                                <SalesAmounts_Result>() .Name("TeamSales") .Theme("metro") .Title(t => t.Text("REPRESENTATIVE SALES VS. TOTAL SALES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d")) .HtmlAttributes(new {style = "height:200px;" } ) .AutoBind(false) .Legend(l=>l.Position(ChartLegendPosition.Bottom)) .DataSource(ds => ds.Read(read => read.Action("EmployeeAndTeamSales", "Team"))) .Series(series => { series.Column(model => model.EmployeeSales).CategoryField("Date") .Name("Employee Sales").Aggregate(ChartSeriesAggregate.Sum); series.Column(model => model.TotalSales).CategoryField("Date").Name("Team Sales").Aggregate(ChartSeriesAggregate.Sum); }) .CategoryAxis(axis => axis .Date() .BaseUnit(ChartAxisBaseUnit.Months) .MajorGridLines(lines => lines.Visible(false)) ) .ValueAxis(axis => axis.Numeric() .Labels(labels => labels.Format("{0:c2}").Visible(false)) .MajorUnit(25000) .Line(line => line.Visible(false)) .MajorGridLines(m => m.Visible(false)) ) .Tooltip(tooltip => tooltip .Visible(true) .Format("{0:c2}") ) )
+                                <div id="team-sales" style="height:200px"></div>
                             </div>
                             <div id="employeeSchedule" class="col-xs-12">
                                 <h3>Representative orders - schedule</h3>
@@ -125,17 +124,17 @@
             $("[data-toggle=offcanvas]").click(function() {
                 $(".row-offcanvas").toggleClass("active");
             });
-            
+
             $("#start-date").kendoDatePicker({
                 value: new Date(1996, 0, 1),
                 change: onCriteriaChange
             })
-            
+
             $("#end-date").kendoDatePicker({
-                value: new Date(1998,7,1),
+                value: new Date(1998, 7, 1),
                 change: onCriteriaChange
             })
-            
+
             $("#employees-list").kendoListView({
                 template: $('#employeeItemTemplate').html(),
                 dataSource: {
@@ -151,70 +150,72 @@
                 dataBound: onListDataBound,
                 change: onCriteriaChange
             })
-            
+
             $("#employee-quarter-sales").kendoChart({
                 theme: "metro",
-                autoBind:false,
-                tooltip:false,
-                dataBound:onQuarterSalesDataBound,
+                autoBind: false,
+                tooltip: false,
+                dataBound: onQuarterSalesDataBound,
                 dataSource: {
                     transport: {
                         read: {
-                            dataType : "json",
+                            dataType: "json",
                             url: 'http://knnikolov/web/api/teamefficiency/GetEmployeeQuarterSales'
                         }
                     }
                 },
-                 series: [{
-                     type: "bullet",
-                     currentField: "Current",
-                     targetField: "Target"
-                     
-                 }],
-                 legend: {
-                     visible:false
-                 },
-                 categoryAxis: {
-                     labels: {
-                         visible: false
-                     },
-                     majorGridLines: {
-                         visible: false
-                     }
-                 },
-                 valueAxis: {
-                     type: "numeric",
-                     labels: {
-                         visible: false
-                     },
-                     majorTicks:{
-                         visible : false
-                     },
-                     majorGridLines: {
-                         visible: false
-                     }
-                 }    
-                
-            })    
-            
+                series: [{
+                    type: "bullet",
+                    currentField: "Current",
+                    targetField: "Target"
+
+                }],
+                legend: {
+                    visible: false
+                },
+                categoryAxis: {
+                    labels: {
+                        visible: false
+                    },
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                valueAxis: {
+                    type: "numeric",
+                    labels: {
+                        visible: false
+                    },
+                    majorTicks: {
+                        visible: false
+                    },
+                    majorGridLines: {
+                        visible: false
+                    }
+                }
+
+            })
+
             $("#employee-average-sales").kendoChart({
                 theme: "metro",
-                autoBind:false,
-                dataBound: onAverageSalesDataBound, 
+                autoBind: false,
+                dataBound: onAverageSalesDataBound,
                 dataSource: {
                     transport: {
                         read: {
+                            dataType: "json",
                             url: "http://knnikolov/web/api/teamefficiency/GetEmployeeAverageSales"
                         }
                     },
-                    aggregate: [
-                         { field: "EmployeeSales", aggregate: "average" }
-                    ]
+                    aggregate: [{
+                        field: "EmployeeSales",
+                        aggregate: "average"
+                    }]
                 },
                 series: [{
                     type: "line",
                     field: "EmployeeSales",
-                    width:1.5,
+                    width: 1.5,
                     markers: {
                         visible: false
                     }
@@ -236,22 +237,81 @@
                 valueAxis: {
                     type: "numeric",
                     visible: false,
-                    labels : {
+                    labels: {
                         visible: false
                     },
-                    majorGridLines : {
-                        visible : false
+                    majorGridLines: {
+                        visible: false
                     },
-                    majorTicks :{
+                    majorTicks: {
                         visible: false
                     }
-                } 
+                }
             });
-            $("#employee-average-sales").getKendoChart().dataSource.read({
-                EmployeeID:1,
-                startDate:kendo.format("{0:dd/MM/yyyy hh:mm:ss}", "1/1/1996"),
-                endDate:kendo.format("{0:dd/MM/yyyy hh:mm:ss}", "8/1/1998" )
+            
+            $("#team-sales").kendoChart({
+                theme: "metro",
+                title: {
+                    text: "REPRESENTATIVE SALES VS. TOTAL SALES",
+                    align: "left",
+                    font: "11px",
+                    color: "#35373d"
+                },
+                autoBind: false,
+                dataSource: {
+                    transport : {
+                        read: {
+                            dataType: "json",
+                            url: "http://knnikolov/web/api/teamefficiency/GetEmployeeAndTeamSales"
+                        }
+                    }
+                },
+                legend: {
+                    position: "bottom"
+                },
+                series: [{
+                    field: "EmployeeSales",
+                    categoryField: "Date",
+                    name: "Employee Sales",
+                    aggregate: "sum"
+                },{
+                    field: "TotalSales",
+                    categoryField: "Date",
+                    name: "Team Sales",
+                    aggregate: "sum"
+                }],
+                categoryAxis: {
+                    type: "date",
+                    baseUnit: "months",
+                    majorGridLines:{
+                        visible: false
+                    }
+                },
+                valueAxis: {
+                    labels: {
+                        format: "{0:c2}",
+                        visible: false
+                    },
+                    majorUnit: 25000,
+                    line: {
+                        visible: false
+                    },
+                    majorGridLines: {
+                        visible : false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    format: "{0:c2}"
+                }
             })
+            
+            $("#team-sales").getKendoChart().dataSource.read({
+                EmployeeID:1,
+                startDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", "1/1/1996"),
+                endDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", "8/1/1998")
+            })
+            
         });
 
         function onListDataBound(e) {
@@ -263,7 +323,7 @@
                 employee = employeeList.dataSource.getByUid(employeeList.select().attr("data-uid")),
                 employeeQuarterSales = $("#employee-quarter-sales").data("kendoChart"),
                 employeeAverageSales = $("#employee-average-sales").data("kendoChart"),
-                //teamSales = $("#TeamSales").data("kendoChart"),
+                teamSales = $("#team-sales").data("kendoChart"),
                 //employeeSales = $("#EmployeeSales").data("kendoScheduler"),
                 startDate = $("#start-date").data("kendoDatePicker"),
                 endDate = $("#end-date").data("kendoDatePicker"),
@@ -282,16 +342,17 @@
                 value: employee.EmployeeID
             });*/
 
-            //teamSales.dataSource.read(filter);
+            teamSales.dataSource.read(filter);
             employeeQuarterSales.dataSource.read(filter);
             employeeAverageSales.dataSource.read(filter);
         }
+
         function onQuarterSalesDataBound(e) {
             var data = this.dataSource.at(0);
-            $("#EmployeeQuarterSalesLabel").text(kendo.toString(data.Current,"c2"));
+            $("#EmployeeQuarterSalesLabel").text(kendo.toString(data.Current, "c2"));
         }
-        
-        function onAverageSalesDataBound(e) { 
+
+        function onAverageSalesDataBound(e) {
             var data = this.dataSource.aggregates()
             if (data.EmployeeSales) {
                 $("#EmployeeAverageSalesLabel").text(kendo.toString(data.EmployeeSales.average, "c2"));
@@ -300,8 +361,7 @@
             }
         }
     </script>
-            
-    <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
+     <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
         <div class="employee">
             <div class="employee-wrapper">
                 <img src="http://knnikolov/web/Content/Employees/#:EmployeeID#-t.png" class="img-responsive employee-list-image"/> 
@@ -324,6 +384,7 @@
            </dl>
         </div> 
     </script>
+
 </body>
 
 </html>
