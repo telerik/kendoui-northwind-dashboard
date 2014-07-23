@@ -60,6 +60,41 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return result.ToList();
         }
 
+        public List<SaleViewModel> EmployeeSales()
+        {
+            var northwind = new NorthwindEntities();
+            var data = northwind.Orders.Join(northwind.Customers, c => c.CustomerID, o => o.CustomerID, (o, c) => new { Order = o, Customer = c }).ToList();
+
+            var sales = data.Select(o => new SaleViewModel
+            {
+                SaleID = o.Order.OrderID,
+                EmployeeID = o.Order.EmployeeID,
+                Title = o.Customer.CompanyName,
+                Start = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc),
+                End = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc).AddHours(1),
+                IsAllDay = false
+            });
+
+            return sales.ToList();
+        }
+
+        public List<SaleViewModel> GetEmployeeSales()
+        {
+            var northwind = new NorthwindEntities();
+            var data = northwind.Orders.Join(northwind.Customers, c => c.CustomerID, o => o.CustomerID, (o, c) => new { Order = o, Customer = c }).ToList();
+
+            var sales = data.Select(o => new SaleViewModel
+            {
+                SaleID = o.Order.OrderID,
+                EmployeeID = o.Order.EmployeeID,
+                Title = o.Customer.CompanyName,
+                Start = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc),
+                End = DateTime.SpecifyKind((DateTime)o.Order.OrderDate, DateTimeKind.Utc).AddHours(1),
+                IsAllDay = false
+            });
+            return sales.ToList();
+        }
+
 
     }
 }
