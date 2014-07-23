@@ -315,7 +315,60 @@
                             dataType: "json",
                             url: "http://knnikolov/web/api/teamefficiency/GetEmployeeSales"
                         }
-                    }
+                    },
+                        schema: {
+                           model: {
+                                fields: {
+                                    SaleID: {
+                                        type :  "number"
+                                    },
+                                    title: {
+                                        from : "Title",
+                                        type :  "string"
+                                    },
+                                    description: {
+                                        from : "Description",
+                                        type :  "string"
+                                    },
+                                    start: {
+                                        from : "Start",
+                                        type :  "date"
+                                    },
+                                    startTimezone: {
+                                        from : "StartTimezone",
+                                        type :  "string"
+                                    },
+                                    end: {
+                                        from : "End",
+                                        type :  "date"
+                                    },
+                                    endTimezone: {
+                                        from : "EndTimezone",
+                                        type :  "string"
+                                    },
+                                    recurrenceRule: {
+                                        from : "RecurrenceRule",
+                                        type :  "string"
+                                    },
+                                    RecurrenceID: {
+                                        type :  "number",
+                                        defaultValue: null
+                                    },
+                                    recurrenceException: {
+                                        from : "RecurrenceException",
+                                        type :  "string"
+                                    },
+                                    isAllDay: {
+                                        from : "IsAllDay",
+                                        type :  "boolean"
+                                    },
+                                    EmployeeID: {
+                                        type :  "number",
+                                        defaultValue: null
+                                    }
+                                }
+                            }
+                        }
                 },
                 resources: [{
                     field: "EmployeeID",
