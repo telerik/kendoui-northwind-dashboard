@@ -106,8 +106,7 @@
                             </div>
                             <div id="employeeSchedule" class="col-xs-12">
                                 <h3>Representative orders - schedule</h3>
-                                @(Html.Kendo().Scheduler
-                                <SaleViewModel>() .Name("EmployeeSales") .AutoBind(false) .Date(new DateTime(1996, 7, 1)) .Views(views => { views.MonthView(); }) .Editable(false) .Timezone("Etc/UTC") .Resources(resource => { resource.Add(m => m.EmployeeID) .Title("Employee") .DataTextField("EmployeeName") .DataValueField("EmployeeID") .DataSource(dataSource => { dataSource.Read(read => read.Action("GetEmployees", "Team")); }); }) .DataSource(d => d.Read("EmployeeSales", "Team")) )
+                                <div id="employee-sales"></div>
                             </div>
                         </div>
                     </div>
@@ -306,10 +305,41 @@
                 }
             })
             
-            $("#team-sales").getKendoChart().dataSource.read({
-                EmployeeID:1,
-                startDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", "1/1/1996"),
-                endDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", "8/1/1998")
+            $("#employee-sales").kendoScheduler({
+                autoBind:false,
+                date: new Date("1996, 7, 1"),
+                views: ["month"],
+                editable:false,
+                timezone: "Etc/UTC",
+                dataSource:{
+                    transport:{
+                        read: {
+                            dataType: "json",
+                            url: "http://knnikolov/web/api/teamefficiency/GetEmployeeSales"
+                        }
+                    }
+                },
+                resources: [{
+                    field: "EmployeeID",
+                    title: "Employee",
+                    dataTextField: "EmployeeName",
+                    dataValueField: "EmployeeID",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                dataType: "json",
+                                url : "http://knnikolov/web/api/teamefficiency/GetEmployeesList"
+                            }
+                        }
+                    }
+                }]
+            })
+            
+            $('#employeeBio').kendoTooltip({
+                filter: "a",
+                content: function(e){
+                    return e.target.find("span").text();
+                }
             })
             
         });
@@ -324,7 +354,7 @@
                 employeeQuarterSales = $("#employee-quarter-sales").data("kendoChart"),
                 employeeAverageSales = $("#employee-average-sales").data("kendoChart"),
                 teamSales = $("#team-sales").data("kendoChart"),
-                //employeeSales = $("#EmployeeSales").data("kendoScheduler"),
+                employeeSales = $("#employee-sales").data("kendoScheduler"),
                 startDate = $("#start-date").data("kendoDatePicker"),
                 endDate = $("#end-date").data("kendoDatePicker"),
                 filter = {
@@ -335,12 +365,12 @@
                 template = kendo.template($("#employeeBioTemplate").html());
 
             $("#employeeBio").html(template(employee));
-
-            /*employeeSales.dataSource.filter({
+            
+            employeeSales.dataSource.filter({
                 field: "EmployeeID",
                 operator: "eq",
                 value: employee.EmployeeID
-            });*/
+            });
 
             teamSales.dataSource.read(filter);
             employeeQuarterSales.dataSource.read(filter);
