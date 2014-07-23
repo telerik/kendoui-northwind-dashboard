@@ -4,13 +4,13 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
-    <script src="http://cdn.kendostatic.com/2014.1.528/js/jquery.min.js"></script>
-    <script src="http://cdn.kendostatic.com/2014.1.528/js/kendo.all.min.js"></script>
-    <script src="http://cdn.kendostatic.com/2014.1.528/js/kendo.aspnetmvc.min.js"></script>
+    <link href="http://cdn.kendostatic.com/2014.2.716/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.2.716/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.2.716/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.2.716/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.kendostatic.com/2014.2.716/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.2.716/js/kendo.all.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.2.716/js/kendo.aspnetmvc.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
@@ -54,8 +54,6 @@
             </div>
             <!--close left column-->
             <div id="main-section" class="col-xs-12 column">
-                @(Html.Kendo().Tooltip() .For("#employeeBio") .Filter("a") .ContentHandler("getBio") )
-
                 <div id="main-section-header" class="row">
                     <h2 id="team-efficiency" class="col-xs-3">Team efficiency</h2>
                     <div id="dateFilter" class="col-xs-9">
