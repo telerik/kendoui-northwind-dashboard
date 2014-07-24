@@ -469,19 +469,10 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config">
-    </Content>
     <Content Include="Content\Site.css">
     </Content>
-    <Content Include="Images\accent.png" />
-    <Content Include="Images\bullet.png" />
-    <Content Include="Images\heroAccent.png" />
-    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Home\EditorTemplates\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
