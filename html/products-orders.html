@@ -83,11 +83,13 @@
 
             $.when($.ajax({
                 url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
+                dataType: "json",
                 success: function(data) {
                     employees = data;
                 }
             }), $.ajax({
                 url: 'http://knnikolov/web/api/productsandorders/GetShipperDetails',
+                dataType: "json",
                 success: function(data) {
                     shippers = data;
                 }
@@ -100,6 +102,7 @@
                     dataSource: {
                         transport: {
                             read: {
+                                dataType: "json",
                                 url: "http://knnikolov/web/api/productsandorders/GetOrders"
                             }
                         },
@@ -161,6 +164,7 @@
 
                 $.when($.ajax({
                     url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
+                    dataType: "json",
                     success: function(data) {
                         products = data;
                     }
@@ -170,6 +174,7 @@
                         dataSource: {
                             transport: {
                                 read: {
+                                    dataType: "json",
                                     url: "http://knnikolov/web/api/productsandorders/GetOrderDetails"
                                 }
                             },
@@ -233,6 +238,7 @@
                 var detail = e.detailRow;
                 $.ajax({
                     url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
+                    dataType: "json",
                     data: {
                         ID: model.ProductID
                     },
