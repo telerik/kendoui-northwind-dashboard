@@ -35,8 +35,8 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public int GetCountryCustomersTotal(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.CountryCustomersTotal(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
-            return result.Count();
+            int result = northwind.CountryCustomers(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd")).ToList().Count();
+            return result;
         }
 
         public List<CountryOrderViewModel> GetCountryOrders(string Country, DateTime FromDate, DateTime ToDate)
