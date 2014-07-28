@@ -83,13 +83,13 @@
 
             $.when($.ajax({
                 url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
-                dataType: "json",
+                dataType: "jsonp",
                 success: function(data) {
                     employees = data;
                 }
             }), $.ajax({
                 url: 'http://knnikolov/web/api/productsandorders/GetShipperDetails',
-                dataType: "json",
+                dataType: "jsonp",
                 success: function(data) {
                     shippers = data;
                 }
@@ -102,7 +102,7 @@
                     dataSource: {
                         transport: {
                             read: {
-                                dataType: "json",
+                                dataType: "jsonp",
                                 url: "http://knnikolov/web/api/productsandorders/GetOrders"
                             }
                         },
@@ -164,7 +164,7 @@
 
                 $.when($.ajax({
                     url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
-                    dataType: "json",
+                    dataType: "jsonp",
                     success: function(data) {
                         products = data;
                     }
@@ -174,7 +174,7 @@
                         dataSource: {
                             transport: {
                                 read: {
-                                    dataType: "json",
+                                    dataType: "jsonp",
                                     url: "http://knnikolov/web/api/productsandorders/GetOrderDetails"
                                 }
                             },
@@ -238,7 +238,7 @@
                 var detail = e.detailRow;
                 $.ajax({
                     url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
-                    dataType: "json",
+                    dataType: "jsonp",
                     data: {
                         ID: model.ProductID
                     },
@@ -257,7 +257,7 @@
                     dataSource: {
                         transport: {
                             read: {
-                                dataType: "json",
+                                dataType: "jsonp",
                                 url: "http://knnikolov/web/api/productsandorders/GetProductSalesByMonth"
                             }
                         }

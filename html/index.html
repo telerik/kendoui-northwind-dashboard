@@ -237,7 +237,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            dataType: "json",
+                            dataType: "jsonp",
                             url: "http://knnikolov/web/api/sales/GetMarketShare"
                         }
                     }
@@ -262,7 +262,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            dataType: "json",
+                            dataType: "jsonp",
                             url: "http://knnikolov/web/api/sales/GetCountryRevenue"
                         }
                     }
@@ -290,7 +290,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            dataType: "json",
+                            dataType: "jsonp",
                             url: "http://knnikolov/web/api/sales/GetCountryOrders"
                         }
                     }
@@ -315,7 +315,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            dataType: "json",
+                            dataType: "jsonp",
                             url: "http://knnikolov/web/api/sales/GetCountryCustomers"
                         }
                     }
@@ -347,7 +347,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            dataType: "json",
+                            dataType: "jsonp",
                             url: "http://knnikolov/web/api/sales/GetTopSellingProducts"
                         }
                     },
@@ -407,7 +407,7 @@
 
                 $.ajax({
                     url: "http://knnikolov/web/api/sales/GetCountryOrdersTotal",
-                    dataType: "json",
+                    dataType: "jsonp",
                     data: {
                         Country: selectedCountry,
                         FromDate: fromDate.toJSON(),
@@ -422,7 +422,7 @@
 
                 $.ajax({
                     url: "http://knnikolov/web/api/sales/GetCountryCustomersTotal",
-                    dataType: "json",
+                    dataType: "jsonp",
                     data: {
                         Country: selectedCountry,
                         FromDate: fromDate.toJSON(),
@@ -469,7 +469,7 @@
                 $("#countryName").text(country);
                 $.ajax({
                     url: "http://knnikolov/web/api/sales/GetCountryCompanies",
-                    dataType: "json",
+                    dataType: "jsonp",
                     data: {
                         Country: country
                     },

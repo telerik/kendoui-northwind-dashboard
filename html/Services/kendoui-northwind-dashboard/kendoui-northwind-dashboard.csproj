@@ -184,6 +184,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\JsonpMediaTypeFormatter.cs" />
     <Compile Include="Controllers\ProductsAndOrdersController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\TeamEfficiencyController.cs" />

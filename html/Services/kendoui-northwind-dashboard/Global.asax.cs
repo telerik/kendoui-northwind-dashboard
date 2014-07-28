@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KendoUI.Northwind.Dashboard.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -38,8 +39,9 @@ namespace KendoUI.Northwind.Dashboard
 
         protected void Application_Start()
         {
+            var config = GlobalConfiguration.Configuration;
+            config.Formatters.Insert(0, new JsonpMediaTypeFormatter());
             AreaRegistration.RegisterAllAreas();
-
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
