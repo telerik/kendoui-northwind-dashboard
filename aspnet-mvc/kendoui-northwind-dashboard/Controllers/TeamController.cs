@@ -54,7 +54,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         {
             var northwind = new NorthwindEntities();
             var data = northwind.Orders.Join(northwind.Customers, c => c.CustomerID, o => o.CustomerID, (o, c) => new { Order = o, Customer = c }).ToList();
-            
+
             var sales = data.Select(o => new SaleViewModel
             {
                 SaleID = o.Order.OrderID,
@@ -71,7 +71,44 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult EmployeeAndTeamSales(int EmployeeID, DateTime startDate, DateTime endDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.SalesAmounts(EmployeeID).Where(d => d.Date >= startDate && d.Date <= endDate);
+
+            var q1 = (from o in northwind.Orders
+                      join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                      where o.OrderDate >= startDate && o.OrderDate <= endDate
+                      select new
+                      {
+                          OrderID = o.OrderID,
+                          EmployeeID = o.EmployeeID,
+                          Date = o.OrderDate,
+                          Sales = od.Quantity * od.UnitPrice
+                      }).AsEnumerable();
+            var q2 = (from allSales in q1
+                      group allSales by allSales.OrderID into g
+                      select new
+                      {
+                          OrderID = g.Key,
+                          EmployeeID = g.FirstOrDefault().EmployeeID,
+                          Sales = g.Sum(x => x.Sales),
+                          Date = new DateTime(g.FirstOrDefault().Date.Value.Year, g.FirstOrDefault().Date.Value.Month, 1),
+                      });
+            var q3 = (from groupedSales in q2
+                      group groupedSales by new { groupedSales.EmployeeID, groupedSales.Date } into gs
+                      select new
+                      {
+                          EmployeeID = gs.FirstOrDefault().EmployeeID,
+                          Date = gs.Key.Date,
+                          Sales = gs.Sum(x => x.Sales)
+                      });
+            var result = (from totalSales in q3
+                          group totalSales by totalSales.Date into gs
+                          select new
+                          {
+                              Date = gs.Key,
+                              TotalSales = gs.Sum(x => x.Sales),
+                              EmployeeSales = (int?)gs.Where(z => z.EmployeeID == EmployeeID).Sum(z => z.Sales) ?? 0
+                          }
+            );
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -79,8 +116,8 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         {
             var northwind = new NorthwindEntities();
             var result = northwind.MonthlySalesByEmployee(EmployeeID).Where(d => d.Date >= startDate && d.Date <= endDate);
-            
-            return Json(result, JsonRequestBehavior.AllowGet); 
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult EmployeeQuarterSales(int EmployeeID, DateTime endDate)

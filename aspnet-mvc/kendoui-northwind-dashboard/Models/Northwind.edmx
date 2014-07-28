@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="NorthwindModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="NorthwindModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="NorthwindModelStoreContainer">
-          <EntitySet Name="Categories" EntityType="NorthwindModel.Store.Categories" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CustomerCustomerDemo" EntityType="NorthwindModel.Store.CustomerCustomerDemo" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CustomerDemographics" EntityType="NorthwindModel.Store.CustomerDemographics" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Customers" EntityType="NorthwindModel.Store.Customers" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Employees" EntityType="NorthwindModel.Store.Employees" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmployeeTerritories" EntityType="NorthwindModel.Store.EmployeeTerritories" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Order Details" EntityType="NorthwindModel.Store.Order Details" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Orders" EntityType="NorthwindModel.Store.Orders" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Products" EntityType="NorthwindModel.Store.Products" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Region" EntityType="NorthwindModel.Store.Region" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Shippers" EntityType="NorthwindModel.Store.Shippers" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Suppliers" EntityType="NorthwindModel.Store.Suppliers" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Territories" EntityType="NorthwindModel.Store.Territories" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Alphabetical list of products" EntityType="NorthwindModel.Store.Alphabetical list of products" store:Type="Views" store:Schema="dbo" store:Name="Alphabetical list of products">
+          <EntitySet Name="Categories" EntityType="NorthwindModel.Store.Categories" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="CustomerCustomerDemo" EntityType="NorthwindModel.Store.CustomerCustomerDemo" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="CustomerDemographics" EntityType="NorthwindModel.Store.CustomerDemographics" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Customers" EntityType="NorthwindModel.Store.Customers" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Employees" EntityType="NorthwindModel.Store.Employees" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EmployeeTerritories" EntityType="NorthwindModel.Store.EmployeeTerritories" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Order Details" EntityType="NorthwindModel.Store.Order Details" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Orders" EntityType="NorthwindModel.Store.Orders" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Products" EntityType="NorthwindModel.Store.Products" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Region" EntityType="NorthwindModel.Store.Region" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Shippers" EntityType="NorthwindModel.Store.Shippers" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Suppliers" EntityType="NorthwindModel.Store.Suppliers" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Territories" EntityType="NorthwindModel.Store.Territories" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Alphabetical list of products" EntityType="NorthwindModel.Store.Alphabetical list of products" store:Type="Views" store:Schema="dbo" store:Name="Alphabetical list of products" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Alphabetical list of products].[ProductID] AS [ProductID], 
       [Alphabetical list of products].[ProductName] AS [ProductName], 
@@ -34,19 +34,19 @@
       [Alphabetical list of products].[CategoryName] AS [CategoryName]
       FROM [dbo].[Alphabetical list of products] AS [Alphabetical list of products]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Category Sales for 1997" EntityType="NorthwindModel.Store.Category Sales for 1997" store:Type="Views" store:Schema="dbo" store:Name="Category Sales for 1997">
+          <EntitySet Name="Category Sales for 1997" EntityType="NorthwindModel.Store.Category Sales for 1997" store:Type="Views" store:Schema="dbo" store:Name="Category Sales for 1997" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Category Sales for 1997].[CategoryName] AS [CategoryName], 
       [Category Sales for 1997].[CategorySales] AS [CategorySales]
       FROM [dbo].[Category Sales for 1997] AS [Category Sales for 1997]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Current Product List" EntityType="NorthwindModel.Store.Current Product List" store:Type="Views" store:Schema="dbo" store:Name="Current Product List">
+          <EntitySet Name="Current Product List" EntityType="NorthwindModel.Store.Current Product List" store:Type="Views" store:Schema="dbo" store:Name="Current Product List" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Current Product List].[ProductID] AS [ProductID], 
       [Current Product List].[ProductName] AS [ProductName]
       FROM [dbo].[Current Product List] AS [Current Product List]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Invoices" EntityType="NorthwindModel.Store.Invoices" store:Type="Views" store:Schema="dbo" store:Name="Invoices">
+          <EntitySet Name="Invoices" EntityType="NorthwindModel.Store.Invoices" store:Type="Views" store:Schema="dbo" store:Name="Invoices" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Invoices].[ShipName] AS [ShipName], 
       [Invoices].[ShipAddress] AS [ShipAddress], 
@@ -76,7 +76,7 @@
       [Invoices].[Freight] AS [Freight]
       FROM [dbo].[Invoices] AS [Invoices]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Order Details Extended" EntityType="NorthwindModel.Store.Order Details Extended" store:Type="Views" store:Schema="dbo" store:Name="Order Details Extended">
+          <EntitySet Name="Order Details Extended" EntityType="NorthwindModel.Store.Order Details Extended" store:Type="Views" store:Schema="dbo" store:Name="Order Details Extended" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Order Details Extended].[OrderID] AS [OrderID], 
       [Order Details Extended].[ProductID] AS [ProductID], 
@@ -87,13 +87,13 @@
       [Order Details Extended].[ExtendedPrice] AS [ExtendedPrice]
       FROM [dbo].[Order Details Extended] AS [Order Details Extended]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Order Subtotals" EntityType="NorthwindModel.Store.Order Subtotals" store:Type="Views" store:Schema="dbo" store:Name="Order Subtotals">
+          <EntitySet Name="Order Subtotals" EntityType="NorthwindModel.Store.Order Subtotals" store:Type="Views" store:Schema="dbo" store:Name="Order Subtotals" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Order Subtotals].[OrderID] AS [OrderID], 
       [Order Subtotals].[Subtotal] AS [Subtotal]
       FROM [dbo].[Order Subtotals] AS [Order Subtotals]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Orders Qry" EntityType="NorthwindModel.Store.Orders Qry" store:Type="Views" store:Schema="dbo" store:Name="Orders Qry">
+          <EntitySet Name="Orders Qry" EntityType="NorthwindModel.Store.Orders Qry" store:Type="Views" store:Schema="dbo" store:Name="Orders Qry" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Orders Qry].[OrderID] AS [OrderID], 
       [Orders Qry].[CustomerID] AS [CustomerID], 
@@ -117,20 +117,20 @@
       [Orders Qry].[Country] AS [Country]
       FROM [dbo].[Orders Qry] AS [Orders Qry]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Product Sales for 1997" EntityType="NorthwindModel.Store.Product Sales for 1997" store:Type="Views" store:Schema="dbo" store:Name="Product Sales for 1997">
+          <EntitySet Name="Product Sales for 1997" EntityType="NorthwindModel.Store.Product Sales for 1997" store:Type="Views" store:Schema="dbo" store:Name="Product Sales for 1997" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Product Sales for 1997].[CategoryName] AS [CategoryName], 
       [Product Sales for 1997].[ProductName] AS [ProductName], 
       [Product Sales for 1997].[ProductSales] AS [ProductSales]
       FROM [dbo].[Product Sales for 1997] AS [Product Sales for 1997]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Products Above Average Price" EntityType="NorthwindModel.Store.Products Above Average Price" store:Type="Views" store:Schema="dbo" store:Name="Products Above Average Price">
+          <EntitySet Name="Products Above Average Price" EntityType="NorthwindModel.Store.Products Above Average Price" store:Type="Views" store:Schema="dbo" store:Name="Products Above Average Price" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Products Above Average Price].[ProductName] AS [ProductName], 
       [Products Above Average Price].[UnitPrice] AS [UnitPrice]
       FROM [dbo].[Products Above Average Price] AS [Products Above Average Price]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Products by Category" EntityType="NorthwindModel.Store.Products by Category" store:Type="Views" store:Schema="dbo" store:Name="Products by Category">
+          <EntitySet Name="Products by Category" EntityType="NorthwindModel.Store.Products by Category" store:Type="Views" store:Schema="dbo" store:Name="Products by Category" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Products by Category].[CategoryName] AS [CategoryName], 
       [Products by Category].[ProductName] AS [ProductName], 
@@ -139,7 +139,7 @@
       [Products by Category].[Discontinued] AS [Discontinued]
       FROM [dbo].[Products by Category] AS [Products by Category]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Sales by Category" EntityType="NorthwindModel.Store.Sales by Category" store:Type="Views" store:Schema="dbo" store:Name="Sales by Category">
+          <EntitySet Name="Sales by Category" EntityType="NorthwindModel.Store.Sales by Category" store:Type="Views" store:Schema="dbo" store:Name="Sales by Category" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Sales by Category].[CategoryID] AS [CategoryID], 
       [Sales by Category].[CategoryName] AS [CategoryName], 
@@ -147,7 +147,7 @@
       [Sales by Category].[ProductSales] AS [ProductSales]
       FROM [dbo].[Sales by Category] AS [Sales by Category]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Sales Totals by Amount" EntityType="NorthwindModel.Store.Sales Totals by Amount" store:Type="Views" store:Schema="dbo" store:Name="Sales Totals by Amount">
+          <EntitySet Name="Sales Totals by Amount" EntityType="NorthwindModel.Store.Sales Totals by Amount" store:Type="Views" store:Schema="dbo" store:Name="Sales Totals by Amount" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Sales Totals by Amount].[SaleAmount] AS [SaleAmount], 
       [Sales Totals by Amount].[OrderID] AS [OrderID], 
@@ -155,14 +155,14 @@
       [Sales Totals by Amount].[ShippedDate] AS [ShippedDate]
       FROM [dbo].[Sales Totals by Amount] AS [Sales Totals by Amount]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Summary of Sales by Quarter" EntityType="NorthwindModel.Store.Summary of Sales by Quarter" store:Type="Views" store:Schema="dbo" store:Name="Summary of Sales by Quarter">
+          <EntitySet Name="Summary of Sales by Quarter" EntityType="NorthwindModel.Store.Summary of Sales by Quarter" store:Type="Views" store:Schema="dbo" store:Name="Summary of Sales by Quarter" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Summary of Sales by Quarter].[ShippedDate] AS [ShippedDate], 
       [Summary of Sales by Quarter].[OrderID] AS [OrderID], 
       [Summary of Sales by Quarter].[Subtotal] AS [Subtotal]
       FROM [dbo].[Summary of Sales by Quarter] AS [Summary of Sales by Quarter]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Summary of Sales by Year" EntityType="NorthwindModel.Store.Summary of Sales by Year" store:Type="Views" store:Schema="dbo" store:Name="Summary of Sales by Year">
+          <EntitySet Name="Summary of Sales by Year" EntityType="NorthwindModel.Store.Summary of Sales by Year" store:Type="Views" store:Schema="dbo" store:Name="Summary of Sales by Year" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Summary of Sales by Year].[ShippedDate] AS [ShippedDate], 
       [Summary of Sales by Year].[OrderID] AS [OrderID], 
@@ -828,8 +828,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="NorthwindModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="NorthwindEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="NorthwindModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="NorthwindEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="Categories" EntityType="NorthwindModel.Category" />
           <EntitySet Name="Employees" EntityType="NorthwindModel.Employee" />
           <EntitySet Name="Order_Details" EntityType="NorthwindModel.Order_Detail" />
@@ -965,7 +965,7 @@
           <Key>
             <PropertyRef Name="CategoryID" />
           </Key>
-          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
@@ -975,7 +975,7 @@
           <Key>
             <PropertyRef Name="EmployeeID" />
           </Key>
-          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
           <Property Name="Title" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
@@ -1015,7 +1015,7 @@
           <Key>
             <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="CustomerID" Type="String" MaxLength="5" Unicode="true" FixedLength="true" />
           <Property Name="EmployeeID" Type="Int32" />
           <Property Name="OrderDate" Type="DateTime" Precision="3" />
@@ -1038,7 +1038,7 @@
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
-          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ProductName" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
           <Property Name="SupplierID" Type="Int32" />
           <Property Name="CategoryID" Type="Int32" />
@@ -1064,7 +1064,7 @@
           <Key>
             <PropertyRef Name="ShipperID" />
           </Key>
-          <Property Name="ShipperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShipperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
           <Property Name="Phone" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Orders" Relationship="NorthwindModel.FK_Orders_Shippers" FromRole="Shippers" ToRole="Orders" />
@@ -1073,7 +1073,7 @@
           <Key>
             <PropertyRef Name="SupplierID" />
           </Key>
-          <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
           <Property Name="ContactName" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
           <Property Name="ContactTitle" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
@@ -1128,7 +1128,7 @@
             <PropertyRef Name="ProductID" />
             <PropertyRef Name="ProductName" />
           </Key>
-          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ProductName" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="Invoice">
@@ -1505,7 +1505,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="NorthwindModelStoreContainer" CdmEntityContainer="NorthwindEntities">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="NorthwindModel.Category">
@@ -1991,7 +1991,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
@@ -2006,6 +2006,6 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams></Diagrams>
+    <Diagrams />
   </Designer>
 </edmx:Edmx>
