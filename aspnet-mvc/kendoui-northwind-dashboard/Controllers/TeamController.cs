@@ -115,7 +115,25 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult EmployeeAverageSales(int EmployeeID, DateTime startDate, DateTime endDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.MonthlySalesByEmployee(EmployeeID).Where(d => d.Date >= startDate && d.Date <= endDate);
+            var result = (from allSales in
+                              (from o in northwind.Orders
+                               join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                               where o.EmployeeID == EmployeeID && o.OrderDate >= startDate && o.OrderDate <= endDate
+                               select new
+                               {
+                                   EmployeeID = o.EmployeeID,
+                                   Date = o.OrderDate,
+                                   Sales = od.Quantity * od.UnitPrice
+                               }
+                                  ).ToList()
+                          group allSales by new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) into g
+                          select new
+                          {
+                              EmployeeSales = g.Sum(x => x.Sales),
+                              Date = g.Key,
+                          }
+            );
+
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

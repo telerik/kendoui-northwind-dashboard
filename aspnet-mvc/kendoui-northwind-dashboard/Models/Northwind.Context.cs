@@ -15,7 +15,6 @@ namespace KendoUI.Northwind.Dashboard.Models
     using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Core.Objects.DataClasses;
     using System.Linq;
-    using System.Data.Entity.Core.Objects;
     
     public partial class NorthwindEntities : DbContext
     {
