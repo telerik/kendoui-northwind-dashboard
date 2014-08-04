@@ -226,6 +226,17 @@
                 shapeClick: onShapeClick,
                 zoomable: false
             })
+            var orderDetailsData = [];
+
+            $.ajax({
+                async: false,
+                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/order-details.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    orderDetailsData = data;
+                }
+            });
 
             $("#MarketShare").kendoChart({
                 theme: "metro",
@@ -241,29 +252,21 @@
                             var to = new Date(options.data.ToDate);
                             var total = 0;
                             var result;
-                            $.ajax({
-                                async: false,
-                                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/order-details.json",
-                                dataType: "json",
-                                type: "GET",
-                                success: function(data) {
-                                    data.forEach(function(order) {
-                                        if (order.country == options.data.Country) {
-                                            var orderDate = kendo.parseDate(order.orderDate)
-                                            if (orderDate > from && orderDate < to) {
-                                                total += order.price;
-                                            }
-                                        }
-                                    })
-                                    result = [{
-                                        "Country": "All",
-                                        "Sales": 854648.019191742
-                                    }, {
-                                        "Country": options.data.Country,
-                                        "Sales": total
-                                    }]
+                            orderDetailsData.forEach(function(order) {
+                                if (order.country == options.data.Country) {
+                                    var orderDate = kendo.parseDate(order.orderDate)
+                                    if (orderDate > from && orderDate < to) {
+                                        total += order.price;
+                                    }
                                 }
-                            });
+                            })
+                            result = [{
+                                "Country": "All",
+                                "Sales": 854648.019191742
+                            }, {
+                                "Country": options.data.Country,
+                                "Sales": total
+                            }]
                             options.success(result);
                         }
                     }
@@ -287,18 +290,31 @@
                 autoBind: false,
                 dataSource: {
                     transport: {
-                        read: {
-                            dataType: "jsonp",
-                            url: "http://knnikolov/web/api/sales/GetCountryRevenue"
+                        read: function(options) {
+                            var from = new Date(options.data.FromDate);
+                            var to = new Date(options.data.ToDate);
+                            var result = [];
+                            orderDetailsData.forEach(function(order) {
+                                if (order.country == options.data.Country) {
+                                    var orderDate = kendo.parseDate(order.orderDate)
+                                    if (orderDate > from && orderDate < to) {
+                                        result.push({
+                                            "date": orderDate,
+                                            "value": order.price
+                                        });
+                                    }
+                                }
+                            })
+                            options.success(result);
                         }
                     }
                 },
                 series: [{
-                    categoryField: "Date",
+                    categoryField: "date",
                     aggregate: "sum",
                     color: "#1996e4",
                     gap: 0.2,
-                    field: "Value"
+                    field: "value"
                 }],
                 categoryAxis: {
                     type: "date",
@@ -430,21 +446,8 @@
                     Customers = $("#Customers").data("kendoSparkline"),
                     fromDate = $("#StartDate").data("kendoDatePicker").value(),
                     toDate = $("#EndDate").data("kendoDatePicker").value();
+                getCountryOrdersTotal(fromDate, toDate);
 
-                $.ajax({
-                    url: "http://knnikolov/web/api/sales/GetCountryOrdersTotal",
-                    dataType: "jsonp",
-                    data: {
-                        Country: selectedCountry,
-                        FromDate: fromDate.toJSON(),
-                        ToDate: toDate.toJSON()
-                    },
-                    type: "GET",
-                    success: function(response) {
-                        $("#OrdersLabel").text(response);
-                        $("#OrdersNoData").toggle(response === 0);
-                    }
-                });
 
                 $.ajax({
                     url: "http://knnikolov/web/api/sales/GetCountryCustomersTotal",
@@ -584,13 +587,21 @@
                 $("#ProductsNoData").toggle(items === 0);
             }
 
-
-
-            function getMarketShare(country, fromDate, toDate) {
-
+            function getCountryOrdersTotal(fromDate, toDate) {
+                var total = 0;
+                var from = new Date(fromDate);
+                var to = new Date(toDate);
+                orderDetailsData.forEach(function(order) {
+                    if (order.country == selectedCountry) {
+                        var orderDate = kendo.parseDate(order.orderDate)
+                        if (orderDate > from && orderDate < to) {
+                            total++;
+                        }
+                    }
+                })
+                $("#OrdersLabel").text(total);
+                $("#OrdersNoData").toggle(total === 0);
             }
-
-
             $(window).resize(resizeMap);
             onCriteriaChange();
         });
