@@ -129,6 +129,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                           group allSales by new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) into g
                           select new
                           {
+                              EmployeeID = g.FirstOrDefault().EmployeeID,
                               EmployeeSales = g.Sum(x => x.Sales),
                               Date = g.Key,
                           }

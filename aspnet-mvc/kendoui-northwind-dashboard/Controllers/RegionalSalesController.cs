@@ -32,8 +32,20 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult MarketShareByCountry(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.CountryMarketShare(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var allSales = from o in northwind.Orders
+                         join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                         where o.OrderDate >= FromDate && o.OrderDate <= ToDate
+                         select new
+                         {
+                             Country = o.ShipCountry,
+                             Sales = od.Quantity * od.UnitPrice
+                         };
+
+
+            return Json(new [] {
+                new { Country = "All", Sales = allSales.Sum(x => x.Sales) },
+                new { Country = Country, Sales = allSales.Where(w=>w.Country == Country).Sum(s => s.Sales) }
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CountryRevenue(string Country, DateTime FromDate, DateTime ToDate)
