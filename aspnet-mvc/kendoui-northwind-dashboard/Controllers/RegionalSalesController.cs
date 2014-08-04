@@ -51,7 +51,42 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult CountryRevenue(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.CountryRevenue(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
+            var q1 = (from o in northwind.Orders
+                      join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                      where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
+                      select new
+                      {
+                          OrderID = o.OrderID,
+                          EmployeeID = o.EmployeeID,
+                          Date = o.OrderDate,
+                          Sales = od.Quantity * od.UnitPrice
+                      }).AsEnumerable();
+            var q2 = (from allSales in q1
+                      group allSales by allSales.OrderID into g
+                      select new
+                      {
+                          OrderID = g.Key,
+                          EmployeeID = g.FirstOrDefault().EmployeeID,
+                          Sales = g.Sum(x => x.Sales),
+                          Date = new DateTime(g.FirstOrDefault().Date.Value.Year, g.FirstOrDefault().Date.Value.Month, 1),
+                      });
+            var q3 = (from groupedSales in q2
+                      group groupedSales by new { groupedSales.EmployeeID, groupedSales.Date } into gs
+                      select new
+                      {
+                          EmployeeID = gs.FirstOrDefault().EmployeeID,
+                          Date = gs.Key.Date,
+                          Sales = gs.Sum(x => x.Sales)
+                      });
+            var result = (from totalSales in q3
+                          group totalSales by totalSales.Date into gs
+                          select new
+                          {
+                              Date = gs.Key,
+                              Value = gs.Sum(x => x.Sales)
+                          }
+            );
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
