@@ -119,25 +119,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult CountryCustomers(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var q1 = (from o in northwind.Orders
-                      join od in northwind.Order_Details on o.OrderID equals od.OrderID
-                      where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
-                      select new
-                      {
-                          CustomerID = o.CustomerID,
-                          Date = o.OrderDate
-                      }).AsEnumerable();
-
-            var result = (from allSales in q1
-                          group allSales by new { Date = new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) } into g
-                          select new
-                          {
-                              Date = g.Key,
-                              Value = g.GroupBy(x => x.CustomerID).Count()
-                          }
-                );
-
-            var r = (from allSales in
+            var result = (from allSales in
                          (from o in northwind.Orders
                           join od in northwind.Order_Details on o.OrderID equals od.OrderID
                           where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
@@ -155,13 +137,21 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             );
 
 
-            return Json(r, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CountryCustomersTotal(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.CountryCustomersTotal(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
+            var result = (from allSales in
+                              (from o in northwind.Orders
+                               where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
+                               select new
+                               {
+                                   CustomerID = o.CustomerID,
+                               })
+                          group allSales by allSales.CustomerID
+            ).Count();
             return Json(new { Customers = result }, JsonRequestBehavior.AllowGet);
         }
 
