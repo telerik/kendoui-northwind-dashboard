@@ -401,23 +401,22 @@
                                     var orderDate = kendo.parseDate(order.Date)
                                     if (orderDate > from && orderDate < to) {
                                         result.push({
-                                            "Date": order.Date,
-                                            "Value": order.Value
+                                            "date": order.Date,
+                                            "value": order.Value
                                         });
                                     }
                                 }
                             })
-                            console.log(result);
                             options.success(result);
                         }
                     }
                 },
                 series: [{
-                    categoryField: "Date",
+                    categoryField: "date",
                     aggregate: "sum",
                     color: "#1996e4",
                     gap: 0.2,
-                    field: "Value"
+                    field: "value"
                 }],
                 categoryAxis: {
                     type: "date",
@@ -532,22 +531,14 @@
 
             function ListCustomers(country) {
                 $("#countryName").text(country);
-                $.ajax({
-                    url: "http://knnikolov/web/api/sales/GetCountryCompanies",
-                    dataType: "jsonp",
-                    data: {
-                        Country: country
-                    },
-                    type: "GET",
-                    success: function(response) {
-                        var customers = "";
-                        for (var i = 0; i < response.length; i++) {
-                            customers = customers + response[i].CompanyName + ", ";
-                        }
-                        customers = customers.substring(0, customers.length - 2);
-                        $("#countryCustomers span").text(customers);
+                var companyNames = "";
+                customers.forEach(function(customer){
+                    if(customer.Country == country ){
+                        companyNames += customer.CompanyName + ", ";
                     }
                 });
+                $("#countryCustomers span").text(companyNames);
+                
                 var containerWidth = $(".sparkline-container").parent().width(),
                     getSparkLines = $(".k-sparkline"),
                     chartWidth = (80 * containerWidth) / 100;
