@@ -229,6 +229,7 @@
 
             var orderDetailsData = [];
             var customers = [];
+            var countryCustomers = []
 
             $.ajax({
                 async: false,
@@ -247,6 +248,16 @@
                 type: "GET",
                 success: function(data) {
                     customers = data;
+                }
+            });
+
+            $.ajax({
+                async: false,
+                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/country-customers.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    countryCustomers = data;
                 }
             });
 
@@ -381,9 +392,23 @@
                 autoBind: false,
                 dataSource: {
                     transport: {
-                        read: {
-                            dataType: "jsonp",
-                            url: "http://knnikolov/web/api/sales/GetCountryCustomers"
+                        read: function(options) {
+                            var from = new Date(options.data.FromDate);
+                            var to = new Date(options.data.ToDate);
+                            var result = [];
+                            countryCustomers.forEach(function(order) {
+                                if (order.Country == options.data.Country) {
+                                    var orderDate = kendo.parseDate(order.Date)
+                                    if (orderDate > from && orderDate < to) {
+                                        result.push({
+                                            "Date": order.Date,
+                                            "Value": order.Value
+                                        });
+                                    }
+                                }
+                            })
+                            console.log(result);
+                            options.success(result);
                         }
                     }
                 },
