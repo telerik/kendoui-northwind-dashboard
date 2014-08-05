@@ -225,8 +225,10 @@
                 shapeMouseLeave: onShapeMouseLeave,
                 shapeClick: onShapeClick,
                 zoomable: false
-            })
+            });
+
             var orderDetailsData = [];
+            var customers = [];
 
             $.ajax({
                 async: false,
@@ -235,6 +237,16 @@
                 type: "GET",
                 success: function(data) {
                     orderDetailsData = data;
+                }
+            });
+
+            $.ajax({
+                async: false,
+                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/customers.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    customers = data;
                 }
             });
 
@@ -460,22 +472,7 @@
                     fromDate = $("#StartDate").data("kendoDatePicker").value(),
                     toDate = $("#EndDate").data("kendoDatePicker").value();
                 getCountryOrdersTotal(fromDate, toDate);
-
-
-                $.ajax({
-                    url: "http://knnikolov/web/api/sales/GetCountryCustomersTotal",
-                    dataType: "jsonp",
-                    data: {
-                        Country: selectedCountry,
-                        FromDate: fromDate.toJSON(),
-                        ToDate: toDate.toJSON()
-                    },
-                    type: "GET",
-                    success: function(response) {
-                        $("#CustomersLabel").text(response);
-                        $("#CustomersNoData").toggle(response === 0);
-                    }
-                });
+                getCountryCustomersTotal();
 
                 MarketShare.dataSource.read({
                     Country: selectedCountry,
@@ -615,6 +612,18 @@
                 $("#OrdersLabel").text(total);
                 $("#OrdersNoData").toggle(total === 0);
             }
+
+            function getCountryCustomersTotal(fromDate, toDate) {
+                var total = 0;
+                customers.forEach(function(customer) {
+                    if (customer.Country == selectedCountry) {
+                        total++;
+                    }
+                })
+                $("#CustomersLabel").text(total);
+                $("#CustomersNoData").toggle(total === 0);
+            }
+
             $(window).resize(resizeMap);
             onCriteriaChange();
         });
