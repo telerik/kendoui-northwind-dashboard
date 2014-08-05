@@ -32,19 +32,19 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult MarketShareByCountry(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var allSales = from o in northwind.Orders
-                         join od in northwind.Order_Details on o.OrderID equals od.OrderID
-                         where o.OrderDate >= FromDate && o.OrderDate <= ToDate
-                         select new
-                         {
-                             Country = o.ShipCountry,
-                             Sales = od.Quantity * od.UnitPrice
-                         };
+            var allSales = (from o in northwind.Orders
+                            join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                            where o.OrderDate >= FromDate && o.OrderDate <= ToDate
+                            select new
+                            {
+                                Country = o.ShipCountry,
+                                Sales = od.Quantity * od.UnitPrice
+                            }).AsEnumerable();
 
 
             return Json(new [] {
-                new { Country = "All", Sales = allSales.Sum(x => x.Sales) },
-                new { Country = Country, Sales = allSales.Where(w=>w.Country == Country).Sum(s => s.Sales) }
+                new { Country = "All", Sales = (decimal?)allSales.Sum(x => x.Sales) ?? 0},
+                new { Country = Country, Sales = (decimal?)allSales.Where(w=>w.Country == Country).Sum(s => s.Sales) ?? 0}
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -119,8 +119,43 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult CountryCustomers(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = northwind.CountryCustomers(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var q1 = (from o in northwind.Orders
+                      join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                      where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
+                      select new
+                      {
+                          CustomerID = o.CustomerID,
+                          Date = o.OrderDate
+                      }).AsEnumerable();
+
+            var result = (from allSales in q1
+                          group allSales by new { Date = new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) } into g
+                          select new
+                          {
+                              Date = g.Key,
+                              Value = g.GroupBy(x => x.CustomerID).Count()
+                          }
+                );
+
+            var r = (from allSales in
+                         (from o in northwind.Orders
+                          join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                          where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
+                          select new
+                          {
+                              CustomerID = o.CustomerID,
+                              Date = o.OrderDate
+                          }).AsEnumerable()
+                     group allSales by new { Date = new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) } into g
+                     select new
+                     {
+                         Date = g.Key.Date,
+                         Value = g.GroupBy(x => x.CustomerID).Count()
+                     }
+            );
+
+
+            return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CountryCustomersTotal(string Country, DateTime FromDate, DateTime ToDate)
