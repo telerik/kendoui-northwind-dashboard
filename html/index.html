@@ -230,6 +230,7 @@
             var orderDetailsData = [];
             var customers = [];
             var countryCustomers = []
+            var topSellingProducts = [];
 
             $.ajax({
                 async: false,
@@ -258,6 +259,15 @@
                 type: "GET",
                 success: function(data) {
                     countryCustomers = data;
+                }
+            });
+            $.ajax({
+                async: false,
+                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/top-selling-products.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    topSellingProducts = data;
                 }
             });
 
@@ -396,13 +406,13 @@
                             var from = new Date(options.data.FromDate);
                             var to = new Date(options.data.ToDate);
                             var result = [];
-                            countryCustomers.forEach(function(order) {
-                                if (order.Country == options.data.Country) {
-                                    var orderDate = kendo.parseDate(order.Date)
+                            countryCustomers.forEach(function(customer) {
+                                if (customer.Country == options.data.Country) {
+                                    var orderDate = kendo.parseDate(customer.Date)
                                     if (orderDate > from && orderDate < to) {
                                         result.push({
-                                            "date": order.Date,
-                                            "value": order.Value
+                                            "date": customer.Date,
+                                            "value": customer.Value
                                         });
                                     }
                                 }
@@ -437,9 +447,24 @@
                 dataBound: onTopProductsDataBound,
                 dataSource: {
                     transport: {
-                        read: {
-                            dataType: "jsonp",
-                            url: "http://knnikolov/web/api/sales/GetTopSellingProducts"
+                        read: function(options) {
+                            var from = new Date(options.data.FromDate);
+                            var to = new Date(options.data.ToDate);
+                            var products = [];
+                            var result = [];
+                            topSellingProducts.forEach(function(product) {
+                                if (product.Country == options.data.Country) {
+                                    var orderDate = kendo.parseDate(product.Date);
+                                    if (orderDate > from && orderDate < to) {
+                                        result.push({
+                                            "ProductName": product.ProductName,
+                                            "Date": product.Date,
+                                            "Quantity": product.Quantity
+                                        })
+                                    }
+                                }
+                            })
+                            options.success(result);
                         }
                     },
                     group: "ProductName"
@@ -505,8 +530,8 @@
                 });
                 TopSellingProducts.dataSource.read({
                     Country: selectedCountry,
-                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
-                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                    FromDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", fromDate),
+                    ToDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", toDate)
                 });
                 Revenue.dataSource.read({
                     Country: selectedCountry,
@@ -532,13 +557,13 @@
             function ListCustomers(country) {
                 $("#countryName").text(country);
                 var companyNames = "";
-                customers.forEach(function(customer){
-                    if(customer.Country == country ){
+                customers.forEach(function(customer) {
+                    if (customer.Country == country) {
                         companyNames += customer.CompanyName + ", ";
                     }
                 });
                 $("#countryCustomers span").text(companyNames);
-                
+
                 var containerWidth = $(".sparkline-container").parent().width(),
                     getSparkLines = $(".k-sparkline"),
                     chartWidth = (80 * containerWidth) / 100;
