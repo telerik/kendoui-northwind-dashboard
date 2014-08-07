@@ -80,8 +80,21 @@
                 });
                 resizeGrid();
             });
+            
+            var allProducts = [];
+            
+            $.ajax({
+                async: false,
+                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/products.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    allProducts = data;
+                }
+            });
+            console.log(allProducts);
 
-            $.when($.ajax({
+            /*$.when($.ajax({
                 url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
                 dataType: "jsonp",
                 success: function(data) {
@@ -95,19 +108,37 @@
                 }
             })).done(function() {
                 initGrid();
-            })
-
+            })*/
+            initGrid();
             function initGrid() {
                 $('#Orders').kendoGrid({
                     dataSource: {
                         transport: {
                             read: {
-                                dataType: "jsonp",
-                                url: "http://knnikolov/web/api/productsandorders/GetOrders"
+                                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/products.json"
                             }
                         },
                         pageSize: 20,
                         schema: {
+                            parse: function(response){
+                                var result = [];
+                                for (var i = 0; i < response.length; i++) {
+                                    var product = {
+                                        OrderID: response[i].OrderID,
+                                        OrderDate: kendo.parseDate(response[i].OrderDate),
+                                        CustomerID: response[i].CustomerID,
+                                        EmployeeID: response[i].EmployeeID,
+                                        ShipCountry: response[i].ShipCountry,
+                                        ShipVia: response[i].ShipVia,
+                                        ShipName: response[i].ShipName,
+                                        ShipCity: response[i].ShipCity,
+                                        ShipAddress: response[i].ShipAddress,
+                                        ShipPostalCode: response[i].ShipPostalCode,
+                                    };
+                                    result.push(product);
+                                }
+                                return result;
+                            },
                             model: {
                                 id: "OrderID",
                                 fields: {
@@ -150,6 +181,7 @@
                     navigatable: true,
                     filterable: true,
                     scrollable: true,
+                    selectable: "column",
                     detailTemplate: kendo.template($("#order-detail-template").html()),
                     detailInit: detailInit
                 })
