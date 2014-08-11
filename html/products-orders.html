@@ -246,6 +246,8 @@
             function productDetailInit(e) {
                 var model = e.data;
                 var detail = e.detailRow;
+                var productSales = [];
+                
                 $.ajax({
                     url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
                     success: function(products) {
@@ -257,15 +259,22 @@
                         detail.find(".details-re-order").text(product[0].ReorderLevel);
                     }
                 })
+                
+                $.ajax({
+                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-sales.json',
+                    success: function(data) {
+                        productSales = data;
+                    }
+                }).done(function(){                
                 var sparkline = e.detailRow.find('.details-sparkline').kendoSparkline({
                     theme: "metro",
                     type: "column",
                     autoBind: false,
                     dataSource: {
                         transport: {
-                            read: {
-                                dataType: "jsonp",
-                                url: "http://knnikolov/web/api/productsandorders/GetProductSalesByMonth"
+                            read: function(options){
+                                var sales =  $.grep(productSales, function(e){ return e.ProductID == options.data.ProductID; });
+                                options.success(sales[0].ProductSales);
                             }
                         }
                     },
@@ -302,6 +311,8 @@
                 sparkline.dataSource.read({
                     "ProductID": model.ProductID
                 });
+                })
+                
 
             }
 
