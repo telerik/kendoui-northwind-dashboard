@@ -172,7 +172,11 @@
                 $.when($.ajax({
                     url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
                     success: function(data) {
-                        products = data;
+                        var result = [];
+                        for (var i = 0; i < data.length; i++){
+                            result.push({text: data[i].ProductName, value: data[i].ProductID})
+                        }
+                        products = result;
                     }
                 })).done(function() {
                     detailRow.find(".details-grid").kendoGrid({
@@ -243,17 +247,14 @@
                 var model = e.data;
                 var detail = e.detailRow;
                 $.ajax({
-                    url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
-                    dataType: "jsonp",
-                    data: {
-                        ID: model.ProductID
-                    },
-                    success: function(receivedProduct) {
-                        detail.find(".product-name").text(receivedProduct.ProductName);
-                        detail.find(".product-category").text(receivedProduct.Category ? receivedProduct.Category.CategoryName : '');
-                        detail.find(".details-stock").text(receivedProduct.UnitsInStock);
-                        detail.find(".details-orders").text(receivedProduct.UnitsOnOrder);
-                        detail.find(".details-re-order").text(receivedProduct.ReorderLevel);
+                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
+                    success: function(products) {
+                        var product =  $.grep(products, function(e){ return e.ProductID == model.ProductID; });
+                        detail.find(".product-name").text(product[0].ProductName);
+                        detail.find(".product-category").text(product[0].Category);
+                        detail.find(".details-stock").text(product[0].UnitsInStock);
+                        detail.find(".details-orders").text(product[0].UnitsOnOrder);
+                        detail.find(".details-re-order").text(product[0].ReorderLevel);
                     }
                 })
                 var sparkline = e.detailRow.find('.details-sparkline').kendoSparkline({
