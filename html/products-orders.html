@@ -68,9 +68,45 @@
     <!--close container-->
     <script>
         $(document).ready(function() {
-            var employees = [{"value":1,"text":"Nancy Davolio"},{"value":2,"text":"Andrew Fuller"},{"value":3,"text":"Janet Leverling"},{"value":4,"text":"Margaret Peacock"},{"value":5,"text":"Steven Buchanan"},{"value":6,"text":"Michael Suyama"},{"value":7,"text":"Robert King"},{"value":8,"text":"Laura Callahan"},{"value":9,"text":"Anne Dodsworth"}];
-            
-            var shippers = [{"value":1,"text":"Speedy Express"},{"value":2,"text":"United Package"},{"value":3,"text":"Federal Shipping"}];
+            var employees = [{
+                "value": 1,
+                "text": "Nancy Davolio"
+            }, {
+                "value": 2,
+                "text": "Andrew Fuller"
+            }, {
+                "value": 3,
+                "text": "Janet Leverling"
+            }, {
+                "value": 4,
+                "text": "Margaret Peacock"
+            }, {
+                "value": 5,
+                "text": "Steven Buchanan"
+            }, {
+                "value": 6,
+                "text": "Michael Suyama"
+            }, {
+                "value": 7,
+                "text": "Robert King"
+            }, {
+                "value": 8,
+                "text": "Laura Callahan"
+            }, {
+                "value": 9,
+                "text": "Anne Dodsworth"
+            }];
+
+            var shippers = [{
+                "value": 1,
+                "text": "Speedy Express"
+            }, {
+                "value": 2,
+                "text": "United Package"
+            }, {
+                "value": 3,
+                "text": "Federal Shipping"
+            }];
 
             $(window).on("resize", function() {
                 var containerWidth = $(".sparkline-container").parent().width();
@@ -82,9 +118,9 @@
                 });
                 resizeGrid();
             });
-            
+
             initGrid();
-            
+
             function initGrid() {
                 $('#Orders').kendoGrid({
                     dataSource: {
@@ -95,7 +131,7 @@
                         },
                         pageSize: 20,
                         schema: {
-                            parse: function(response){
+                            parse: function(response) {
                                 var result = [];
                                 for (var i = 0; i < response.length; i++) {
                                     var product = {
@@ -165,7 +201,7 @@
             function detailInit(e) {
                 var detailRow = e.detailRow;
                 var orderId = e.data.OrderID;
-                var products;
+                var products, orderDetails;
 
                 detailRow.find(".tabstrip").kendoTabStrip();
 
@@ -173,19 +209,29 @@
                     url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
                     success: function(data) {
                         var result = [];
-                        for (var i = 0; i < data.length; i++){
-                            result.push({text: data[i].ProductName, value: data[i].ProductID})
+                        for (var i = 0; i < data.length; i++) {
+                            result.push({
+                                text: data[i].ProductName,
+                                value: data[i].ProductID
+                            })
                         }
                         products = result;
+                    }
+                }), $.ajax({
+                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/order-information.json',
+                    success: function(data) {
+                        orderDetails = data;
                     }
                 })).done(function() {
                     detailRow.find(".details-grid").kendoGrid({
                         autoBind: false,
                         dataSource: {
                             transport: {
-                                read: {
-                                    dataType: "jsonp",
-                                    url: "http://knnikolov/web/api/productsandorders/GetOrderDetails"
+                                read: function(options) {
+                                    var result = $.grep(orderDetails, function(e) {
+                                        return e.OrderID == options.data.OrderID;
+                                    });
+                                    options.success(result[0].OrderDetails);
                                 }
                             },
                             schema: {
@@ -232,7 +278,6 @@
                         }],
                         detailTemplate: kendo.template($("#product-detail-template").html()),
                         detailInit: productDetailInit,
-                        pageable: true,
                         selectable: true,
                         navigateable: true
                     })
@@ -247,11 +292,13 @@
                 var model = e.data;
                 var detail = e.detailRow;
                 var productSales = [];
-                
+
                 $.ajax({
                     url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
                     success: function(products) {
-                        var product =  $.grep(products, function(e){ return e.ProductID == model.ProductID; });
+                        var product = $.grep(products, function(e) {
+                            return e.ProductID == model.ProductID;
+                        });
                         detail.find(".product-name").text(product[0].ProductName);
                         detail.find(".product-category").text(product[0].Category);
                         detail.find(".details-stock").text(product[0].UnitsInStock);
@@ -259,60 +306,62 @@
                         detail.find(".details-re-order").text(product[0].ReorderLevel);
                     }
                 })
-                
+
                 $.ajax({
                     url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-sales.json',
                     success: function(data) {
                         productSales = data;
                     }
-                }).done(function(){                
-                var sparkline = e.detailRow.find('.details-sparkline').kendoSparkline({
-                    theme: "metro",
-                    type: "column",
-                    autoBind: false,
-                    dataSource: {
-                        transport: {
-                            read: function(options){
-                                var sales =  $.grep(productSales, function(e){ return e.ProductID == options.data.ProductID; });
-                                options.success(sales[0].ProductSales);
+                }).done(function() {
+                    var sparkline = e.detailRow.find('.details-sparkline').kendoSparkline({
+                        theme: "metro",
+                        type: "column",
+                        autoBind: false,
+                        dataSource: {
+                            transport: {
+                                read: function(options) {
+                                    var sales = $.grep(productSales, function(e) {
+                                        return e.ProductID == options.data.ProductID;
+                                    });
+                                    options.success(sales[0].ProductSales);
+                                }
+                            }
+                        },
+                        series: [{
+                            categoryField: "Date",
+                            aggregate: "count",
+                            gap: 0.2,
+                            field: "Quantity",
+                            tooltip: {
+                                template: "QUANTITY: #:value#"
+                            }
+                        }],
+                        categoryAxis: {
+                            type: "date",
+                            visible: true,
+                            labels: {
+                                visible: false
+                            },
+                            majorTicks: {
+                                visible: false
+                            },
+                            baseUnit: "months",
+                            line: {
+                                visible: true,
+                                color: "#000000"
+                            }
+                        },
+                        valueAxis: {
+                            line: {
+                                visible: true
                             }
                         }
-                    },
-                    series: [{
-                        categoryField: "Date",
-                        aggregate: "count",
-                        gap: 0.2,
-                        field: "Quantity",
-                        tooltip: {
-                            template: "QUANTITY: #:value#"
-                        }
-                    }],
-                    categoryAxis: {
-                        type: "date",
-                        visible: true,
-                        labels: {
-                            visible: false
-                        },
-                        majorTicks: {
-                            visible: false
-                        },
-                        baseUnit: "months",
-                        line: {
-                            visible: true,
-                            color: "#000000"
-                        }
-                    },
-                    valueAxis: {
-                        line: {
-                            visible: true
-                        }
-                    }
-                }).data('kendoSparkline');
-                sparkline.dataSource.read({
-                    "ProductID": model.ProductID
-                });
+                    }).data('kendoSparkline');
+                    sparkline.dataSource.read({
+                        "ProductID": model.ProductID
+                    });
                 })
-                
+
 
             }
 
@@ -399,5 +448,4 @@
        </div>  
     </script>
 </body>
-
 </html>
