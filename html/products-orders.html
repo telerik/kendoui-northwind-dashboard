@@ -68,7 +68,9 @@
     <!--close container-->
     <script>
         $(document).ready(function() {
-            var employees, shippers;
+            var employees = [{"value":1,"text":"Nancy Davolio"},{"value":2,"text":"Andrew Fuller"},{"value":3,"text":"Janet Leverling"},{"value":4,"text":"Margaret Peacock"},{"value":5,"text":"Steven Buchanan"},{"value":6,"text":"Michael Suyama"},{"value":7,"text":"Robert King"},{"value":8,"text":"Laura Callahan"},{"value":9,"text":"Anne Dodsworth"}];
+            
+            var shippers = [{"value":1,"text":"Speedy Express"},{"value":2,"text":"United Package"},{"value":3,"text":"Federal Shipping"}];
 
             $(window).on("resize", function() {
                 var containerWidth = $(".sparkline-container").parent().width();
@@ -81,41 +83,14 @@
                 resizeGrid();
             });
             
-            var allProducts = [];
-            
-            $.ajax({
-                async: false,
-                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/products.json",
-                dataType: "json",
-                type: "GET",
-                success: function(data) {
-                    allProducts = data;
-                }
-            });
-            console.log(allProducts);
-
-            /*$.when($.ajax({
-                url: 'http://knnikolov/web/api/productsandorders/GetEmployeeDetails',
-                dataType: "jsonp",
-                success: function(data) {
-                    employees = data;
-                }
-            }), $.ajax({
-                url: 'http://knnikolov/web/api/productsandorders/GetShipperDetails',
-                dataType: "jsonp",
-                success: function(data) {
-                    shippers = data;
-                }
-            })).done(function() {
-                initGrid();
-            })*/
             initGrid();
+            
             function initGrid() {
                 $('#Orders').kendoGrid({
                     dataSource: {
                         transport: {
                             read: {
-                                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/products.json"
+                                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/orders.json"
                             }
                         },
                         pageSize: 20,
@@ -195,8 +170,7 @@
                 detailRow.find(".tabstrip").kendoTabStrip();
 
                 $.when($.ajax({
-                    url: 'http://knnikolov/web/api/productsandorders/GetProductDetails',
-                    dataType: "jsonp",
+                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
                     success: function(data) {
                         products = data;
                     }
