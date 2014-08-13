@@ -13,8 +13,56 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult TopSellingProducts(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-
-            var result = northwind.CountryTopProducts(Country, FromDate.ToString("yyyyMMdd"), ToDate.ToString("yyyyMMdd"));
+            var topSellers = (from top in
+                                  (from allSales in
+                                       (from o in northwind.Orders
+                                        join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                                        where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
+                                        select new
+                                        {
+                                            ProductID = od.ProductID,
+                                            Quantity = od.Quantity,
+                                            Date = o.OrderDate,
+                                        }).AsEnumerable()
+                                   group allSales by new { allSales.ProductID, Date = new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) } into g
+                                   select new
+                                   {
+                                       ProductID = g.Key.ProductID,
+                                       Quantity = g.Sum(x => x.Quantity),
+                                       Date = g.Key.Date
+                                   })
+                              group top by top.ProductID into g
+                              orderby g.Sum(x => x.Quantity) descending
+                              select new
+                              {
+                                  ProductID = g.FirstOrDefault().ProductID
+                              }).Take(5);
+            var all = (from allSales in
+                           (from o in northwind.Orders
+                            join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                            where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
+                            select new
+                            {
+                                ProductID = od.ProductID,
+                                Quantity = od.Quantity,
+                                Date = o.OrderDate,
+                            }).AsEnumerable()
+                       group allSales by new { allSales.ProductID, Date = new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) } into g
+                       where topSellers.Contains(new { ProductID = g.Key.ProductID })
+                       select new
+                       {
+                           ProductID = g.Key.ProductID,
+                           Quantity = g.Sum(x => x.Quantity),
+                           Date = g.Key.Date
+                       });
+            var result = (from s in all
+                          join p in northwind.Products on s.ProductID equals p.ProductID
+                          select new
+                          {
+                              ProductName = p.ProductName,
+                              Date = s.Date,
+                              Quantity = s.Quantity
+                          });
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -119,7 +167,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult CountryCustomers(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = (from allSales in
+            var result = (from allCustomers in
                          (from o in northwind.Orders
                           join od in northwind.Order_Details on o.OrderID equals od.OrderID
                           where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
@@ -128,7 +176,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                               CustomerID = o.CustomerID,
                               Date = o.OrderDate
                           }).AsEnumerable()
-                     group allSales by new { Date = new DateTime(allSales.Date.Value.Year, allSales.Date.Value.Month, 1) } into g
+                          group allCustomers by new { Date = new DateTime(allCustomers.Date.Value.Year, allCustomers.Date.Value.Month, 1) } into g
                      select new
                      {
                          Date = g.Key.Date,
@@ -143,14 +191,14 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         public ActionResult CountryCustomersTotal(string Country, DateTime FromDate, DateTime ToDate)
         {
             var northwind = new NorthwindEntities();
-            var result = (from allSales in
+            var result = (from allCustomers in
                               (from o in northwind.Orders
                                where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
                                select new
                                {
                                    CustomerID = o.CustomerID,
                                })
-                          group allSales by allSales.CustomerID
+                          group allCustomers by allCustomers.CustomerID
             ).Count();
             return Json(new { Customers = result }, JsonRequestBehavior.AllowGet);
         }
