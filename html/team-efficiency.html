@@ -118,6 +118,19 @@
 
     <script>
         $(document).ready(function() {
+            
+            var employeeAndTeamSales = [];
+            
+            $.ajax({
+                async: false,
+                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/employee-and-team-sales.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    employeeAndTeamSales = data;
+                }
+            });
+            
             $("[data-toggle=offcanvas]").click(function() {
                 $(".row-offcanvas").toggleClass("active");
             });
@@ -256,9 +269,14 @@
                 autoBind: false,
                 dataSource: {
                     transport : {
-                        read: {
-                            dataType: "jsonp",
-                            url: "http://knnikolov/web/api/teamefficiency/GetEmployeeAndTeamSales"
+                        read: function(options){
+                            var result;
+                            var startDate = options.data.startDate;
+                            var endDate = options.data.endDate;
+                            var employee = $.grep(employeeAndTeamSales, function(e){ 
+                                return e.EmployeeID == options.data.EmployeeID; 
+                            })[0];
+                            options.success(employee.Sales);
                         }
                     }
                 },
