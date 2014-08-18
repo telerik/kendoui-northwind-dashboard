@@ -120,6 +120,7 @@
         $(document).ready(function() {
             
             var employeeAndTeamSales = [];
+            var employeeAverageSales = [];
             
             $.ajax({
                 async: false,
@@ -128,6 +129,16 @@
                 type: "GET",
                 success: function(data) {
                     employeeAndTeamSales = data;
+                }
+            });
+            
+             $.ajax({
+                async: false,
+                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/employee-average-sales.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    employeeAverageSales = data;
                 }
             });
             
@@ -211,9 +222,11 @@
                 dataBound: onAverageSalesDataBound,
                 dataSource: {
                     transport: {
-                        read: {
-                            dataType: "jsonp",
-                            url: "http://knnikolov/web/api/teamefficiency/GetEmployeeAverageSales"
+                        read: function(options){
+                            var result = $.grep(employeeAverageSales, function(e){ 
+                                return e.EmployeeID == options.data.EmployeeID; 
+                            });
+                            options.success(result);
                         }
                     },
                     aggregate: [{
@@ -329,8 +342,7 @@
                 dataSource:{
                     transport:{
                         read: {
-                            dataType: "jsonp",
-                            url: "http://knnikolov/web/api/teamefficiency/GetEmployeeSales"
+                            url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/content/employee-sales.json"
                         }
                     },
                         schema: {
