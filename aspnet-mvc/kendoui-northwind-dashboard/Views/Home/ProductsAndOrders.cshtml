@@ -7,6 +7,10 @@
 
 <div id="products-orders-main-content" class="main-section-content">
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ProductsAndOrders").addClass("active");
+        });
+
         $(window).on("resize", function () {
             var containerWidth = $(".sparkline-container").parent().width();
             var sparkLineWidth = (80 * containerWidth) / 100;
