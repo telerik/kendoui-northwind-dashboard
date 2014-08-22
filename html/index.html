@@ -215,7 +215,7 @@
                         transport: {
                             read: {
                                 dataType: "json",
-                                url: "http://localhost:8000/Content/countries-sales.geo.json"
+                                url: "/Content/countries-sales.geo.json"
                             }
                         }
                     }
@@ -234,7 +234,7 @@
 
             $.when($.ajax({
                 async: false,
-                url: "http://localhost:8000/Content/order-details.json",
+                url: "/Content/order-details.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -243,7 +243,7 @@
             }),
             $.ajax({
                 async: false,
-                url: "http://localhost:8000/Content/customers.json",
+                url: "/Content/customers.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -252,7 +252,7 @@
             }),
             $.ajax({
                 async: false,
-                url: "http://localhost:8000/Content/country-customers.json",
+                url: "/Content/country-customers.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -261,7 +261,7 @@
             }),
             $.ajax({
                 async: false,
-                url: "http://localhost:8000/Content/top-selling-products.json",
+                url: "/Content/top-selling-products.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {

@@ -125,7 +125,7 @@
 
             $.when($.ajax({
                 async: false,
-                url: "http://localhost:8000/Content/employee-and-team-sales.json",
+                url: "/Content/employee-and-team-sales.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -134,7 +134,7 @@
             }),
              $.ajax({
                 async: false,
-                url: "http://localhost:8000/Content/employee-average-sales.json",
+                url: "/Content/employee-average-sales.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -143,7 +143,7 @@
             }),
             $.ajax({
                 async: false,
-                url: "http://localhost:8000/Content/employee-quarter-sales.json",
+                url: "/Content/employee-quarter-sales.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -175,7 +175,7 @@
                   dataSource: {
                       transport: {
                           read: {
-                              url: 'http://localhost:8000/Content/employees-list.json',
+                              url: '/Content/employees-list.json',
                           }
                       },
                       pageSize: 9
@@ -358,7 +358,7 @@
                   dataSource:{
                       transport:{
                           read: {
-                              url: "http://localhost:8000/content/employee-sales.json"
+                              url: "/content/employee-sales.json"
                           }
                       },
                           schema: {
@@ -423,7 +423,7 @@
                       dataSource: {
                           transport: {
                               read: {
-                                  url : "http://localhost:8000/Content/employees-list.json"
+                                  url : "/Content/employees-list.json"
                               }
                           }
                       }

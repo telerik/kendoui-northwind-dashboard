@@ -126,7 +126,7 @@
                     dataSource: {
                         transport: {
                             read: {
-                                url: "http://localhost:8000/Content/orders.json"
+                                url: "/Content/orders.json"
                             }
                         },
                         pageSize: 20,
@@ -206,7 +206,7 @@
                 detailRow.find(".tabstrip").kendoTabStrip();
 
                 $.when($.ajax({
-                    url: 'http://localhost:8000/Content/product-details.json',
+                    url: '/Content/product-details.json',
                     success: function(data) {
                         var result = [];
                         for (var i = 0; i < data.length; i++) {
@@ -218,7 +218,7 @@
                         products = result;
                     }
                 }), $.ajax({
-                    url: 'http://localhost:8000/Content/order-information.json',
+                    url: '/Content/order-information.json',
                     success: function(data) {
                         orderDetails = data;
                     }
@@ -294,7 +294,7 @@
                 var productSales = [];
 
                 $.ajax({
-                    url: 'http://localhost:8000/Content/product-details.json',
+                    url: '/Content/product-details.json',
                     success: function(products) {
                         var product = $.grep(products, function(e) {
                             return e.ProductID == model.ProductID;
@@ -308,7 +308,7 @@
                 })
 
                 $.ajax({
-                    url: 'http://localhost:8000/Content/product-sales.json',
+                    url: '/Content/product-sales.json',
                     success: function(data) {
                         productSales = data;
                     }
