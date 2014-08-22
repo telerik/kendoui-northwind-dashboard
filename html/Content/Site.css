@@ -289,8 +289,8 @@ body,
     line-height: 9px;
 }
 
-#EmployeeQuarterSalesLabel,
-#EmployeeAverageSalesLabel {
+#employee-quarter-sales-label,
+#employee-average-sales-label {
     font-size: 36px;
     display: inline-block;
     margin: 0 auto 10px;
@@ -714,8 +714,8 @@ body,
 
 /*min-width: 768px -> .col-sm- */
 @media screen and (min-width: 768px) and (max-width:992px)  {
-    #EmployeeQuarterSalesLabel,
-    #EmployeeAverageSalesLabel {
+    #employee-quarter-sales-label,
+    #employee-average-sales-label {
         font-size: 24px;
     }
 

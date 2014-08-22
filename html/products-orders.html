@@ -32,19 +32,19 @@
                 <h1 id="dash-logo" class="center-block">Northwind&#183;Dash</h1>
                 <div class="collapse navbar-collapse" id="sidebar-nav" role="navigation">
                     <ul class="nav">
-                        <li id="RegionalSalesStatus">
+                        <li id="regionalSalesStatus">
                             <a href="index.html">
                                 <span class="icon icon-chart-column"></span>Regional Sales Status</a>
                         </li>
-                        <li id="ProductsAndOrders">
+                        <li id="productsAndOrders">
                             <a href="products-orders.html">
                                 <span class="icon icon-star-empty"></span>Products &amp; Orders</a>
                         </li>
-                        <li id="TeamEfficiency">
+                        <li id="teamEfficiency">
                             <a href="team-efficiency.html">
                                 <span class="icon icon-faves"></span>Team Efficiency</a>
                         </li>
-                        <li id="About">
+                        <li id="about">
                             <a href="about.html">
                                 <span class="icon icon-info"></span>About</a>
                         </li>
@@ -59,7 +59,7 @@
                     <h2 id="team-efficiency" class="col-xs-3">PRODUCTS & ORDERS</h2>
                     <div style="clear:both;"></div>
                 </div>
-                <div id="Orders"></div>
+                <div id="orders"></div>
             </div>
             <!--close main column-->
         </div>
@@ -122,11 +122,11 @@
             initGrid();
 
             function initGrid() {
-                $('#Orders').kendoGrid({
+                $('#orders').kendoGrid({
                     dataSource: {
                         transport: {
                             read: {
-                                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/orders.json"
+                                url: "http://localhost:8000/Content/orders.json"
                             }
                         },
                         pageSize: 20,
@@ -206,7 +206,7 @@
                 detailRow.find(".tabstrip").kendoTabStrip();
 
                 $.when($.ajax({
-                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
+                    url: 'http://localhost:8000/Content/product-details.json',
                     success: function(data) {
                         var result = [];
                         for (var i = 0; i < data.length; i++) {
@@ -218,7 +218,7 @@
                         products = result;
                     }
                 }), $.ajax({
-                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/order-information.json',
+                    url: 'http://localhost:8000/Content/order-information.json',
                     success: function(data) {
                         orderDetails = data;
                     }
@@ -230,8 +230,8 @@
                                 read: function(options) {
                                     var result = $.grep(orderDetails, function(e) {
                                         return e.OrderID == options.data.OrderID;
-                                    });
-                                    options.success(result[0].OrderDetails);
+                                    })[0];
+                                    options.success(result.OrderDetails);
                                 }
                             },
                             schema: {
@@ -294,7 +294,7 @@
                 var productSales = [];
 
                 $.ajax({
-                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-details.json',
+                    url: 'http://localhost:8000/Content/product-details.json',
                     success: function(products) {
                         var product = $.grep(products, function(e) {
                             return e.ProductID == model.ProductID;
@@ -308,7 +308,7 @@
                 })
 
                 $.ajax({
-                    url: 'http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/product-sales.json',
+                    url: 'http://localhost:8000/Content/product-sales.json',
                     success: function(data) {
                         productSales = data;
                     }
@@ -322,8 +322,8 @@
                                 read: function(options) {
                                     var sales = $.grep(productSales, function(e) {
                                         return e.ProductID == options.data.ProductID;
-                                    });
-                                    options.success(sales[0].ProductSales);
+                                    })[0];
+                                    options.success(sales.ProductSales);
                                 }
                             }
                         },
@@ -371,7 +371,7 @@
             }
 
             function resizeGrid() {
-                var gridElement = $("#Orders"),
+                var gridElement = $("#orders"),
                     dataArea = gridElement.find(".k-grid-content"),
                     gridHeight = gridElement.innerHeight(),
                     otherElements = gridElement.children().not(".k-grid-content"),
@@ -395,7 +395,7 @@
                 </li>
             </ul>
             <div class="details-grid">
-                
+
             </div>
             <div>
                  <div class='shipping-details'>
@@ -414,7 +414,7 @@
         <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">
             <div class="product-details col-xs-3">
                 #if(ProductID) {#
-                    <img src="http://knnikolov/web/Content/Products/#=ProductID#.jpg" class="product-details-image">
+                    <img src="/Content/Products/#=ProductID#.jpg" class="product-details-image">
                 #}#
                 <div class="product-name-cat">
                     <div class="product-name"></div>
@@ -445,7 +445,7 @@
                     </div>
                 </div>
             </div>
-       </div>  
+       </div>
     </script>
 </body>
 </html>
