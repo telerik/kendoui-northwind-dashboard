@@ -101,8 +101,8 @@ body,
 #nav-section li {
     border-bottom: 1px solid #4a4b51;
     white-space:nowrap;
-    font-size: 11px; 
-    line-height: 11px; 
+    font-size: 11px;
+    line-height: 11px;
 }
 
 #nav-section li a {
@@ -115,14 +115,14 @@ body,
 }
 
 #nav-section li:hover {
-    background-color: #212329; 
+    background-color: #212329;
 }
 
 #nav-section li.active {
     background-color: #0d1016;
 }
 
-.nav > li > a:hover, 
+.nav > li > a:hover,
 .nav > li > a:focus {
     background: none;
 }
@@ -138,10 +138,10 @@ body,
 }
 
 #rights {
-    color: #848690; 
-    font-size: 10px; 
-    position: absolute; 
-    bottom: 10px; 
+    color: #848690;
+    font-size: 10px;
+    position: absolute;
+    bottom: 10px;
     left: 15px;
 }
 
@@ -177,9 +177,9 @@ body,
 #main-section-header > h2{
     font-size: 18px;
     text-transform: uppercase;
-    line-height: 26px;    
+    line-height: 26px;
     padding-top: 30px;
-    padding-bottom: 30px;    
+    padding-bottom: 30px;
 }
 
 #main-section-header > h2 {
@@ -269,8 +269,8 @@ body,
     font-size: 9px;
     line-height: 9px;
     color: #8a8b8f;
-    text-transform: uppercase; 
-    display: inline-block;   
+    text-transform: uppercase;
+    display: inline-block;
 }
 
 .phone {
@@ -310,7 +310,7 @@ body,
 
 .employee-details-image {
     border-radius: 45px;
-    border: 2px solid #737374;   
+    border: 2px solid #737374;
     margin-right: 20px;
 }
 
@@ -319,7 +319,7 @@ body,
 }
 
 #employee-about .row {
-    padding: 30px 0;      
+    padding: 30px 0;
 }
 
 #employee-about h3,
@@ -354,7 +354,7 @@ body,
 }
 
 .employee-bio-details dd {
-    margin: 4px auto;  
+    margin: 4px auto;
 }
 
 .period-wrapper {
@@ -364,7 +364,7 @@ body,
 .select-period {
     margin-right: 0.833em;
     margin-left: 2.500em;
-    text-transform: uppercase;  
+    text-transform: uppercase;
     font-weight: normal;
 }
 
@@ -406,7 +406,7 @@ body,
 }
 
 #topProductsContainer {
-   
+
     padding: 15px;
 }
 
@@ -484,11 +484,11 @@ body,
     font-size: 36px;
     display: inline-block;
     vertical-align: middle;
-    line-height: normal;     
+    line-height: normal;
 }
 
 .product-details-wrapper h5 {
-    font-size: 11px; 
+    font-size: 11px;
     vertical-align: middle;
     top: 20%;
     position: relative;
@@ -499,10 +499,10 @@ body,
     padding: 15px 30px 30px;
 }
 
-#MarketShareLabel,
-#RevenueLabel,
-#OrdersLabel,
-#CustomersLabel,
+#market-share-label,
+#revenue-label,
+#orders-label,
+#customers-label,
 #countryName {
     font-size: 36px;
     text-transform: uppercase;
@@ -713,7 +713,7 @@ body,
 /* End - custom */
 
 /*min-width: 768px -> .col-sm- */
-@media screen and (min-width: 768px) and (max-width:992px)  { 
+@media screen and (min-width: 768px) and (max-width:992px)  {
     #EmployeeQuarterSalesLabel,
     #EmployeeAverageSalesLabel {
         font-size: 24px;
@@ -725,7 +725,7 @@ body,
 }
 
 @media screen and (min-width: 768px) and (max-width:1204px) {
-   
+
 }
 
 /* Custom */
@@ -746,27 +746,27 @@ body,
     }
 }
 
-@media screen and (max-width:960px)  { 
-    #MarketShareLabel, 
-    #RevenueLabel,
-    #OrdersLabel,
-    #CustomersLabel,
+@media screen and (max-width:960px)  {
+    #market-share-label,
+    #revenue-label,
+    #orders-label,
+    #customers-label,
     #countryName {
         font-size: 24px;
     }
 }
 
-@media screen and (min-width: 863px) and (max-width:1040px)  { 
+@media screen and (min-width: 863px) and (max-width:1040px)  {
     #main-section-header h2 {
         font-size: 14px;
     }
 }
 
 @media screen and (max-width: 505px) {
-     #MarketShareLabel,
-     #RevenueLabel,
-     #OrdersLabel,
-     #CustomersLabel,
+     #market-share-label,
+     #revenue-label,
+     #orders-label,
+     #customers-label,
      #countryName {
         font-size: 14px;
     }
@@ -808,13 +808,13 @@ body,
 @media screen and (max-width: 1196px){
    .employee-details-image{
         display: none;
-    }     
+    }
 }
 
 @media screen and (min-width: 1092px) and (max-width: 1570px){
     .employee-list-image {
         display: none;
-    } 
+    }
 }
 /* End custom */
 
@@ -831,8 +831,8 @@ body,
   top: 0;
   left: 0;
   opacity: .1;
-  filter: alpha(opacity=60); 
-  background: #fff;      
+  filter: alpha(opacity=60);
+  background: #fff;
   text-align: center;
 }
 

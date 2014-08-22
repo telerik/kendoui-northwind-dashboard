@@ -33,19 +33,19 @@
                 <h1 id="dash-logo" class="center-block">Northwind&#183;Dash</h1>
                 <div class="collapse navbar-collapse" id="sidebar-nav" role="navigation">
                     <ul class="nav">
-                        <li id="RegionalSalesStatus">
+                        <li id="regional-sales-status">
                             <a href="index.html">
                                 <span class="icon icon-chart-column"></span>Regional Sales Status</a>
                         </li>
-                        <li id="ProductsAndOrders">
+                        <li id="products-and-orders">
                             <a href="products-orders.html">
                                 <span class="icon icon-star-empty"></span>Products &amp; Orders</a>
                         </li>
-                        <li id="TeamEfficiency">
+                        <li id="team-efficiency">
                             <a href="team-efficiency.html">
                                 <span class="icon icon-faves"></span>Team Efficiency</a>
                         </li>
-                        <li id="About">
+                        <li id="about">
                             <a href="about.html">
                                 <span class="icon icon-info"></span>About</a>
                         </li>
@@ -60,14 +60,14 @@
                     <h2 id="team-efficiency" class="col-xs-3">Regional sales status</h2>
                     <div id="dateFilter" class="col-xs-9">
                         <div class="period-wrapper">
-                            <label for="StartDate" class="select-period">Stats from</label>
-                            <input id="StartDate" />
-                            <span class="k-invalid-msg" data-for="StartDate"></span>
+                            <label for="start-date" class="select-period">Stats from</label>
+                            <input id="start-date" />
+                            <span class="k-invalid-msg" data-for="start-date"></span>
                         </div>
                         <div class="period-wrapper">
-                            <label for="EndDate" class="select-period">To</label>
-                            <input id="EndDate" />
-                            <span class="k-invalid-msg" data-for="EndDate"></span>
+                            <label for="end-date" class="select-period">To</label>
+                            <input id="end-date" />
+                            <span class="k-invalid-msg" data-for="end-date"></span>
                         </div>
                     </div>
                     <div style="clear:both;"></div>
@@ -92,40 +92,40 @@
                     <div id="statsContainer" class="row">
                         <div id="marketShareContainer" class="col-xs-3 stats-graph">
                             <h3 class="section-header">Market share</h3>
-                            <span id="MarketShareLabel"></span>
+                            <span id="market-share-label"></span>
                             <div class="sparkline-container">
-                                <div id="MarketShare" style="height:100px"></div>
-                                <div id="MarketShareNoData" class="overlay">
+                                <div id="market-share" style="height:100px"></div>
+                                <div id="market-share-no-data" class="overlay">
                                     <div>No data available</div>
                                 </div>
                             </div>
                         </div>
                         <div id="revenueContainer" class="col-xs-3 stats-graph">
                             <h3 class="section-header">Revenue</h3>
-                            <span id="RevenueLabel"></span>
+                            <span id="revenue-label"></span>
                             <div class="sparkline-container">
-                                <div id="Revenue" style="height:100px"></div>
-                                <div id="RevenueNoData" class="overlay">
+                                <div id="revenue" style="height:100px"></div>
+                                <div id="revenue-no-data" class="overlay">
                                     <div>No data available</div>
                                 </div>
                             </div>
                         </div>
                         <div id="ordersContainer" class="col-xs-3 stats-graph">
                             <h3 class="section-header">Orders</h3>
-                            <span id="OrdersLabel"></span>
+                            <span id="orders-label"></span>
                             <div class="sparkline-container">
-                                <div id="Orders" style="height:100px"></div>
-                                <div id="OrdersNoData" class="overlay">
+                                <div id="orders" style="height:100px"></div>
+                                <div id="orders-no-data" class="overlay">
                                     <div>No data available</div>
                                 </div>
                             </div>
                         </div>
                         <div id="customersContainer" class="col-xs-3 stats-graph">
                             <h3 class="section-header">Customers</h3>
-                            <span id="CustomersLabel"></span>
+                            <span id="customers-label"></span>
                             <div class="sparkline-container">
-                                <div id="Customers" style="height:100px;"></div>
-                                <div id="CustomersNoData" class="overlay">
+                                <div id="customers" style="height:100px;"></div>
+                                <div id="customers-no-data" class="overlay">
                                     <div>No data available</div>
                                 </div>
                             </div>
@@ -134,8 +134,8 @@
 
                     <div id="topProductsContainer">
                         <h3 class="section-header">Top selling products</h3>
-                        <div id="TopSellingProducts" style="height:260px"></div>
-                        <div id="ProductsNoData" class="overlay">
+                        <div id="top-selling-products" style="height:260px"></div>
+                        <div id="products-no-data" class="overlay">
                             <div>No data available</div>
                         </div>
                     </div>
@@ -163,21 +163,21 @@
                 var percentage = 0,
                     revenue = 0;
                 if (this.dataSource.data().length == 2) {
-                    percentage = (this.dataSource.at(1).Sales / this.dataSource.at(0).Sales);
-                    revenue = this.dataSource.at(1).Sales;
+                    percentage = (this.dataSource.at(1).sales / this.dataSource.at(0).sales);
+                    revenue = this.dataSource.at(1).sales;
                 }
 
-                $("#MarketShareLabel").text(kendo.toString(percentage, "p2"));
-                $("#RevenueLabel").text(kendo.toString(revenue, "c2"));
+                $("#market-share-label").text(kendo.toString(percentage, "p2"));
+                $("#revenue-label").text(kendo.toString(revenue, "c2"));
 
-                $("#RevenueNoData").toggle(revenue === 0);
-                $("#MarketShareNoData").toggle(percentage === 0);
+                $("#revenue-no-data").toggle(revenue === 0);
+                $("#market-share-no-data").toggle(percentage === 0);
                 if (percentage === 0) {
-                    $("#MarketShare").css({
+                    $("#market-share").css({
                         visibility: "hidden"
                     });
                 } else {
-                    $("#MarketShare").css({
+                    $("#market-share").css({
                         visibility: "visible"
                     });
                 }
@@ -187,12 +187,12 @@
                 $('.row-offcanvas').toggleClass('active');
             });
 
-            $('#EndDate').kendoDatePicker({
+            $('#end-date').kendoDatePicker({
                 value: new Date(1998, 7, 1),
                 change: onCriteriaChange
             })
 
-            $('#StartDate').kendoDatePicker({
+            $('#start-date').kendoDatePicker({
                 value: new Date(1996, 0, 1),
                 change: onCriteriaChange
             })
@@ -215,7 +215,7 @@
                         transport: {
                             read: {
                                 dataType: "json",
-                                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/countries-sales.geo.json"
+                                url: "http://localhost:8000/Content/countries-sales.geo.json"
                             }
                         }
                     }
@@ -232,103 +232,108 @@
             var countryCustomers = []
             var topSellingProducts = [];
 
-            $.ajax({
+            $.when($.ajax({
                 async: false,
-                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/order-details.json",
+                url: "http://localhost:8000/Content/order-details.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
                     orderDetailsData = data;
                 }
-            });
-
+            }),
             $.ajax({
                 async: false,
-                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/customers.json",
+                url: "http://localhost:8000/Content/customers.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
                     customers = data;
                 }
-            });
-
+            }),
             $.ajax({
                 async: false,
-                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/country-customers.json",
+                url: "http://localhost:8000/Content/country-customers.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
                     countryCustomers = data;
                 }
-            });
+            }),
             $.ajax({
                 async: false,
-                url: "http://knnikolov/tests/kendoui-northwind-dashboard/html/Content/top-selling-products.json",
+                url: "http://localhost:8000/Content/top-selling-products.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
                     topSellingProducts = data;
                 }
-            });
+            })).then(function(){
+              initWidgets();
+            })
 
-            $("#MarketShare").kendoChart({
-                theme: "metro",
-                autoBind: false,
-                dataBound: onMarketShareDataBound,
-                legend: {
-                    visible: false
-                },
-                dataSource: {
-                    transport: {
-                        read: function(options) {
-                            var from = new Date(options.data.FromDate);
-                            var to = new Date(options.data.ToDate);
-                            var total = 0;
-                            var result;
-                            orderDetailsData.forEach(function(order) {
-                                if (order.country == options.data.Country) {
+            function initWidgets(){
+              $("#market-share").kendoChart({
+                  theme: "metro",
+                  autoBind: false,
+                  dataBound: onMarketShareDataBound,
+                  legend: {
+                      visible: false
+                  },
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var total = 0;
+                              var result;
+
+                              for (var i = 0 ; i < orderDetailsData.length; i++){
+                                var order = orderDetailsData[i];
+                                if (order.country == options.data.country) {
                                     var orderDate = kendo.parseDate(order.orderDate)
                                     if (orderDate > from && orderDate < to) {
                                         total += order.price;
                                     }
                                 }
-                            })
-                            result = [{
-                                "Country": "All",
-                                "Sales": 854648.019191742
-                            }, {
-                                "Country": options.data.Country,
-                                "Sales": total
-                            }]
-                            options.success(result);
-                        }
-                    }
-                },
-                seriesDefaults: {
-                    type: "donut"
-                },
-                series: [{
-                    field: "Sales",
-                    categoryField: "Country",
-                }],
-                tooltip: {
-                    visible: true,
-                    template: "#= dataItem.Country #: #= kendo.toString(dataItem.Sales, 'c2') #"
-                }
-            })
+                              }
+                              result = [{
+                                  "country": "All",
+                                  "sales": 854648.019191742
+                              }, {
+                                  "country": options.data.country,
+                                  "sales": total
+                              }]
+                              options.success(result);
+                          }
+                      }
+                  },
+                  seriesDefaults: {
+                      type: "donut"
+                  },
+                  series: [{
+                      field: "sales",
+                      categoryField: "country",
+                  }],
+                  tooltip: {
+                      visible: true,
+                      template: "#= dataItem.country #: #= kendo.toString(dataItem.sales, 'c2') #"
+                  }
+              })
 
-            $("#Revenue").kendoSparkline({
-                theme: "metro",
-                type: "column",
-                autoBind: false,
-                dataSource: {
-                    transport: {
-                        read: function(options) {
-                            var from = new Date(options.data.FromDate);
-                            var to = new Date(options.data.ToDate);
-                            var result = [];
-                            orderDetailsData.forEach(function(order) {
-                                if (order.country == options.data.Country) {
+              $("#revenue").kendoSparkline({
+                  theme: "metro",
+                  type: "column",
+                  autoBind: false,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var result = [];
+
+                              for (var i = 0; i < orderDetailsData.length; i++){
+                                var order = orderDetailsData[i];
+                                if (order.country == options.data.country) {
                                     var orderDate = kendo.parseDate(order.orderDate)
                                     if (orderDate > from && orderDate < to) {
                                         result.push({
@@ -337,39 +342,41 @@
                                         });
                                     }
                                 }
-                            })
-                            options.success(result);
-                        }
-                    }
-                },
-                series: [{
-                    categoryField: "date",
-                    aggregate: "sum",
-                    color: "#1996e4",
-                    gap: 0.2,
-                    field: "value"
-                }],
-                categoryAxis: {
-                    type: "date",
-                    baseUnit: "months"
-                },
-                tooltip: {
-                    template: "#=kendo.toString(value, 'c2')# "
-                }
-            })
+                              }
+                              options.success(result);
+                          }
+                      }
+                  },
+                  series: [{
+                      categoryField: "date",
+                      aggregate: "sum",
+                      color: "#1996e4",
+                      gap: 0.2,
+                      field: "value"
+                  }],
+                  categoryAxis: {
+                      type: "date",
+                      baseUnit: "months"
+                  },
+                  tooltip: {
+                      template: "#=kendo.toString(value, 'c2')# "
+                  }
+              })
 
-            $("#Orders").kendoSparkline({
-                theme: "metro",
-                type: "column",
-                autoBind: false,
-                dataSource: {
-                    transport: {
-                        read: function(options) {
-                            var from = new Date(options.data.FromDate);
-                            var to = new Date(options.data.ToDate);
-                            var result = [];
-                            orderDetailsData.forEach(function(order) {
-                                if (order.country == options.data.Country) {
+              $("#orders").kendoSparkline({
+                  theme: "metro",
+                  type: "column",
+                  autoBind: false,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var result = [];
+
+                              for (var i = 0; i < orderDetailsData.length; i++){
+                                var order = orderDetailsData[i];
+                                if (order.country == options.data.country) {
                                     var orderDate = kendo.parseDate(order.orderDate)
                                     if (orderDate > from && orderDate < to) {
                                         result.push({
@@ -378,36 +385,38 @@
                                         });
                                     }
                                 }
-                            })
-                            options.success(result);
-                        }
-                    }
-                },
-                series: [{
-                    categoryField: "date",
-                    aggregate: "sum",
-                    color: "#1996e4",
-                    gap: 0.2,
-                    field: "value"
-                }],
-                categoryAxis: {
-                    type: "date",
-                    baseUnit: "months"
-                }
-            })
+                              }
+                              options.success(result);
+                          }
+                      }
+                  },
+                  series: [{
+                      categoryField: "date",
+                      aggregate: "sum",
+                      color: "#1996e4",
+                      gap: 0.2,
+                      field: "value"
+                  }],
+                  categoryAxis: {
+                      type: "date",
+                      baseUnit: "months"
+                  }
+              })
 
-            $("#Customers").kendoSparkline({
-                theme: "metro",
-                type: "column",
-                autoBind: false,
-                dataSource: {
-                    transport: {
-                        read: function(options) {
-                            var from = new Date(options.data.FromDate);
-                            var to = new Date(options.data.ToDate);
-                            var result = [];
-                            countryCustomers.forEach(function(customer) {
-                                if (customer.Country == options.data.Country) {
+              $("#customers").kendoSparkline({
+                  theme: "metro",
+                  type: "column",
+                  autoBind: false,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var result = [];
+
+                              for (var i = 0; i < countryCustomers.length; i++){
+                                var customer = countryCustomers[i];
+                                if (customer.Country == options.data.country) {
                                     var orderDate = kendo.parseDate(customer.Date)
                                     if (orderDate > from && orderDate < to) {
                                         result.push({
@@ -416,152 +425,158 @@
                                         });
                                     }
                                 }
-                            })
-                            options.success(result);
-                        }
-                    }
-                },
-                series: [{
-                    categoryField: "date",
-                    aggregate: "sum",
-                    color: "#1996e4",
-                    gap: 0.2,
-                    field: "value"
-                }],
-                categoryAxis: {
-                    type: "date",
-                    baseUnit: "months"
-                }
-            })
+                              }
+                              options.success(result);
+                          }
+                      }
+                  },
+                  series: [{
+                      categoryField: "date",
+                      aggregate: "sum",
+                      color: "#1996e4",
+                      gap: 0.2,
+                      field: "value"
+                  }],
+                  categoryAxis: {
+                      type: "date",
+                      baseUnit: "months"
+                  }
+              })
 
-            $("#TopSellingProducts").kendoChart({
-                theme: "metro",
-                autoBind: false,
-                legend: {
-                    visible: true,
-                    position: "top"
-                },
-                chartArea: {
-                    background: "#eeeeee"
-                },
-                dataBound: onTopProductsDataBound,
-                dataSource: {
-                    transport: {
-                        read: function(options) {
-                            var from = new Date(options.data.FromDate);
-                            var to = new Date(options.data.ToDate);
-                            var products = [];
-                            var result = [];
-                            topSellingProducts.forEach(function(product) {
-                                if (product.Country == options.data.Country) {
+              $("#top-selling-products").kendoChart({
+                  theme: "metro",
+                  autoBind: false,
+                  legend: {
+                      visible: true,
+                      position: "top"
+                  },
+                  chartArea: {
+                      background: "#eeeeee"
+                  },
+                  dataBound: onTopProductsDataBound,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var products = [];
+                              var result = [];
+
+                              for (var i = 0; i < topSellingProducts.length; i++){
+                                var product = topSellingProducts[i];
+                                if (product.Country == options.data.country) {
                                     var orderDate = kendo.parseDate(product.Date);
                                     if (orderDate > from && orderDate < to) {
                                         result.push({
-                                            "ProductName": product.ProductName,
-                                            "Date": product.Date,
-                                            "Quantity": product.Quantity
+                                            "productName": product.ProductName,
+                                            "date": product.Date,
+                                            "quantity": product.Quantity
                                         })
                                     }
                                 }
-                            })
-                            options.success(result);
-                        }
-                    },
-                    group: "ProductName"
-                },
-                seriesDefaults: {
-                    type: "line",
-                    style: "smooth"
-                },
-                series: [{
-                    field: "Quantity",
-                    markers: {
-                        visible: false
-                    }
-                }],
-                categoryAxis: [{
-                    majorGridLines: {
-                        visible: false
-                    },
-                    line: {
-                        width: 0
-                    },
-                    labels: {
-                        visible: false
-                    }
-                }],
-                valueAxis: {
-                    majorUnit: 50,
-                    majorTicks: {
-                        visible: false
-                    },
-                    majorGridLines: {
-                        visible: false
-                    },
-                    line: {
-                        visible: false
-                    },
-                    labels: {
-                        visible: false
-                    }
-                },
-                tooltip: {
-                    visible: true,
-                    template: "#=data.series.name.replace(data.series.field, data.value)#"
-                }
+                              }
+                              options.success(result);
+                          }
+                      },
+                      group: "productName"
+                  },
+                  seriesDefaults: {
+                      type: "line",
+                      style: "smooth"
+                  },
+                  series: [{
+                      field: "quantity",
+                      markers: {
+                          visible: false
+                      }
+                  }],
+                  categoryAxis: [{
+                      majorGridLines: {
+                          visible: false
+                      },
+                      line: {
+                          width: 0
+                      },
+                      labels: {
+                          visible: false
+                      }
+                  }],
+                  valueAxis: {
+                      majorUnit: 50,
+                      majorTicks: {
+                          visible: false
+                      },
+                      majorGridLines: {
+                          visible: false
+                      },
+                      line: {
+                          visible: false
+                      },
+                      labels: {
+                          visible: false
+                      }
+                  },
+                  tooltip: {
+                      visible: true,
+                      template: "#=data.series.name.replace(data.series.field, data.value)#"
+                  }
 
-            })
+              })
+            }
 
             function onCriteriaChange() {
-                var MarketShare = $("#MarketShare").data("kendoChart"),
-                    TopSellingProducts = $("#TopSellingProducts").data("kendoChart"),
-                    Revenue = $("#Revenue").data("kendoSparkline"),
-                    Orders = $("#Orders").data("kendoSparkline"),
-                    Customers = $("#Customers").data("kendoSparkline"),
-                    fromDate = $("#StartDate").data("kendoDatePicker").value(),
-                    toDate = $("#EndDate").data("kendoDatePicker").value();
+                var marketShare = $("#market-share").data("kendoChart"),
+                    topSellingProducts = $("#top-selling-products").data("kendoChart"),
+                    revenue = $("#revenue").data("kendoSparkline"),
+                    orders = $("#orders").data("kendoSparkline"),
+                    customers = $("#customers").data("kendoSparkline"),
+                    fromDate = $("#start-date").data("kendoDatePicker").value(),
+                    toDate = $("#end-date").data("kendoDatePicker").value();
                 getCountryOrdersTotal(fromDate, toDate);
                 getCountryCustomersTotal();
 
-                MarketShare.dataSource.read({
-                    Country: selectedCountry,
-                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
-                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                marketShare.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
-                TopSellingProducts.dataSource.read({
-                    Country: selectedCountry,
-                    FromDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", fromDate),
-                    ToDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", toDate)
+                topSellingProducts.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", toDate)
                 });
-                Revenue.dataSource.read({
-                    Country: selectedCountry,
-                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
-                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                revenue.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
-                Orders.dataSource.read({
-                    Country: selectedCountry,
-                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
-                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                orders.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
-                Customers.dataSource.read({
-                    Country: selectedCountry,
-                    FromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
-                    ToDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                customers.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
                 });
 
-                ListCustomers(selectedCountry);
+                listCustomers(selectedCountry);
 
                 setSparkLinesWidths();
             }
 
-            function ListCustomers(country) {
+            function listCustomers(country) {
                 $("#countryName").text(country);
                 var companyNames = "";
-                customers.forEach(function(customer) {
-                    if (customer.Country == country) {
-                        companyNames += customer.CompanyName + ", ";
-                    }
-                });
+
+                for (var i = 0; i < customers.length; i++){
+                  var customer = customers[i];
+                  if (customer.Country == country) {
+                      companyNames += customer.CompanyName + ", ";
+                  }
+                }
+
                 $("#countryCustomers span").text(companyNames);
 
                 var containerWidth = $(".sparkline-container").parent().width(),
@@ -576,8 +591,8 @@
                     });
                 });
 
-                $("#TopSellingProducts").data("kendoChart").resize();
-                $("#MarketShare").data("kendoChart").resize();
+                $("#top-selling-products").data("kendoChart").resize();
+                $("#market-share").data("kendoChart").resize();
             }
 
             function setSparkLinesWidths() {
@@ -593,8 +608,8 @@
                     });
                 });
 
-                $("#TopSellingProducts").data("kendoChart").resize();
-                $("#MarketShare").data("kendoChart").resize();
+                $("#top-selling-products").data("kendoChart").resize();
+                $("#market-share").data("kendoChart").resize();
             }
 
             function onShapeCreated(e) {
@@ -635,34 +650,40 @@
 
             function onTopProductsDataBound() {
                 var items = this.dataSource.data().length;
-                $("#ProductsNoData").toggle(items === 0);
+                $("#products-no-data").toggle(items === 0);
             }
 
             function getCountryOrdersTotal(fromDate, toDate) {
                 var total = 0;
                 var from = new Date(fromDate);
                 var to = new Date(toDate);
-                orderDetailsData.forEach(function(order) {
-                    if (order.country == selectedCountry) {
-                        var orderDate = kendo.parseDate(order.orderDate)
-                        if (orderDate > from && orderDate < to) {
-                            total++;
-                        }
-                    }
-                })
-                $("#OrdersLabel").text(total);
-                $("#OrdersNoData").toggle(total === 0);
+
+                for (var i = 0; i < orderDetailsData.length; i++){
+                  var order = orderDetailsData[i];
+                  if (order.country == selectedCountry) {
+                      var orderDate = kendo.parseDate(order.orderDate)
+                      if (orderDate > from && orderDate < to) {
+                          total++;
+                      }
+                  }
+                }
+
+                $("#orders-label").text(total);
+                $("#orders-no-data").toggle(total === 0);
             }
 
             function getCountryCustomersTotal(fromDate, toDate) {
                 var total = 0;
-                customers.forEach(function(customer) {
-                    if (customer.Country == selectedCountry) {
-                        total++;
-                    }
-                })
-                $("#CustomersLabel").text(total);
-                $("#CustomersNoData").toggle(total === 0);
+
+                for (var i = 0; i < customers.length; i++){
+                  var customer = customers[i];
+                  if (customer.Country == selectedCountry) {
+                      total++;
+                  }
+                }
+
+                $("#customers-label").text(total);
+                $("#customers-no-data").toggle(total === 0);
             }
 
             $(window).resize(resizeMap);
