@@ -340,8 +340,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Northwind.mdf" />
-    <Content Include="App_Data\Northwind_log.ldf" />
+    <Content Include="App_Data\NORTHWND.MDF" />
+    <Content Include="App_Data\NORTHWND_log.ldf">
+      <DependentUpon>NORTHWND.MDF</DependentUpon>
+    </Content>
     <Content Include="Content\Employees\1-t.png" />
     <Content Include="Content\Employees\1.png" />
     <Content Include="Content\Employees\2-t.png" />
@@ -538,7 +540,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>65141</DevelopmentServerPort>
+          <DevelopmentServerPort>65142</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/kendoui-northwind-dashboard</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
