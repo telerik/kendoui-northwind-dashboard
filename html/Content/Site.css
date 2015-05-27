@@ -609,6 +609,12 @@ body,
     color: #fff;
 }
 
+.download-btn span {
+    display: block;
+    font-size: 10px;
+    margin-bottom: -8px;
+}
+
 /*max-width: 768px -> .col-xs- */
 @media screen and (max-width: 768px) {
     .column {
