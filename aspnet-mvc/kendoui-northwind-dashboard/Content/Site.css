@@ -612,7 +612,7 @@ body,
 .download-btn span {
     display: block;
     font-size: 10px;
-    margin-bottom: -8px;
+    margin-bottom: -3px;
 }
 
 /*max-width: 768px -> .col-xs- */
