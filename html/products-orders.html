@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
@@ -126,7 +127,7 @@
                     dataSource: {
                         transport: {
                             read: {
-                                url: "/Content/orders.json"
+                                url: "./Content/orders.json"
                             }
                         },
                         pageSize: 20,
@@ -206,7 +207,7 @@
                 detailRow.find(".tabstrip").kendoTabStrip();
 
                 $.when($.ajax({
-                    url: '/Content/product-details.json',
+                    url: './Content/product-details.json',
                     success: function(data) {
                         var result = [];
                         for (var i = 0; i < data.length; i++) {
@@ -218,7 +219,7 @@
                         products = result;
                     }
                 }), $.ajax({
-                    url: '/Content/order-information.json',
+                    url: './Content/order-information.json',
                     success: function(data) {
                         orderDetails = data;
                     }
@@ -294,7 +295,7 @@
                 var productSales = [];
 
                 $.ajax({
-                    url: '/Content/product-details.json',
+                    url: './Content/product-details.json',
                     success: function(products) {
                         var product = $.grep(products, function(e) {
                             return e.ProductID == model.ProductID;
@@ -308,7 +309,7 @@
                 })
 
                 $.ajax({
-                    url: '/Content/product-sales.json',
+                    url: './Content/product-sales.json',
                     success: function(data) {
                         productSales = data;
                     }
@@ -414,7 +415,7 @@
         <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">
             <div class="product-details col-xs-3">
                 #if(ProductID) {#
-                    <img src="/Content/Products/#=ProductID#.jpg" class="product-details-image">
+                    <img src="./Content/Products/#=ProductID#.jpg" class="product-details-image">
                 #}#
                 <div class="product-name-cat">
                     <div class="product-name"></div>

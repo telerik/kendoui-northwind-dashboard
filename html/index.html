@@ -215,7 +215,7 @@
                         transport: {
                             read: {
                                 dataType: "json",
-                                url: "/Content/countries-sales.geo.json"
+                                url: "./Content/countries-sales.geo.json"
                             }
                         }
                     }
@@ -233,8 +233,7 @@
             var topSellingProducts = [];
 
             $.when($.ajax({
-                async: false,
-                url: "/Content/order-details.json",
+                url: "./Content/order-details.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -242,8 +241,7 @@
                 }
             }),
             $.ajax({
-                async: false,
-                url: "/Content/customers.json",
+                url: "./Content/customers.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -251,8 +249,7 @@
                 }
             }),
             $.ajax({
-                async: false,
-                url: "/Content/country-customers.json",
+                url: "./Content/country-customers.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
@@ -260,15 +257,15 @@
                 }
             }),
             $.ajax({
-                async: false,
-                url: "/Content/top-selling-products.json",
+                url: "./Content/top-selling-products.json",
                 dataType: "json",
                 type: "GET",
                 success: function(data) {
                     topSellingProducts = data;
                 }
             })).then(function(){
-              initWidgets();
+                initWidgets();
+                onCriteriaChange();
             })
 
             function initWidgets(){
@@ -687,7 +684,6 @@
             }
 
             $(window).resize(resizeMap);
-            onCriteriaChange();
         });
     </script>
 </body>
