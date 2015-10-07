@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2014.1.528/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.kendostatic.com/2014.1.528/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.1.528/js/kendo.all.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2014.1.528/js/kendo.aspnetmvc.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="Content/Site.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!--open container-->
+        <div class="row row-offcanvas row-offcanvas-left">
+            <!--open row-->
+            <div id="nav-section" class="col-xs-12 column">
+                <!--open nav column-->
+                <div class="navbar-default">
+                    <button id="toggle-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <h1 id="dash-logo" class="center-block">Northwind&#183;Dash</h1>
+                <div class="collapse navbar-collapse" id="sidebar-nav" role="navigation">
+                    <ul class="nav">
+                        <li id="regionalSalesStatus">
+                            <a href="index.html">
+                                <span class="icon icon-chart-column"></span>Regional Sales Status</a>
+                        </li>
+                        <li id="productsAndOrders">
+                            <a href="products-orders.html">
+                                <span class="icon icon-star-empty"></span>Products &amp; Orders</a>
+                        </li>
+                        <li id="teamEfficiency">
+                            <a href="team-efficiency.html">
+                                <span class="icon icon-faves"></span>Team Efficiency</a>
+                        </li>
+                        <li id="about">
+                            <a href="about.html">
+                                <span class="icon icon-info"></span>About</a>
+                        </li>
+                    </ul>
+                    <span id="rights">Copyright © 2002-2014 Telerik. All rights reserved.</span>
+                </div>
+            </div>
+            <!--close left column-->
+            <div id="main-section" class="col-xs-12 column">
+                <!--open main column-->
+                <div id="main-section-header" class="row">
+                    <h2>About</h2>
+                </div>
+
+                <div id="about" class="main-section-content row">
+                    <div>
+                        <h3 class="section-title">Telerik Northwind Dashboard</h3>
+                        <p>Telerik Northwind Dashboard is a web app built with Telerik
+                            <a href="http://www.telerik.com/kendo-ui">HTML5 Kendo UI widgets</a> and their server-side wrappers for
+                            <a href="http://www.telerik.com/aspnet-mvc">ASP.NET MVC</a>. The app showcases some of the most popular Kendo UI widgets such as Scheduler, Grid, TabStrip, Charts and Map and it's enabled for touch. It has a simple and responsive UI based on
+                            <a href="http://getbootstrap.com/">Twitter Bootstrap</a> and works on a wide range of devices.</p>
+                        <p>The sample app is aimed at executives, analysts, or sales representatives. It helps them establish targets based on insights into historical data as well as track sales and product performance in real time.</p>
+                        <a class="download-btn" href="https://github.com/telerik/kendoui-northwind-dashboard">Get Source Code <span>Html or ASP.NET MVC</span></a>
+                    </div>
+
+                    <div class="section-white">
+                        <h3 class="section-title">Featured jQuery & HTML5 UI Components</h3>
+                        <div class="row">
+                            <ul class="col-xs-4">
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/datetimepickers">Date Picker</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/dropdownlist">DropDownList</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/grid">Grid</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/listview">ListView</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/scheduler">Scheduler</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/tabstrip">TabStrip</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/tooltip">Tooltip</a>
+                                </li>
+                            </ul>
+                            <ul class="col-xs-4">
+                                <li>
+                                    <a href="http://demos.telerik.com/kendo-ui/dataviz/bar-charts/index.html">Column Charts</a>
+                                </li>
+                                <li>
+                                    <a href="http://demos.telerik.com/kendo-ui/dataviz/donut-charts/index.htmll">Donut Charts</a>
+                                </li>
+                                <li>
+                                    <a href="http://demos.telerik.com/kendo-ui/dataviz/line-charts/index.html">Line Charts</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.telerik.com/kendo-ui/map">Map</a>
+                                </li>
+                                <li>
+                                    <a href="http://demos.telerik.com/kendo-ui/dataviz/sparklines/index.html">SparkLines</a>
+                                </li>
+                            </ul>
+                            <ul class="col-xs-4">
+                                <li>
+                                    <a href="http://demos.telerik.com/kendo-ui/web/templates/index.html">Templates</a>
+                                </li>
+                                <li>
+                                    <a href="http://demos.telerik.com/kendo-ui/web/validator/index.html">Validator</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--close main column-->
+        </div>
+        <!--close row-->
+    </div>
+    <!--close container-->
+
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle=offcanvas]').click(function() {
+                $('.row-offcanvas').toggleClass('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

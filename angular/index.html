@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link href="https://kendo.cdn.telerik.com/2015.3.930/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="https://kendo.cdn.telerik.com/2015.3.930/styles/kendo.metro.min.css" rel="stylesheet">
+    <link href="Content/Site.css" rel="stylesheet" type="text/css">
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script src="./bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="./bower_components/angular-new-router/dist/router.es5.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2015.3.930/js/kendo.all.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/chroma-js/0.5.7/chroma.min.js"></script>
+    <script src="./components/regional-sales/regional-sales.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body ng-app="app" ng-controller="AppController as app">
+    <div class="container-fluid">
+        <!--open container-->
+        <div class="row row-offcanvas row-offcanvas-left">
+            <!--open row-->
+            <div id="nav-section" class="col-xs-12 column">
+                <!--open nav column-->
+                <div class="navbar-default">
+                    <button id="toggle-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <h1 id="dash-logo" class="center-block">Northwind&#183;Dash</h1>
+                <div class="collapse navbar-collapse" id="sidebar-nav" role="navigation">
+                    <ul class="nav">
+                        <li id="regional-sales-status">
+                            <a href="index.html">
+                                <span class="icon icon-chart-column"></span>Regional Sales Status</a>
+                        </li>
+                        <li id="products-and-orders">
+                            <a href="products-orders.html">
+                                <span class="icon icon-star-empty"></span>Products &amp; Orders</a>
+                        </li>
+                        <li id="team-efficiency">
+                            <a href="team-efficiency.html">
+                                <span class="icon icon-faves"></span>Team Efficiency</a>
+                        </li>
+                        <li id="about">
+                            <a href="about.html">
+                                <span class="icon icon-info"></span>About</a>
+                        </li>
+                    </ul>
+                    <span id="rights">Copyright © 2002-2014 Telerik. All rights reserved.</span>
+                </div>
+            </div>
+            <!--close left column-->
+            <div id="main-section" class="col-xs-12 column" ng-viewport></div>
+            <!--close main column-->
+        </div>
+        <!--close row-->
+    </div>
+    <!--close container-->
+
+    <script>
+        $(document).ready(function() {
+            return;
+            var scale = chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]),
+                selectedShape = null,
+                selectedCountry = "USA";
+
+            function resizeMap() {
+                var map = $("#map").data("kendoMap");
+                map.resize();
+                map.center([50.000, 0]);
+            }
+
+            function onMarketShareDataBound(e) {
+                var percentage = 0,
+                    revenue = 0;
+                if (this.dataSource.data().length == 2) {
+                    percentage = (this.dataSource.at(1).sales / this.dataSource.at(0).sales);
+                    revenue = this.dataSource.at(1).sales;
+                }
+
+                $("#market-share-label").text(kendo.toString(percentage, "p2"));
+                $("#revenue-label").text(kendo.toString(revenue, "c2"));
+
+                $("#revenue-no-data").toggle(revenue === 0);
+                $("#market-share-no-data").toggle(percentage === 0);
+                if (percentage === 0) {
+                    $("#market-share").css({
+                        visibility: "hidden"
+                    });
+                } else {
+                    $("#market-share").css({
+                        visibility: "visible"
+                    });
+                }
+            }
+
+            $('[data-toggle=offcanvas]').click(function() {
+                $('.row-offcanvas').toggleClass('active');
+            });
+
+
+            var orderDetailsData = [];
+            var customers = [];
+            var countryCustomers = []
+            var topSellingProducts = [];
+
+            $.when($.ajax({
+                url: "./Content/order-details.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    orderDetailsData = data;
+                }
+            }),
+            $.ajax({
+                url: "./Content/customers.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    customers = data;
+                }
+            }),
+            $.ajax({
+                url: "./Content/country-customers.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    countryCustomers = data;
+                }
+            }),
+            $.ajax({
+                url: "./Content/top-selling-products.json",
+                dataType: "json",
+                type: "GET",
+                success: function(data) {
+                    topSellingProducts = data;
+                }
+            })).then(function(){
+                //initWidgets();
+                //onCriteriaChange();
+            })
+
+            function initWidgets(){
+              $("#market-share").kendoChart({
+                  theme: "metro",
+                  autoBind: false,
+                  dataBound: onMarketShareDataBound,
+                  legend: {
+                      visible: false
+                  },
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var total = 0;
+                              var result = [];
+
+                              for (var i = 0 ; i < orderDetailsData.length; i++){
+                                var order = orderDetailsData[i];
+                                if (order.country == options.data.country) {
+                                    var orderDate = kendo.parseDate(order.orderDate)
+                                    if (orderDate > from && orderDate < to) {
+                                        total += order.price;
+                                    }
+                                }
+                              }
+                              result = [{
+                                  "country": "All",
+                                  "sales": 854648.019191742
+                              }, {
+                                  "country": options.data.country,
+                                  "sales": total
+                              }]
+                              options.success(result);
+                          }
+                      }
+                  },
+                  seriesDefaults: {
+                      type: "donut"
+                  },
+                  series: [{
+                      field: "sales",
+                      categoryField: "country",
+                  }],
+                  tooltip: {
+                      visible: true,
+                      template: "#= dataItem.country #: #= kendo.toString(dataItem.sales, 'c2') #"
+                  }
+              })
+
+              $("#revenue").kendoSparkline({
+                  theme: "metro",
+                  type: "column",
+                  autoBind: false,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var result = [];
+
+                              for (var i = 0; i < orderDetailsData.length; i++){
+                                var order = orderDetailsData[i];
+                                if (order.country == options.data.country) {
+                                    var orderDate = kendo.parseDate(order.orderDate)
+                                    if (orderDate > from && orderDate < to) {
+                                        result.push({
+                                            "date": orderDate,
+                                            "value": order.price
+                                        });
+                                    }
+                                }
+                              }
+                              options.success(result);
+                          }
+                      }
+                  },
+                  series: [{
+                      categoryField: "date",
+                      aggregate: "sum",
+                      color: "#1996e4",
+                      gap: 0.2,
+                      field: "value"
+                  }],
+                  categoryAxis: {
+                      type: "date",
+                      baseUnit: "months"
+                  },
+                  tooltip: {
+                      template: "#=kendo.toString(value, 'c2')# "
+                  }
+              })
+
+              $("#orders").kendoSparkline({
+                  theme: "metro",
+                  type: "column",
+                  autoBind: false,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var result = [];
+
+                              for (var i = 0; i < orderDetailsData.length; i++){
+                                var order = orderDetailsData[i];
+                                if (order.country == options.data.country) {
+                                    var orderDate = kendo.parseDate(order.orderDate)
+                                    if (orderDate > from && orderDate < to) {
+                                        result.push({
+                                            "date": orderDate,
+                                            "value": 1
+                                        });
+                                    }
+                                }
+                              }
+                              options.success(result);
+                          }
+                      }
+                  },
+                  series: [{
+                      categoryField: "date",
+                      aggregate: "sum",
+                      color: "#1996e4",
+                      gap: 0.2,
+                      field: "value"
+                  }],
+                  categoryAxis: {
+                      type: "date",
+                      baseUnit: "months"
+                  }
+              })
+
+              $("#customers").kendoSparkline({
+                  theme: "metro",
+                  type: "column",
+                  autoBind: false,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var result = [];
+
+                              for (var i = 0; i < countryCustomers.length; i++){
+                                var customer = countryCustomers[i];
+                                if (customer.Country == options.data.country) {
+                                    var orderDate = kendo.parseDate(customer.Date)
+                                    if (orderDate > from && orderDate < to) {
+                                        result.push({
+                                            "date": customer.Date,
+                                            "value": customer.Value
+                                        });
+                                    }
+                                }
+                              }
+                              options.success(result);
+                          }
+                      }
+                  },
+                  series: [{
+                      categoryField: "date",
+                      aggregate: "sum",
+                      color: "#1996e4",
+                      gap: 0.2,
+                      field: "value"
+                  }],
+                  categoryAxis: {
+                      type: "date",
+                      baseUnit: "months"
+                  }
+              })
+
+              $("#top-selling-products").kendoChart({
+                  theme: "metro",
+                  autoBind: false,
+                  legend: {
+                      visible: true,
+                      position: "top"
+                  },
+                  chartArea: {
+                      background: "#eeeeee"
+                  },
+                  dataBound: onTopProductsDataBound,
+                  dataSource: {
+                      transport: {
+                          read: function(options) {
+                              var from = new Date(options.data.fromDate);
+                              var to = new Date(options.data.toDate);
+                              var products = [];
+                              var result = [];
+
+                              for (var i = 0; i < topSellingProducts.length; i++){
+                                var product = topSellingProducts[i];
+                                if (product.Country == options.data.country) {
+                                    var orderDate = kendo.parseDate(product.Date);
+                                    if (orderDate > from && orderDate < to) {
+                                        result.push({
+                                            "productName": product.ProductName,
+                                            "date": product.Date,
+                                            "quantity": product.Quantity
+                                        })
+                                    }
+                                }
+                              }
+                              options.success(result);
+                          }
+                      },
+                      group: "productName"
+                  },
+                  seriesDefaults: {
+                      type: "line",
+                      style: "smooth"
+                  },
+                  series: [{
+                      field: "quantity",
+                      markers: {
+                          visible: false
+                      }
+                  }],
+                  categoryAxis: [{
+                      majorGridLines: {
+                          visible: false
+                      },
+                      line: {
+                          width: 0
+                      },
+                      labels: {
+                          visible: false
+                      }
+                  }],
+                  valueAxis: {
+                      majorUnit: 50,
+                      majorTicks: {
+                          visible: false
+                      },
+                      majorGridLines: {
+                          visible: false
+                      },
+                      line: {
+                          visible: false
+                      },
+                      labels: {
+                          visible: false
+                      }
+                  },
+                  tooltip: {
+                      visible: true,
+                      template: "#=data.series.name.replace(data.series.field, data.value)#"
+                  }
+
+              })
+            }
+
+            function onCriteriaChange() {
+                var marketShare = $("#market-share").data("kendoChart"),
+                    topSellingProducts = $("#top-selling-products").data("kendoChart"),
+                    revenue = $("#revenue").data("kendoSparkline"),
+                    orders = $("#orders").data("kendoSparkline"),
+                    customers = $("#customers").data("kendoSparkline"),
+                    fromDate = $("#start-date").data("kendoDatePicker").value(),
+                    toDate = $("#end-date").data("kendoDatePicker").value();
+
+                marketShare.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                });
+                topSellingProducts.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", toDate)
+                });
+                revenue.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                });
+                orders.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                });
+                customers.dataSource.read({
+                    country: selectedCountry,
+                    fromDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", fromDate),
+                    toDate: kendo.format("{0:dd/MM/yyyy hh:mm:ss}", toDate)
+                });
+
+                listCustomers(selectedCountry);
+
+                setSparkLinesWidths();
+            }
+
+            function listCustomers(country) {
+                //done: $("#countryName").text(country);
+                /* done
+                */
+
+                var containerWidth = $(".sparkline-container").parent().width(),
+                    getSparkLines = $(".k-sparkline"),
+                    chartWidth = (80 * containerWidth) / 100;
+
+                getSparkLines.each(function() {
+                    $(this).data("kendoSparkline").setOptions({
+                        chartArea: {
+                            width: chartWidth
+                        }
+                    });
+                });
+
+                $("#top-selling-products").data("kendoChart").resize();
+                $("#market-share").data("kendoChart").resize();
+            }
+
+            function setSparkLinesWidths() {
+                var containerWidth = $(".sparkline-container").parent().width(),
+                    getSparkLines = $(".k-sparkline"),
+                    sparkLineWidth = (80 * containerWidth) / 100;
+
+                getSparkLines.each(function() {
+                    $(this).data("kendoSparkline").setOptions({
+                        chartArea: {
+                            width: sparkLineWidth
+                        }
+                    });
+                });
+
+                $("#top-selling-products").data("kendoChart").resize();
+                $("#market-share").data("kendoChart").resize();
+            }
+
+            function onTopProductsDataBound() {
+                var items = this.dataSource.data().length;
+                $("#products-no-data").toggle(items === 0);
+            }
+
+            $(window).resize(resizeMap);
+        });
+    </script>
+</body>
+
+</html>
