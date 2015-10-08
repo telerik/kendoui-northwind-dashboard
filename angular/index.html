@@ -442,6 +442,15 @@
             function listCustomers(country) {
                 //done: $("#countryName").text(country);
                 /* done
+                var companyNames = "";
+                for (var i = 0; i < customers.length; i++){
+                  var customer = customers[i];
+                  if (customer.Country == country) {
+                      companyNames += customer.CompanyName + ", ";
+                  }
+                }
+
+                $("#countryCustomers span").text(companyNames);
                 */
 
                 var containerWidth = $(".sparkline-container").parent().width(),

@@ -1,6 +1,6 @@
 
 angular.module('app.regional', [])
-    .controller('RegionalSalesController', ['Customers', 'OrderDetails', 'scale', function (Customers, OrderDetails, scale) {
+    .controller('RegionalSalesController', ['$q', 'Customers', 'OrderDetails', 'scale', function ($q, Customers, OrderDetails, scale) {
         this.selectedCountry = 'USA';
 
         this.startDate = new Date(1996, 0, 1);
@@ -9,29 +9,43 @@ angular.module('app.regional', [])
 
         this.customers = Customers.query();
 
+        this.marketDataSource = new kendo.data.DataSource();
+
         this.orderDetails = OrderDetails.query();
 
-        this.customerNames = function() {
+        this.refresh = function() {
+            this.currentCustomers = this.customersForCountry();
+            this.currentOrders = this.ordersForCountry();
+            this.marketDataSource.data(this.marketShare());
+        };
+
+        $q.all([this.customers.$promise, this.orderDetails.$promise]).then(this.refresh.bind(this));
+
+        this.customersForCountry = function() {
             return this.customers.filter(function(customer) {
                 return customer.Country === this.selectedCountry;
             }.bind(this)).map(function(customer) {
                 return customer.CompanyName;
-            }).join(', ');
-        }.bind(this);
+            });
+        };
 
-        this.totalOrders = function() {
+        this.ordersForCountry = function() {
             return this.orderDetails.filter(function(order) {
                 var orderDate = kendo.parseDate(order.orderDate);
 
                 return order.country === this.selectedCountry && orderDate > this.startDate && orderDate < this.endDate;
-            }.bind(this)).length;
-        }.bind(this);
+            }.bind(this));
+        };
 
-        this.totalCustomers = function() {
-            return this.customers.filter(function(customer) {
-                return customer.Country === this.selectedCountry;
-            }.bind(this)).length;
-        }.bind(this);
+        this.marketShare = function() {
+            var sum = this.currentOrders.reduce(function(total, order) {
+                return total + order.price;
+            }, 0);
+            return [
+                { country: "All", price: 854648.019191742 },
+                { country: this.selectedCountry, price: sum  }
+            ];
+        };
 
         this.mapLayers = [{
             style: {
@@ -88,5 +102,6 @@ angular.module('app.regional', [])
             e.shape.dataItem.properties.selected = true;
             this.selectedShape = e.shape;
             this.selectedCountry = this.selectedShape.dataItem.properties.name;
+            this.refresh();
         }.bind(this);
     }]);
