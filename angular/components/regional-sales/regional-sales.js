@@ -62,8 +62,6 @@ angular.module('app.regional', [])
                 };
             });
 
-            console.log(customersData)
-
             this.customersDataSource.data(customersData);
         };
 
