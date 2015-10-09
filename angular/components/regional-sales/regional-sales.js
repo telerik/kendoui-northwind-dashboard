@@ -1,6 +1,6 @@
 
 angular.module('app.regional', [])
-    .controller('RegionalSalesController', ['$q', 'Customers', 'OrderDetails', 'scale', function ($q, Customers, OrderDetails, scale) {
+    .controller('RegionalSalesController', ['$q', 'Customers', 'CountryCustomers', 'OrderDetails', 'scale', function ($q, Customers, CountryCustomers, OrderDetails, scale) {
         this.selectedCountry = 'USA';
 
         this.startDate = new Date(1996, 0, 1);
@@ -9,17 +9,65 @@ angular.module('app.regional', [])
 
         this.customers = Customers.query();
 
+        this.countryCustomers = CountryCustomers.query();
+
         this.marketDataSource = new kendo.data.DataSource();
+
+        this.revenueDataSource = new kendo.data.DataSource();
+
+        this.ordersDataSource = new kendo.data.DataSource();
+
+        this.customersDataSource = new kendo.data.DataSource();
 
         this.orderDetails = OrderDetails.query();
 
         this.refresh = function() {
             this.currentCustomers = this.customersForCountry();
             this.currentOrders = this.ordersForCountry();
-            this.marketDataSource.data(this.marketShare());
+            this.market = this.marketShare();
+            var percentage = 0;
+            var revenue = 0;
+            if (this.market.length > 1) {
+                percentage =  this.market[1].sales / this.market[0].sales;
+                revenue = this.market[1].sales;
+            }
+            this.percentage = kendo.toString(percentage, "p2");
+            this.revenue = kendo.toString(revenue, "c2");
+            this.marketDataSource.data(this.market);
+            var revenueData = this.ordersForCountry().map(function(order) {
+                return {
+                    date: order.orderDate,
+                    value: order.price
+                };
+            });
+
+            this.revenueDataSource.data(revenueData);
+
+            var ordersData = this.ordersForCountry().map(function(order) {
+                return {
+                    date: order.orderDate,
+                    value: 1
+                };
+            });
+
+            this.ordersDataSource.data(ordersData);
+
+            var customersData = this.countryCustomers.filter(function(customer) {
+                var date = kendo.parseDate(customer.Date);
+                return customer.Country === this.selectedCountry && date > this.startDate && date < this.endDate;
+            }.bind(this)).map(function(customer) {
+                return {
+                    date: customer.Date,
+                    value: customer.Value
+                };
+            });
+
+            console.log(customersData)
+
+            this.customersDataSource.data(customersData);
         };
 
-        $q.all([this.customers.$promise, this.orderDetails.$promise]).then(this.refresh.bind(this));
+        $q.all([this.customers.$promise, this.countryCustomers.$promise, this.orderDetails.$promise]).then(this.refresh.bind(this));
 
         this.customersForCountry = function() {
             return this.customers.filter(function(customer) {
@@ -41,10 +89,16 @@ angular.module('app.regional', [])
             var sum = this.currentOrders.reduce(function(total, order) {
                 return total + order.price;
             }, 0);
-            return [
-                { country: "All", price: 854648.019191742 },
-                { country: this.selectedCountry, price: sum  }
+
+            var market = [
+                { country: "All", sales: 854648.019191742 },
             ];
+
+            if (sum > 0) {
+                market.push({ country: this.selectedCountry, sales: sum  });
+            }
+
+            return market;
         };
 
         this.mapLayers = [{

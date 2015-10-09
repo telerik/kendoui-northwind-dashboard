@@ -3,6 +3,9 @@ var app = angular.module('app', ['ngNewRouter', 'ngResource', 'app.regional', 'k
 app.factory('Customers', ['$resource', function($resource) {
     return $resource('./Content/customers.json');
 }])
+.factory('CountryCustomers', ['$resource', function($resource) {
+    return $resource('./Content/country-customers.json');
+}])
 .factory('scale', function() {
     return chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]);
 })

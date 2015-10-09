@@ -44,32 +44,38 @@
     <div id="statsContainer" class="row">
         <div id="marketShareContainer" class="col-xs-3 stats-graph">
             <h3 class="section-header">Market share</h3>
-            <span id="market-share-label"></span>
+            <span id="market-share-label">{{ regionalSales.percentage }}</span>
             <div class="sparkline-container">
-                <div kendo-list-view k-data-source="regionalSales.market">
-                    <k-template>
-                        <div>{{country}} :: {{ price }}</div>
-                    </k-template>
-                </div>
-                <div id="market-share" style="height:100px"
+                <div id="market-share"
+                    style="height: 100px; visibility:{{ regionalSales.currentOrders.length > 0 ? 'visible': 'hidden' }}"
                     kendo-chart
                     k-theme="'metro'"
                     k-legend="{visible:false}"
                     k-data-source="regionalSales.marketDataSource"
                     k-series-defaults="{type:'donut'}"
-                    k-series="[{field:'price', categoryField:'country'}]"
+                    k-series="[{field:'sales', categoryField:'country'}]"
+                    k-tooltip="{visible:true, template:'#= dataItem.country #: #= kendo.toString(dataItem.sales, \'c2\') #'}"
                 ></div>
-                <div id="market-share-no-data" class="overlay">
+                <div id="market-share-no-data" class="overlay" ng-hide="regionalSales.currentOrders.length > 0">
                     <div>No data available</div>
                 </div>
             </div>
         </div>
         <div id="revenueContainer" class="col-xs-3 stats-graph">
             <h3 class="section-header">Revenue</h3>
-            <span id="revenue-label"></span>
+            <span id="revenue-label">{{ regionalSales.revenue }}</span>
             <div class="sparkline-container">
-                <div id="revenue" style="height:100px"></div>
-                <div id="revenue-no-data" class="overlay">
+                <div id="revenue"
+                    style="height: 100px; visibility:{{ regionalSales.currentOrders.length > 0 ? 'visible': 'hidden' }}"
+                    kendo-sparkline
+                    k-theme="'metro'"
+                    k-data-source="regionalSales.revenueDataSource"
+                    k-type="'column'"
+                    k-series="[{categoryField:'date',aggregate:'sum',color:'#1996e4',gap:0.2,field:'value'}]"
+                    k-category-axis="{type: 'date', baseUnit: 'months'}"
+                    k-tooltip="{template: '#=kendo.toString(value, \'c2\')#'}"
+                ></div>
+                <div id="revenue-no-data" class="overlay" ng-hide="regionalSales.currentOrders.length > 0">
                     <div>No data available</div>
                 </div>
             </div>
@@ -78,7 +84,15 @@
             <h3 class="section-header">Orders</h3>
             <span id="orders-label">{{regionalSales.currentOrders.length}}</span>
             <div class="sparkline-container">
-                <div id="orders" style="height:100px"></div>
+                <div id="orders" style="height:100px"
+                    style="height: 100px; visibility:{{ regionalSales.currentOrders.length > 0 ? 'visible': 'hidden' }}"
+                    kendo-sparkline
+                    k-theme="'metro'"
+                    k-data-source="regionalSales.ordersDataSource"
+                    k-type="'column'"
+                    k-series="[{categoryField:'date',aggregate:'sum',color:'#1996e4',gap:0.2,field:'value'}]"
+                    k-category-axis="{type: 'date', baseUnit: 'months'}"
+                ></div>
                 <div id="orders-no-data" class="overlay" ng-hide="regionalSales.currentOrders.length > 0">
                     <div>No data available</div>
                 </div>
@@ -88,8 +102,16 @@
             <h3 class="section-header">Customers</h3>
             <span id="customers-label">{{regionalSales.currentCustomers.length}}</span>
             <div class="sparkline-container">
-                <div id="customers" style="height:100px;"></div>
-                <div id="customers-no-data" class="overlay" ng-hide="regionalSales.currentCustomers.length  > 0">
+                <div id="customers"
+                    style="height: 100px; visibility:{{ regionalSales.currentCustomers.length > 0 ? 'visible': 'hidden' }}"
+                    kendo-sparkline
+                    k-theme="'metro'"
+                    k-data-source="regionalSales.customersDataSource"
+                    k-type="'column'"
+                    k-series="[{categoryField:'date',aggregate:'sum',color:'#1996e4',gap:0.2,field:'value'}]"
+                    k-category-axis="{type: 'date', baseUnit: 'months'}"
+                ></div>
+                <div id="customers-no-data" class="overlay" ng-hide="regionalSales.currentCustomers.length > 0">
                     <div>No data available</div>
                 </div>
             </div>
