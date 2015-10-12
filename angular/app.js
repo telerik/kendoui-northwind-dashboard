@@ -6,6 +6,9 @@ app.factory('Customers', ['$resource', function($resource) {
 .factory('CountryCustomers', ['$resource', function($resource) {
     return $resource('./Content/country-customers.json');
 }])
+.factory('TopSellingProducts', ['$resource', function($resource) {
+    return $resource('./Content/top-selling-products.json');
+}])
 .factory('scale', function() {
     return chroma.scale(["#ade1fb", "#097dc6"]).domain([1, 100]);
 })

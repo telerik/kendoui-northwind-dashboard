@@ -120,8 +120,20 @@
 
     <div id="topProductsContainer">
         <h3 class="section-header">Top selling products</h3>
-        <div id="top-selling-products" style="height:260px"></div>
-        <div id="products-no-data" class="overlay">
+        <div id="top-selling-products"
+             style="height: 260px; visibility:{{ regionalSales.currentTopSellingProducts.length > 0 ? 'visible': 'hidden' }}"
+             kendo-chart
+             k-theme="'metro'"
+             k-data-source="regionalSales.topSellingProductsDataSource"
+             k-legend="{visible:true, position:'top'}"
+             k-chart-area="{background:'#eeeeee'}"
+             k-series-defaults="{type: 'line',style: 'smooth'}"
+             k-series="[{field:'quantity',markers:{visible:false}}]"
+             k-category-axis="[{majorGridLines:{visible:false},line:{width:0},labels:{visible:false}}]"
+             k-value-axis="{majorUnit:50,majorTicks:{visible:false},majorGridLines:{visible:false},line:{visible:false},labels:{visible:false}}"
+             k-tooltip="{visible:true,template:'#=data.series.name.replace(data.series.field, data.value)#'}"
+        ></div>
+        <div id="products-no-data" class="overlay" ng-hide="regionalSales.currentTopSellingProducts.length > 0">
             <div>No data available</div>
         </div>
     </div>

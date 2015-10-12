@@ -1,6 +1,6 @@
 
 angular.module('app.regional', [])
-    .controller('RegionalSalesController', ['$q', 'Customers', 'CountryCustomers', 'OrderDetails', 'scale', function ($q, Customers, CountryCustomers, OrderDetails, scale) {
+    .controller('RegionalSalesController', ['$q', 'Customers', 'CountryCustomers', 'OrderDetails', 'TopSellingProducts', 'scale', function ($q, Customers, CountryCustomers, OrderDetails, TopSellingProducts, scale) {
         this.selectedCountry = 'USA';
 
         this.startDate = new Date(1996, 0, 1);
@@ -19,7 +19,11 @@ angular.module('app.regional', [])
 
         this.customersDataSource = new kendo.data.DataSource();
 
+        this.topSellingProductsDataSource = new kendo.data.DataSource({ group: "productName"});
+
         this.orderDetails = OrderDetails.query();
+
+        this.topSellingProducts = TopSellingProducts.query();
 
         this.refresh = function() {
             this.currentCustomers = this.customersForCountry();
@@ -63,9 +67,22 @@ angular.module('app.regional', [])
             });
 
             this.customersDataSource.data(customersData);
+
+            this.currentTopSellingProducts = this.topSellingProducts.filter(function(product) {
+                var date = kendo.parseDate(product.Date);
+                return product.Country === this.selectedCountry && date > this.startDate && date < this.endDate;
+            }.bind(this)).map(function(product) {
+                return {
+                    productName: product.ProductName,
+                    date: product.Date,
+                    quantity: product.Quantity
+                }
+            });
+
+            this.topSellingProductsDataSource.data(this.currentTopSellingProducts);
         };
 
-        $q.all([this.customers.$promise, this.countryCustomers.$promise, this.orderDetails.$promise]).then(this.refresh.bind(this));
+        $q.all([this.customers.$promise, this.countryCustomers.$promise, this.orderDetails.$promise, this.topSellingProducts.$promise]).then(this.refresh.bind(this));
 
         this.customersForCountry = function() {
             return this.customers.filter(function(customer) {
