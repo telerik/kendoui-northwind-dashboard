@@ -1,7 +1,16 @@
-var app = angular.module('app', ['ngNewRouter', 'ngResource', 'app.regional', 'kendo.directives']).controller('AppController', ['$router', AppController]);
+var app = angular.module('app', ['ngNewRouter', 'ngResource', 'app.regional', 'app.products', 'kendo.directives']).controller('AppController', ['$router', AppController]);
 
 app.factory('Customers', ['$resource', function($resource) {
     return $resource('./Content/customers.json');
+}])
+.factory('ProductDetails', ['$resource', function($resource) {
+    return $resource('./Content/product-details.json');
+}])
+.factory('Orders', ['$resource', function($resource) {
+    return $resource('./Content/orders.json');
+}])
+.factory('OrderInformation', ['$resource', function($resource) {
+    return $resource('./Content/order-information.json');
 }])
 .factory('CountryCustomers', ['$resource', function($resource) {
     return $resource('./Content/country-customers.json');
@@ -18,7 +27,8 @@ app.factory('Customers', ['$resource', function($resource) {
 
 AppController.$routeConfig = [
     { path: '/', redirectTo: '/regional-sales' },
-    { path: '/regional-sales', component: 'regionalSales' }
+    { path: '/regional-sales', component: 'regionalSales' },
+    { path: '/products-orders', component: 'productsOrders' }
 ];
 
 function AppController ($router) {

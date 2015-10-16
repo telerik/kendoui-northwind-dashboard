@@ -1,0 +1,49 @@
+<!--open main column-->
+<div id="main-section-header" class="row">
+    <h2 id="team-efficiency" class="col-xs-3">PRODUCTS & ORDERS</h2>
+    <div style="clear:both;"></div>
+</div>
+<div id="orders"
+    kendo-grid
+    k-data-source="productsOrders.ordersDataSource"
+    k-columns="productsOrders.ordersColumns"
+    k-sortable="true"
+    k-pageable="true"
+    k-navigatable="true"
+    k-filterable="true"
+    k-selectable="'column'"
+>
+<div k-detail-template>
+    <h4>Details for order {{ dataItem.OrderID }} </h4>
+    <div class="tabstrip" kendo-tab-strip>
+        <ul>
+            <li class="k-state-active">
+                PRODUCTS
+            </li>
+            <li>
+                SHIPPING DETAILS
+            </li>
+        </ul>
+        <div>
+            <div class="details-grid"
+                style="height: 300px"
+                kendo-grid
+                k-columns="productsOrders.productsColumns"
+                k-data-source="productsOrders.productsDataSource(dataItem.OrderID)"
+            >
+            </div>
+        </div>
+        <div>
+             <div class='shipping-details'>
+                 <ul>
+                     <li><label>Name:</label>{{dataItem.ShipName}}</li>
+                     <li><label>Country:</label>{{dataItem.ShipCountry}}</li>
+                     <li><label>City:</label>{{dataItem.ShipCity}}</li>
+                     <li><label>Address:</label>{{dataItem.ShipAddress}}</li>
+                     <li><label>Postal Code:</label>{{dataItem.ShipPostalCode}}</li>
+                 </ul>
+             </div>
+        </div>
+    </div>
+</div>
+</div>

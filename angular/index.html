@@ -15,6 +15,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/chroma-js/0.5.7/chroma.min.js"></script>
     <script src="./components/regional-sales/regional-sales.js"></script>
+    <script src="./components/products-orders/products-orders.js"></script>
     <script src="app.js"></script>
 </head>
 
@@ -36,11 +37,11 @@
                 <div class="collapse navbar-collapse" id="sidebar-nav" role="navigation">
                     <ul class="nav">
                         <li id="regional-sales-status">
-                            <a href="index.html">
+                            <a ng-link="regionalSales()">
                                 <span class="icon icon-chart-column"></span>Regional Sales Status</a>
                         </li>
                         <li id="products-and-orders">
-                            <a href="products-orders.html">
+                            <a ng-link="productsOrders()">
                                 <span class="icon icon-star-empty"></span>Products &amp; Orders</a>
                         </li>
                         <li id="team-efficiency">
