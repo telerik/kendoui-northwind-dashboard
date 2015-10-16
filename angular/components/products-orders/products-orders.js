@@ -1,5 +1,5 @@
 angular.module('app.products', [])
-    .controller('ProductsOrdersController', ['$q', 'Orders', 'OrderInformation', 'ProductDetails', function ($q, Orders, OrderInformation, ProductDetails) {
+    .controller('ProductsOrdersController', ['$q', 'Orders', 'OrderInformation', 'ProductDetails', 'ProductSales', function ($q, Orders, OrderInformation, ProductDetails, ProductSales) {
 
         var employees = [
             { value: 1, text: "Nancy Davolio" },
@@ -26,8 +26,9 @@ angular.module('app.products', [])
         this.orders = Orders.query();
         this.orderDetails = OrderInformation.query();
         this.productDetails = ProductDetails.query();
+        this.productSales = ProductSales.query();
 
-        $q.all([this.orders.$promise, this.orderDetails.$promise, this.productDetails.$promise]).then(function() {
+        $q.all([this.orders.$promise, this.orderDetails.$promise, this.productDetails.$promise, this.productSales.$promise]).then(function() {
             this.orders.forEach(function(order) {
                 order.OrderDate = kendo.parseDate(order.OrderDate);
             });
@@ -51,13 +52,37 @@ angular.module('app.products', [])
             ];
         }.bind(this));
 
-        var productsDataSources = {};
 
-        this.productsDataSource = function(orderId) {
-            var productsDataSource = productsDataSources[orderId];
+        this.product = function(productId) {
+            return this.productDetails.filter(function(product) {
+                return product.ProductID === productId;
+            })[0];
+        };
 
-            if (!productsDataSource) {
-                productsDataSource = new kendo.data.DataSource({
+        var productSalesDataSources = {};
+
+        this.productSalesDataSource = function(productId) {
+            var productSalesDataSource = productSalesDataSources[productId];
+
+            if (!productSalesDataSource) {
+                productSalesDataSource = new kendo.data.DataSource({
+                    data: this.productSales.filter(function(product) {
+                        return product.ProductID = productId;
+                    })[0].ProductSales
+                });
+                productSalesDataSources[productId] = productSalesDataSource;
+            }
+
+            return productSalesDataSource;
+        };
+
+        var productDataSources = {};
+
+        this.productDataSource = function(orderId) {
+            var productDataSource = productDataSources[orderId];
+
+            if (!productDataSource) {
+                productDataSource = new kendo.data.DataSource({
                     data: this.orderDetails.filter(function(product) {
                         return product.OrderID === orderId;
                     }).map(function(product) {
@@ -72,11 +97,10 @@ angular.module('app.products', [])
                       { field: "Total", aggregate: "sum" }
                     ]
                 });
-                productsDataSources[orderId] = productsDataSource;
-                console.log(productsDataSource);
+                productDataSources[orderId] = productDataSource;
             }
 
-            return productsDataSource;
+            return productDataSource;
         };
 
         this.ordersColumns = [

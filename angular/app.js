@@ -6,6 +6,9 @@ app.factory('Customers', ['$resource', function($resource) {
 .factory('ProductDetails', ['$resource', function($resource) {
     return $resource('./Content/product-details.json');
 }])
+.factory('ProductSales', ['$resource', function($resource) {
+    return $resource('./Content/product-sales.json');
+}])
 .factory('Orders', ['$resource', function($resource) {
     return $resource('./Content/orders.json');
 }])
