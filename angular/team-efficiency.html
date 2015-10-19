@@ -53,63 +53,7 @@
                 </div>
             </div>
             <!--close left column-->
-            <div id="main-section" class="col-xs-12 column">
-                <div id="main-section-header" class="row">
-                    <h2 id="team-efficiency" class="col-xs-3">Team efficiency</h2>
-                    <div id="dateFilter" class="col-xs-9">
-                        <div class="period-wrapper">
-                            <label for="StartDate" class="select-period">Stats from</label>
-                            <input id="start-date" />
-                            <span class="k-invalid-msg" data-for="StartDate"></span>
-                        </div>
-                        <div class="period-wrapper">
-                            <label for="EndDate" class="select-period">To</label>
-                            <input id="end-date" />
-                            <span class="k-invalid-msg" data-for="EndDate"></span>
-                        </div>
-                    </div>
-                    <div style="clear:both;"></div>
-                </div>
-
-                <div class="main-section-content row" style="">
-
-                    <div id="employee-list" class="col col-xs-2">
-                        <h3>TEAM MEMBERS</h3>
-                        <div id="employees-list"></div>
-                    </div>
-                    <div id="employee-details-wrapper" class="col col-xs-10">
-                        <div id="employee-details" class="row">
-                            <div id="employee-about" class="col-xs-12 placeholder">
-                                <div class="row">
-                                    <div id="employeeBio" class="col-xs-12 col-sm-4">
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4">
-                                        <h3>Quarter to date sales</h3>
-                                        <span id="employee-quarter-sales-label"></span>
-                                        <div class="sparkline-container">
-                                            <div id="employee-quarter-sales" style="height:30px"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4">
-                                        <h3>Monthly Average Sales</h3>
-                                        <span id="employee-average-sales-label"></span>
-                                        <div class="sparkline-container">
-                                            <div id="employee-average-sales" style="height:30px"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="employeeStats" class="col-xs-12">
-                                <div id="team-sales" style="height:200px"></div>
-                            </div>
-                            <div id="employeeSchedule" class="col-xs-12">
-                                <h3>Representative orders - schedule</h3>
-                                <div id="employee-sales"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="main-section" class="col-xs-12 column"></div>
             <!--close main column-->
         </div>
         <!--close row-->
@@ -226,7 +170,6 @@
                           visible: false
                       }
                   }
-
               })
 
               $("#employee-average-sales").kendoChart({

@@ -1,10 +1,25 @@
-var app = angular.module('app', ['ngNewRouter', 'ngResource', 'app.regional', 'app.products', 'kendo.directives']).controller('AppController', ['$router', AppController]);
+var app = angular.module('app', ['ngNewRouter', 'ngResource', 'app.regional', 'app.team', 'app.products', 'kendo.directives']).controller('AppController', ['$router', AppController]);
 
 app.factory('Customers', ['$resource', function($resource) {
     return $resource('./Content/customers.json');
 }])
 .factory('ProductDetails', ['$resource', function($resource) {
     return $resource('./Content/product-details.json');
+}])
+.factory('EmployeeList', ['$resource', function($resource) {
+    return $resource('./Content/employees-list.json');
+}])
+.factory('EmployeeSales', ['$resource', function($resource) {
+    return $resource('./Content/employee-sales.json');
+}])
+.factory('EmployeeTeamSales', ['$resource', function($resource) {
+    return $resource('./Content/employee-and-team-sales.json');
+}])
+.factory('EmployeeAverageSales', ['$resource', function($resource) {
+    return $resource('./Content/employee-average-sales.json');
+}])
+.factory('EmployeeQuarterSales', ['$resource', function($resource) {
+    return $resource('./Content/employee-quarter-sales.json');
 }])
 .factory('ProductSales', ['$resource', function($resource) {
     return $resource('./Content/product-sales.json');
@@ -31,7 +46,8 @@ app.factory('Customers', ['$resource', function($resource) {
 AppController.$routeConfig = [
     { path: '/', redirectTo: '/regional-sales' },
     { path: '/regional-sales', component: 'regionalSales' },
-    { path: '/products-orders', component: 'productsOrders' }
+    { path: '/products-orders', component: 'productsOrders' },
+    { path: '/team-efficiency', component: 'teamEfficiency' }
 ];
 
 function AppController ($router) {
