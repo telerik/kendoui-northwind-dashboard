@@ -3,13 +3,11 @@
     <div id="dateFilter" class="col-xs-9">
         <div class="period-wrapper">
             <label for="StartDate" class="select-period">Stats from</label>
-            <input id="start-date" kendo-date-picker />
-            <span class="k-invalid-msg" data-for="StartDate"></span>
+            <input id="start-date" kendo-date-picker k-ng-model="teamEfficiency.startDate">
         </div>
         <div class="period-wrapper">
             <label for="EndDate" class="select-period">To</label>
-            <input id="end-date" kendo-date-picker />
-            <span class="k-invalid-msg" data-for="EndDate"></span>
+            <input id="end-date" kendo-date-picker k-ng-model="teamEfficiency.endDate">
         </div>
     </div>
     <div style="clear:both;"></div>
@@ -46,10 +44,7 @@
                             <dl class="employee-bio-details">
                                 <dt class="name">{{teamEfficiency.currentEmployee.FirstName}} {{teamEfficiency.currentEmployee.LastName}}</dt>
                                 <dd class="title">{{teamEfficiency.currentEmployee.Title}}</dd>
-                                    <dd class="phone"><span class="icon icon-mobile"></span>{{teamEfficiency.currentEmployee.HomePhone}}</dd>
-                                    <!--
-                                    <dd><a href='\\#' class='bioTooltip'> >>FULL BIO <span style='display:none;'>#:Notes#</span></a></dd>
-                                    -->
+                                <dd class="phone"><span class="icon icon-mobile"></span>{{teamEfficiency.currentEmployee.HomePhone}}</dd>
                            </dl>
                         </div>
                     </div>
@@ -87,11 +82,28 @@
                 </div>
             </div>
             <div id="employeeStats" class="col-xs-12">
-                <div id="team-sales" style="height:200px"></div>
+                <div id="team-sales" style="height:200px"
+                    kendo-chart
+                    k-theme="'metro'"
+                    k-title="{text:'REPRESENTATIVE SALES VS. TOTAL SALES',align:'left',font:'11px',color:'#35373d'}"
+                    k-data-source="teamEfficiency.currentEmployeeTeamSales"
+                    k-legend="{position:'bottom'}"
+                    k-series="[{field:'EmployeeSales',categoryField:'Date',name:'Employee Sales',aggregate:'sum'},{field:'TotalSales',categoryField:'Date',name:'Team Sales',aggregate:'sum'}]"
+                    k-category-axis="{type:'date',baseUnit:'months',majorGridLines:{visible:false}}"
+                    k-value-axis="{labels:{format:'{0:c2}',visible:false},majorUnit:25000,line:{visible:false},majorGridLines:{visible:false}}"
+                    k-tooltip="{visible:true,format:'{0:c2}'}">
+                </div>
             </div>
             <div id="employeeSchedule" class="col-xs-12">
                 <h3>Representative orders - schedule</h3>
-                <div id="employee-sales"></div>
+                <div id="employee-sales"
+                    kendo-scheduler
+                    k-date="teamEfficiency.currentDate"
+                    k-views="['month']"
+                    k-editable="false"
+                    k-timezone="Etc/UTC"
+                    k-data-source="teamEfficiency.currentEmployeeSales">
+                </div>
             </div>
         </div>
     </div>

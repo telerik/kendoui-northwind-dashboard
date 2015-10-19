@@ -5,6 +5,8 @@ angular.module('app.team', [])
 
         this.endDate = new Date(1998, 7, 1);
 
+        this.currentDate = new Date(1996, 6, 1);
+
         this.currentEmployee = null;
 
         this.employeeTeamSales = EmployeeTeamSales.query();
@@ -15,6 +17,8 @@ angular.module('app.team', [])
 
         this.employeeList = EmployeeList.query();
 
+        this.employeeSales = EmployeeSales.query();
+
         this.changeCurrentEmployee = function(employee) {
             this.currentEmployee = employee;
 
@@ -22,8 +26,23 @@ angular.module('app.team', [])
                 return sale.EmployeeID == employee.EmployeeID;
             })[0].Sales;
 
+            this.currentEmployeeTeamSales = this.employeeTeamSales.filter(function(sale) {
+                return sale.EmployeeID == employee.EmployeeID;
+            })[0].Sales;
+
             this.currentEmployeeAverageSales = this.employeeAverageSales.filter(function(sale){
                 return sale.EmployeeID == employee.EmployeeID;
+            });
+
+            this.currentEmployeeSales = this.employeeSales.filter(function(sale) {
+                return sale.EmployeeID == employee.EmployeeID;
+            }).map(function(sale) {
+                return {
+                    description: sale.Description,
+                    start: kendo.parseDate(sale.Start),
+                    title: sale.Title,
+                    end: kendo.parseDate(sale.End)
+                };
             });
 
             var dataSource = new kendo.data.DataSource({
@@ -41,7 +60,7 @@ angular.module('app.team', [])
             this.currentEmployeeAverageSalesNumber = aggregates.EmployeeSales ? aggregates.EmployeeSales.average : 0;
         };
 
-        $q.all([this.employeeQuarterSales.$promise, this.employeeList.$promise, this.employeeAverageSales.$promise]).then(function() {
+        $q.all([this.employeeQuarterSales.$promise, this.employeeList.$promise, this.employeeAverageSales.$promise, this.employeeTeamSales.$promise, this.employeeSales.$promise]).then(function() {
             this.changeCurrentEmployee(this.employeeList[0]);
         }.bind(this));
     }]);
