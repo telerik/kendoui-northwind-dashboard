@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngNewRouter', 'ngResource', 'app.regional', 'app.team', 'app.products', 'kendo.directives']).controller('AppController', ['$router', AppController]);
+var app = angular.module('app', ['ngNewRouter', 'ngResource', 'app.regional', 'app.about', 'app.team', 'app.products', 'kendo.directives']).controller('AppController', ['$router', AppController]);
 
 app.factory('Customers', ['$resource', function($resource) {
     return $resource('./Content/customers.json');
@@ -47,7 +47,8 @@ AppController.$routeConfig = [
     { path: '/', redirectTo: '/regional-sales' },
     { path: '/regional-sales', component: 'regionalSales' },
     { path: '/products-orders', component: 'productsOrders' },
-    { path: '/team-efficiency', component: 'teamEfficiency' }
+    { path: '/team-efficiency', component: 'teamEfficiency' },
+    { path: '/about', component: 'about' }
 ];
 
 function AppController ($router) {
