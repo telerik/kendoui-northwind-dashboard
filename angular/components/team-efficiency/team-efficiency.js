@@ -9,32 +9,59 @@ angular.module('app.team', [])
 
         this.currentEmployee = null;
 
-        this.employeeTeamSales = EmployeeTeamSales.query();
+        var employeeTeamSales = EmployeeTeamSales.query();
 
-        this.employeeAverageSales = EmployeeAverageSales.query();
+        var employeeAverageSales = EmployeeAverageSales.query();
 
-        this.employeeQuarterSales = EmployeeQuarterSales.query();
+        var employeeQuarterSales = EmployeeQuarterSales.query();
 
-        this.employeeList = EmployeeList.query();
+        var employeeList = EmployeeList.query();
 
-        this.employeeSales = EmployeeSales.query();
+        var employeeSales = EmployeeSales.query();
+
+        this.employeeListDataSource = new kendo.data.DataSource();
+
+        this.employeeTeamSalesDataSource = new kendo.data.DataSource();
+
+        this.employeeQuarterSalesDataSource = new kendo.data.DataSource();
+
+        this.employeeAverageSalesDataSource = new kendo.data.DataSource({
+            aggregate: [{
+                field: 'EmployeeSales',
+                aggregate: 'average'
+            }]
+        });
+
+        this.employeeSalesDataSource = new kendo.data.SchedulerDataSource();
 
         this.changeCurrentEmployee = function(employee) {
             this.currentEmployee = employee;
 
-            this.currentEmployeeQuarterSales = this.employeeQuarterSales.filter(function(sale) {
+            var currentEmployeeQuarterSales = employeeQuarterSales.filter(function(sale) {
                 return sale.EmployeeID == employee.EmployeeID;
             })[0].Sales;
 
-            this.currentEmployeeTeamSales = this.employeeTeamSales.filter(function(sale) {
+            this.currentEmployeeQuarterSales = currentEmployeeQuarterSales[0].Current;
+
+            this.employeeQuarterSalesDataSource.data(currentEmployeeQuarterSales);
+
+            var currentEmployeeTeamSales = employeeTeamSales.filter(function(sale) {
                 return sale.EmployeeID == employee.EmployeeID;
             })[0].Sales;
 
-            this.currentEmployeeAverageSales = this.employeeAverageSales.filter(function(sale){
+            this.employeeTeamSalesDataSource.data(currentEmployeeTeamSales);
+
+            var currentEmployeeAverageSales = employeeAverageSales.filter(function(sale){
                 return sale.EmployeeID == employee.EmployeeID;
             });
 
-            this.currentEmployeeSales = this.employeeSales.filter(function(sale) {
+            this.employeeAverageSalesDataSource.data(currentEmployeeAverageSales);
+
+            var aggregates = this.employeeAverageSalesDataSource.aggregates();
+
+            this.currentEmployeeAverageSalesNumber = aggregates.EmployeeSales ? aggregates.EmployeeSales.average : 0;
+
+            var currentEmployeeSales = employeeSales.filter(function(sale) {
                 return sale.EmployeeID == employee.EmployeeID;
             }).map(function(sale) {
                 return {
@@ -45,22 +72,11 @@ angular.module('app.team', [])
                 };
             });
 
-            var dataSource = new kendo.data.DataSource({
-                data: this.currentEmployeeAverageSales,
-                aggregate: [{
-                    field: 'EmployeeSales',
-                    aggregate: 'average'
-                }]
-            });
-
-            dataSource.read();
-
-            var aggregates = dataSource.aggregates();
-
-            this.currentEmployeeAverageSalesNumber = aggregates.EmployeeSales ? aggregates.EmployeeSales.average : 0;
+            this.employeeSalesDataSource.data(currentEmployeeSales);
         };
 
-        $q.all([this.employeeQuarterSales.$promise, this.employeeList.$promise, this.employeeAverageSales.$promise, this.employeeTeamSales.$promise, this.employeeSales.$promise]).then(function() {
-            this.changeCurrentEmployee(this.employeeList[0]);
+        $q.all([employeeQuarterSales.$promise, employeeList.$promise, employeeAverageSales.$promise, employeeTeamSales.$promise, employeeSales.$promise]).then(function() {
+            this.employeeListDataSource.data(employeeList);
+            this.changeCurrentEmployee(employeeList[0]);
         }.bind(this));
     }]);

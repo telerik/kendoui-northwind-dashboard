@@ -19,7 +19,7 @@
         <div id="employees-list"
             kendo-list-view
             k-selectable="'single'"
-            k-data-source="teamEfficiency.employeeList"
+            k-data-source="teamEfficiency.employeeListDataSource"
             k-on-change="teamEfficiency.changeCurrentEmployee(dataItem)"
         >
            <div class="employee" k-template>
@@ -50,13 +50,13 @@
                     </div>
                     <div class="col-xs-12 col-sm-4">
                         <h3>Quarter to date sales</h3>
-                        <span id="employee-quarter-sales-label">{{teamEfficiency.currentEmployeeQuarterSales[0].Current | currency }}</span>
+                        <span id="employee-quarter-sales-label">{{teamEfficiency.currentEmployeeQuarterSales | currency }}</span>
                         <div class="sparkline-container">
                             <div id="employee-quarter-sales" style="height:30px"
                                 kendo-chart
                                 k-theme="'metro'"
                                 k-tooltip="false"
-                                k-data-source="teamEfficiency.currentEmployeeQuarterSales"
+                                k-data-source="teamEfficiency.employeeQuarterSalesDataSource"
                                 k-series="[{type:'bullet',currentField:'Current',targetField:'Target'}]"
                                 k-legend="{visible:false}"
                                 k-category-axis="{labels:{visible:false},majorGridLines:{visible:false}}"
@@ -74,7 +74,7 @@
                                 k-series="[{type:'line',field:'EmployeeSales',width:1.5,markers:{visible:false}}]"
                                 k-category-axis="{type:'date',field:'Date',visible:false,majorGridLines:{visible:false},majorTicks:{visible:false}}"
                                 k-legend="{visible:false}"
-                                k-data-source="teamEfficiency.currentEmployeeAverageSales"
+                                k-data-source="teamEfficiency.employeeAverageSalesDataSource"
                                 k-value-axis="{type:'numeric',visible:false,labels:{visible:false},majorGridLines:{visible:false},majorTicks:{visible:false}}">
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                     kendo-chart
                     k-theme="'metro'"
                     k-title="{text:'REPRESENTATIVE SALES VS. TOTAL SALES',align:'left',font:'11px',color:'#35373d'}"
-                    k-data-source="teamEfficiency.currentEmployeeTeamSales"
+                    k-data-source="teamEfficiency.employeeTeamSalesDataSource"
                     k-legend="{position:'bottom'}"
                     k-series="[{field:'EmployeeSales',categoryField:'Date',name:'Employee Sales',aggregate:'sum'},{field:'TotalSales',categoryField:'Date',name:'Team Sales',aggregate:'sum'}]"
                     k-category-axis="{type:'date',baseUnit:'months',majorGridLines:{visible:false}}"
@@ -102,7 +102,7 @@
                     k-views="['month']"
                     k-editable="false"
                     k-timezone="Etc/UTC"
-                    k-data-source="teamEfficiency.currentEmployeeSales">
+                    k-data-source="teamEfficiency.employeeSalesDataSource">
                 </div>
             </div>
         </div>
