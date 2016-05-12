@@ -138,11 +138,16 @@ body,
 }
 
 #rights {
-    color: #848690; 
-    font-size: 10px; 
-    position: absolute; 
-    bottom: 10px; 
+    position: absolute;
+    bottom: 10px;
     left: 15px;
+    padding-right: 15px;
+    color: #848690;
+    font-size: 10px;
+}
+
+#rights p {
+    margin: 5px 0;
 }
 
 /* Toggle button */
