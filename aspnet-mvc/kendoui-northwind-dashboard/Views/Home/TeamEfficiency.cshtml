@@ -217,7 +217,7 @@
             @(Html.Kendo().Chart<SalesAmounts_Result>()
                 .Name("TeamSales")
                 .Theme("metro")
-                .Title(t => t.Text("REPRESENTATIVE SALES VS. TOTAL SALES").Align(ChartTextAlignment.Left).Font("11px").Color("#35373d"))
+                .Title(t => t.Text("REPRESENTATIVE SALES VS. TOTAL SALES").Align(ChartTextAlignment.Left).Font("11px sans-serif").Color("#35373d"))
                 .HtmlAttributes(new {style = "height:200px;" } )
                 .AutoBind(false)
                 .Legend(l=>l.Position(ChartLegendPosition.Bottom))

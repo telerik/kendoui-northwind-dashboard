@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -344,6 +345,25 @@
     <Content Include="App_Data\NORTHWND_log.ldf">
       <DependentUpon>NORTHWND.MDF</DependentUpon>
     </Content>
+    <Content Include="bin\bg-BG\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\cs-CZ\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\da-DK\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\de-DE\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\es-ES\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\fr-FR\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\it-IT\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\Kendo.Mvc.dll" />
+    <Content Include="bin\Kendo.Mvc.xml" />
+    <Content Include="bin\nl-NL\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\pl-PL\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\pt-BR\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\pt-PT\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\ro-RO\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\ru-RU\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\sv-SE\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\tr-TR\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\uk-UA\Kendo.Mvc.resources.dll" />
+    <Content Include="bin\zh-CN\Kendo.Mvc.resources.dll" />
     <Content Include="Content\Employees\1-t.png" />
     <Content Include="Content\Employees\1.png" />
     <Content Include="Content\Employees\2-t.png" />
@@ -517,7 +537,11 @@
     <Content Include="Views\Shared\EditorTemplates\CustomGridForeignKey.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Float.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bin\fr-CA\" />
+    <Folder Include="bin\he-IL\" />
+    <Folder Include="bin\sk-SK\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
