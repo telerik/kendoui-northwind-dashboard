@@ -375,7 +375,7 @@
 
             function resizeGrid() {
                 var gridElement = $("#orders"),
-                    dataArea = gridElement.find(".k-grid-content"),
+                    dataArea = gridElement.find(".k-grid-content").first(),
                     gridHeight = gridElement.innerHeight(),
                     otherElements = gridElement.children().not(".k-grid-content"),
                     otherElementsHeight = 0;

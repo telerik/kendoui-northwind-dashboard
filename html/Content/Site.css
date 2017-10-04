@@ -429,6 +429,14 @@ body,
     font-size: 11px;
 }
 
+#orders {
+    height: calc(100% - 87px);;
+}
+
+#orders .k-grid-content{
+    height: calc(100% - 151px);
+}
+
 #products-orders-main-content .k-tooltip {
     width: 140px;
 }
