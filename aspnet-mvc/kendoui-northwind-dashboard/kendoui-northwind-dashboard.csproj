@@ -45,9 +45,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Kendo.Mvc, Version=2017.3.913.545, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+    <Reference Include="Kendo.Mvc, Version=2018.2.516.440, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Kendo.Mvc.dll</HintPath>
+      <HintPath>..\lib\KENDOUIMVC\2018.2.516\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -352,7 +352,6 @@
       <DependentUpon>NORTHWND.MDF</DependentUpon>
     </Content>
     <Content Include="bin\Kendo.Mvc.dll" />
-    <Content Include="bin\Kendo.Mvc.xml" />
     <Content Include="Content\Employees\1-t.png" />
     <Content Include="Content\Employees\1.png" />
     <Content Include="Content\Employees\2-t.png" />
