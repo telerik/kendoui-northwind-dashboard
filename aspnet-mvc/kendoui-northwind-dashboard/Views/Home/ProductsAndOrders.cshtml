@@ -29,10 +29,8 @@
 
         function onDataBound(e) {
             var firstRow = this.tbody.find("tr.k-master-row").first();
-            var model = this.dataItem(firstRow);
-            if (!model.isNew()) {
-                this.expandRow(firstRow);
-            }
+            
+            this.expandRow(firstRow);
         }
 
         function onOrderDetailsDataBound(e) {
