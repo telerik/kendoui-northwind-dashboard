@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System.Data;
+using System.Data.Entity;
 
 namespace KendoUI.Northwind.Dashboard.Controllers
 {
