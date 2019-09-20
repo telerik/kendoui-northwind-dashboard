@@ -49,8 +49,8 @@
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Kendo.Mvc, Version=2019.2.514.440, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc4.Trial.2019.2.514\lib\net40\Kendo.Mvc.dll</HintPath>
+    <Reference Include="Kendo.Mvc, Version=2019.3.917.440, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc4.Trial.2019.3.917\lib\net40\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
