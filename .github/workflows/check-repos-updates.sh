@@ -1,26 +1,34 @@
 #!/usr/bin/env bash
 echo "Stage1 Find Updates"
-LAST_RELEASE=$(curl -s https://api.github.com/repos/telerik/kendo-ui-core/releases | grep tag_name | head -n 1 |  cut -d '"' -f 4)
-echo "Last release version is $LAST_RELEASE"
+LATEST_RELEASE=$(curl -s https://api.github.com/repos/telerik/kendo-ui-core/releases | grep tag_name | head -n 1 |  cut -d '"' -f 4)
+echo "Last release version is $LATEST_RELEASE"
 
-IFS="$IFS"
-IFS=$'\n'
+function getCurrentVersion {
+    for file in `find . -type f -name "*.cshtml"`  
+    do
+        CURRENT_VERSION=$(grep -hnr "kendo.cdn" $file | head -1 |cut -d '/' -f 4)
+        if [ ! -z "$CURRENT_VERSION" ]
+            then
+                CURRENT_GLOBAL_VERSION=$CURRENT_VERSION
+        fi
+    done
+}
+    getCurrentVersion $file
+    echo "Current version is $CURRENT_GLOBAL_VERSION"
+
+
 for file in `find . -type f -name "*.cshtml"`  
 do
-    echo "file = $file"
-    ls $file
-    CURRENT_VERSION=$(grep -hnr "kendo.cdn" $file | head -1 |cut -d '/' -f 4)
-    echo "Current release version from $file is $CURRENT_VERSION"
-    #  read line
-    if [ -z "$CURRENT_VERSION" ]
-        then
-        echo "\$var is empty"
-        else
-        sed -i "s/$CURRENT_VERSION/$LAST_RELEASE/g" $file
-              echo "\$var is NOT empty"
-    fi
+    sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
 done
-git diff
+for file in `find . -type f -name "*.csproj"`  
+do
+    sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
+done
+for file in `find . -type f -name "*.config"`  
+do
+    sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
+done
 
 echo "Stage2 Commit the change"
 reviewers="Dimitar-Goshev,MilenaCh,mparvanov"
@@ -44,5 +52,7 @@ else
     git push -u origin $BRANCH_NAME
     gh pr create --base master --head $BRANCH_NAME --reviewer $reviewers \
     --title "Update dependencies $DATE" --body 'Please review and update dependencies'
+
+    git diff
 fi
 
