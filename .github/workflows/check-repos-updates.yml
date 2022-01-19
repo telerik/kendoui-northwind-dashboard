@@ -1,0 +1,21 @@
+name: Check for updates across repos and create pull request
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * 4'
+jobs:
+  check-repos-updates:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Clean up
+        run: rm -rf kendo-*
+      - name: Get repos deps
+        run: .github/workflows/check-repos-updates.sh ${{ secrets.GH_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
