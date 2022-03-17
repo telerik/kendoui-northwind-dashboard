@@ -4,13 +4,10 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.common.min.css" rel="stylesheet">
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.metro.min.css" rel="stylesheet">
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.dataviz.min.css" rel="stylesheet">
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.dataviz.metro.min.css" rel="stylesheet">
-    <script src="https://kendo.cdn.telerik.com/2021.3.914/js/jquery.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2021.3.914/js/kendo.all.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2021.3.914/js/kendo.aspnetmvc.min.js"></script>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.default-v2.min.css" />
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.aspnetmvc.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/0.5.7/chroma.min.js"></script>
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
@@ -63,12 +60,12 @@
                     <div id="dateFilter" class="col-xs-9">
                         <div class="period-wrapper">
                             <label for="start-date" class="select-period">Stats from</label>
-                            <input id="start-date" />
+                            <input id="start-date" style="width: 130px;"/>
                             <span class="k-invalid-msg" data-for="start-date"></span>
                         </div>
                         <div class="period-wrapper">
                             <label for="end-date" class="select-period">To</label>
-                            <input id="end-date" />
+                            <input id="end-date" style="width: 130px;" />
                             <span class="k-invalid-msg" data-for="end-date"></span>
                         </div>
                     </div>
@@ -191,11 +188,13 @@
 
             $('#end-date').kendoDatePicker({
                 value: new Date(1998, 7, 1),
+                size: "small",
                 change: onCriteriaChange
             })
 
             $('#start-date').kendoDatePicker({
                 value: new Date(1996, 0, 1),
+                size: "small",
                 change: onCriteriaChange
             })
 
@@ -272,7 +271,7 @@
 
             function initWidgets(){
               $("#market-share").kendoChart({
-                  theme: "metro",
+                  theme: "sass",
                   autoBind: false,
                   dataBound: onMarketShareDataBound,
                   legend: {
@@ -306,6 +305,7 @@
                           }
                       }
                   },
+                  seriesColors: ["#1996E4", "#3eaee2"],
                   seriesDefaults: {
                       type: "donut"
                   },

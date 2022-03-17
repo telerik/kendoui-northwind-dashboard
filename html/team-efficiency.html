@@ -4,13 +4,10 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2021.3.914/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://kendo.cdn.telerik.com/2021.3.914/js/jquery.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2021.3.914/js/kendo.all.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2021.3.914/js/kendo.aspnetmvc.min.js"></script>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.default-v2.min.css" />
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.aspnetmvc.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
@@ -23,7 +20,8 @@
             <div id="nav-section" class="col-xs-12 column">
                 <!--open nav column-->
                 <div class="navbar-default">
-                    <button id="toggle-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <button id="toggle-button" type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -50,7 +48,10 @@
                         </li>
                     </ul>
                     <div id="rights">
-                        <p>Copyright &copy; <script type="text/javascript">document.write(new Date().getFullYear());</script>, Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.</p>
+                        <p>Copyright &copy;
+                            <script type="text/javascript">document.write(new Date().getFullYear());</script>, Progress
+                            Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -61,12 +62,12 @@
                     <div id="dateFilter" class="col-xs-9">
                         <div class="period-wrapper">
                             <label for="StartDate" class="select-period">Stats from</label>
-                            <input id="start-date" />
+                            <input id="start-date" style="width: 130px;" />
                             <span class="k-invalid-msg" data-for="StartDate"></span>
                         </div>
                         <div class="period-wrapper">
                             <label for="EndDate" class="select-period">To</label>
-                            <input id="end-date" />
+                            <input id="end-date" style="width: 130px;" />
                             <span class="k-invalid-msg" data-for="EndDate"></span>
                         </div>
                     </div>
@@ -119,7 +120,7 @@
     <!--close container-->
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             var employeeAndTeamSales = [];
             var employeeAverageSales = [];
@@ -129,363 +130,400 @@
                 url: "./Content/employee-and-team-sales.json",
                 dataType: "json",
                 type: "GET",
-                success: function(data) {
+                success: function (data) {
                     employeeAndTeamSales = data;
                 }
             }),
-             $.ajax({
-                url: "./Content/employee-average-sales.json",
-                dataType: "json",
-                type: "GET",
-                success: function(data) {
-                    employeeAverageSales = data;
-                }
-            }),
-            $.ajax({
-                url: "./Content/employee-quarter-sales.json",
-                dataType: "json",
-                type: "GET",
-                success: function(data) {
-                    employeeQuarterSales = data;
-                }
-            })).then(function(){
-              initWidgets();
-            })
+                $.ajax({
+                    url: "./Content/employee-average-sales.json",
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        employeeAverageSales = data;
+                    }
+                }),
+                $.ajax({
+                    url: "./Content/employee-quarter-sales.json",
+                    dataType: "json",
+                    type: "GET",
+                    success: function (data) {
+                        employeeQuarterSales = data;
+                    }
+                })).then(function () {
+                    initWidgets();
+                })
 
 
 
-            $("[data-toggle=offcanvas]").click(function() {
+            $("[data-toggle=offcanvas]").click(function () {
                 $(".row-offcanvas").toggleClass("active");
             });
 
-            function initWidgets(){
-              $("#start-date").kendoDatePicker({
-                  value: new Date(1996, 0, 1),
-                  change: onCriteriaChange
-              })
+            function initWidgets() {
+                $("#start-date").kendoDatePicker({
+                    value: new Date(1996, 0, 1),
+                    size: "small",
+                    change: onCriteriaChange
+                })
 
-              $("#end-date").kendoDatePicker({
-                  value: new Date(1998, 7, 1),
-                  change: onCriteriaChange
-              })
+                $("#end-date").kendoDatePicker({
+                    value: new Date(1998, 7, 1),
+                    size: "small",
+                    change: onCriteriaChange
+                })
 
-              $("#employees-list").kendoListView({
-                  template: $('#employeeItemTemplate').html(),
-                  dataSource: {
-                      transport: {
-                          read: {
-                              url: './Content/employees-list.json',
-                          }
-                      },
-                      pageSize: 9
-                  },
-                  selectable: "single",
-                  dataBound: onListDataBound,
-                  change: onCriteriaChange
-              })
+                $("#employees-list").kendoListView({
+                    template: $('#employeeItemTemplate').html(),
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: './Content/employees-list.json',
+                            }
+                        },
+                        pageSize: 9
+                    },
+                    selectable: "single",
+                    dataBound: onListDataBound,
+                    change: onCriteriaChange
+                })
 
-              $("#employee-quarter-sales").kendoChart({
-                  theme: "metro",
-                  autoBind: false,
-                  tooltip: false,
-                  dataBound: onQuarterSalesDataBound,
-                  dataSource: {
-                      transport: {
-                          read: function(options){
-                              var result = $.grep(employeeQuarterSales, function(e){
-                                  return e.EmployeeID == options.data.EmployeeID;
-                              })[0];
-                              options.success(result.Sales)
-                          }
-                      }
-                  },
-                  series: [{
-                      type: "bullet",
-                      currentField: "Current",
-                      targetField: "Target"
+                $("#employee-quarter-sales").kendoChart({
+                    theme: "sass",
+                    autoBind: false,
+                    tooltip: false,
+                    dataBound: onQuarterSalesDataBound,
+                    dataSource: {
+                        transport: {
+                            read: function (options) {
+                                var result = $.grep(employeeQuarterSales, function (e) {
+                                    return e.EmployeeID == options.data.EmployeeID;
+                                })[0];
+                                options.success(result.Sales)
+                            }
+                        }
+                    },
+                    series: [{
+                        type: "bullet",
+                        currentField: "Current",
+                        targetField: "Target"
 
-                  }],
-                  legend: {
-                      visible: false
-                  },
-                  categoryAxis: {
-                      labels: {
-                          visible: false
-                      },
-                      majorGridLines: {
-                          visible: false
-                      }
-                  },
-                  valueAxis: {
-                      type: "numeric",
-                      labels: {
-                          visible: false
-                      },
-                      majorTicks: {
-                          visible: false
-                      },
-                      majorGridLines: {
-                          visible: false
-                      }
-                  }
+                    }],
+                    legend: {
+                        visible: false
+                    },
+                    categoryAxis: {
+                        labels: {
+                            visible: false
+                        },
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    valueAxis: {
+                        type: "numeric",
+                        labels: {
+                            visible: false
+                        },
+                        majorTicks: {
+                            visible: false
+                        },
+                        majorGridLines: {
+                            visible: false
+                        }
+                    }
 
-              })
+                })
 
-              $("#employee-average-sales").kendoChart({
-                  theme: "metro",
-                  autoBind: false,
-                  dataBound: onAverageSalesDataBound,
-                  dataSource: {
-                      transport: {
-                          read: function(options){
-                              var result = $.grep(employeeAverageSales, function(e){
-                                  return e.EmployeeID == options.data.EmployeeID;
-                              });
-                              options.success(result);
-                          }
-                      },
-                      aggregate: [{
-                          field: "EmployeeSales",
-                          aggregate: "average"
-                      }]
-                  },
-                  series: [{
-                      type: "line",
-                      field: "EmployeeSales",
-                      width: 1.5,
-                      markers: {
-                          visible: false
-                      }
-                  }],
-                  categoryAxis: {
-                      type: "date",
-                      field: "Date",
-                      visible: false,
-                      majorGridLines: {
-                          visible: false
-                      },
-                      majorTicks: {
-                          visible: false
-                      }
-                  },
-                  legend: {
-                      visible: false
-                  },
-                  valueAxis: {
-                      type: "numeric",
-                      visible: false,
-                      labels: {
-                          visible: false
-                      },
-                      majorGridLines: {
-                          visible: false
-                      },
-                      majorTicks: {
-                          visible: false
-                      }
-                  }
-              });
+                $("#employee-average-sales").kendoChart({
+                    theme: "sass",
+                    autoBind: false,
+                    dataBound: onAverageSalesDataBound,
+                    dataSource: {
+                        transport: {
+                            read: function (options) {
+                                var result = $.grep(employeeAverageSales, function (e) {
+                                    return e.EmployeeID == options.data.EmployeeID;
+                                });
+                                options.success(result);
+                            }
+                        },
+                        aggregate: [{
+                            field: "EmployeeSales",
+                            aggregate: "average"
+                        }]
+                    },
+                    series: [{
+                        type: "line",
+                        field: "EmployeeSales",
+                        width: 1.5,
+                        markers: {
+                            visible: false
+                        }
+                    }],
+                    categoryAxis: {
+                        type: "date",
+                        field: "Date",
+                        visible: false,
+                        majorGridLines: {
+                            visible: false
+                        },
+                        majorTicks: {
+                            visible: false
+                        }
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    valueAxis: {
+                        type: "numeric",
+                        visible: false,
+                        labels: {
+                            visible: false
+                        },
+                        majorGridLines: {
+                            visible: false
+                        },
+                        majorTicks: {
+                            visible: false
+                        }
+                    }
+                });
 
-              $("#team-sales").kendoChart({
-                  theme: "metro",
-                  title: {
-                      text: "REPRESENTATIVE SALES VS. TOTAL SALES",
-                      align: "left",
-                      font: "11px sans-serif",
-                      color: "#35373d"
-                  },
-                  autoBind: false,
-                  dataSource: {
-                      transport : {
-                          read: function(options){
-                              var result;
-                              var startDate = options.data.startDate;
-                              var endDate = options.data.endDate;
-                              var employee = $.grep(employeeAndTeamSales, function(e){
-                                  return e.EmployeeID == options.data.EmployeeID;
-                              })[0];
-                              options.success(employee.Sales);
-                          }
-                      }
-                  },
-                  legend: {
-                      position: "bottom"
-                  },
-                  series: [{
-                      field: "EmployeeSales",
-                      categoryField: "Date",
-                      name: "Employee Sales",
-                      aggregate: "sum"
-                  },{
-                      field: "TotalSales",
-                      categoryField: "Date",
-                      name: "Team Sales",
-                      aggregate: "sum"
-                  }],
-                  categoryAxis: {
-                      type: "date",
-                      baseUnit: "months",
-                      majorGridLines:{
-                          visible: false
-                      }
-                  },
-                  valueAxis: {
-                      labels: {
-                          format: "{0:c2}",
-                          visible: false
-                      },
-                      majorUnit: 25000,
-                      line: {
-                          visible: false
-                      },
-                      majorGridLines: {
-                          visible : false
-                      }
-                  },
-                  tooltip: {
-                      visible: true,
-                      format: "{0:c2}"
-                  }
-              })
+                $("#team-sales").kendoChart({
+                    theme: "sass",
+                    title: {
+                        text: "REPRESENTATIVE SALES VS. TOTAL SALES",
+                        align: "left",
+                        font: "11px sans-serif",
+                        color: "#35373d"
+                    },
+                    autoBind: false,
+                    dataSource: {
+                        transport: {
+                            read: function (options) {
+                                var result;
+                                var startDate = options.data.startDate;
+                                var endDate = options.data.endDate;
+                                var employee = $.grep(employeeAndTeamSales, function (e) {
+                                    return e.EmployeeID == options.data.EmployeeID;
+                                })[0];
+                                options.success(employee.Sales);
+                            }
+                        }
+                    },
+                    legend: {
+                        position: "bottom"
+                    },
+                    seriesColors: ["#ff7c73", "#EF4C4C"],
+                    series: [{
+                        field: "EmployeeSales",
+                        categoryField: "Date",
+                        name: "Employee Sales",
+                        aggregate: "sum"
+                    }, {
+                        field: "TotalSales",
+                        categoryField: "Date",
+                        name: "Team Sales",
+                        aggregate: "sum"
+                    }],
+                    categoryAxis: {
+                        type: "date",
+                        baseUnit: "months",
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    valueAxis: {
+                        labels: {
+                            format: "{0:c2}",
+                            visible: false
+                        },
+                        majorUnit: 25000,
+                        line: {
+                            visible: false
+                        },
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        format: "{0:c2}"
+                    }
+                })
 
-              $("#employee-sales").kendoScheduler({
-                  autoBind:false,
-                  date: new Date("1996, 7, 1"),
-                  views: ["month"],
-                  editable:false,
-                  timezone: "Etc/UTC",
-                  dataSource:{
-                      transport:{
-                          read: {
-                              url: "./Content/employee-sales.json"
-                          }
-                      },
-                          schema: {
-                             model: {
-                                  fields: {
-                                      SaleID: {
-                                          type :  "number"
-                                      },
-                                      title: {
-                                          from : "Title",
-                                          type :  "string"
-                                      },
-                                      description: {
-                                          from : "Description",
-                                          type :  "string"
-                                      },
-                                      start: {
-                                          from : "Start",
-                                          type :  "date"
-                                      },
-                                      startTimezone: {
-                                          from : "StartTimezone",
-                                          type :  "string"
-                                      },
-                                      end: {
-                                          from : "End",
-                                          type :  "date"
-                                      },
-                                      endTimezone: {
-                                          from : "EndTimezone",
-                                          type :  "string"
-                                      },
-                                      recurrenceRule: {
-                                          from : "RecurrenceRule",
-                                          type :  "string"
-                                      },
-                                      RecurrenceID: {
-                                          type :  "number",
-                                          defaultValue: null
-                                      },
-                                      recurrenceException: {
-                                          from : "RecurrenceException",
-                                          type :  "string"
-                                      },
-                                      isAllDay: {
-                                          from : "IsAllDay",
-                                          type :  "boolean"
-                                      },
-                                      EmployeeID: {
-                                          type :  "number",
-                                          defaultValue: null
-                                      }
-                                  }
-                              }
-                          }
-                  },
-                  resources: [{
-                      field: "EmployeeID",
-                      title: "Employee",
-                      dataTextField: "EmployeeName",
-                      dataValueField: "EmployeeID",
-                      dataSource: {
-                          transport: {
-                              read: {
-                                  url : "./Content/employees-list.json"
-                              }
-                          }
-                      }
-                  }]
-              })
+                $("#employee-sales").kendoScheduler({
+                    autoBind: false,
+                    date: new Date("1996, 7, 1"),
+                    views: ["month"],
+                    editable: false,
+                    timezone: "Etc/UTC",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "./Content/employee-sales.json"
+                            }
+                        },
+                        schema: {
+                            model: {
+                                fields: {
+                                    SaleID: {
+                                        type: "number"
+                                    },
+                                    title: {
+                                        from: "Title",
+                                        type: "string"
+                                    },
+                                    description: {
+                                        from: "Description",
+                                        type: "string"
+                                    },
+                                    start: {
+                                        from: "Start",
+                                        type: "date"
+                                    },
+                                    startTimezone: {
+                                        from: "StartTimezone",
+                                        type: "string"
+                                    },
+                                    end: {
+                                        from: "End",
+                                        type: "date"
+                                    },
+                                    endTimezone: {
+                                        from: "EndTimezone",
+                                        type: "string"
+                                    },
+                                    recurrenceRule: {
+                                        from: "RecurrenceRule",
+                                        type: "string"
+                                    },
+                                    RecurrenceID: {
+                                        type: "number",
+                                        defaultValue: null
+                                    },
+                                    recurrenceException: {
+                                        from: "RecurrenceException",
+                                        type: "string"
+                                    },
+                                    isAllDay: {
+                                        from: "IsAllDay",
+                                        type: "boolean"
+                                    },
+                                    EmployeeID: {
+                                        type: "number",
+                                        defaultValue: null
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    resources: [{
+                        field: "EmployeeID",
+                        title: "Employee",
+                        dataTextField: "EmployeeName",
+                        dataValueField: "EmployeeID",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "./Content/employees-list.json"
+                                }
+                            }
+                        }
+                    }]
+                })
 
-              $('#employeeBio').kendoTooltip({
-                  filter: "a",
-                  content: function(e){
-                      return e.target.find("span").text();
-                  }
-              })
+                $('#employeeBio').kendoTooltip({
+                    filter: "a",
+                    content: function (e) {
+                        return e.target.find("span").text();
+                    }
+                })
             }
 
-        function onListDataBound(e) {
-            this.select($(".employee:first"));
-        }
+            function onListDataBound(e) {
+                this.select($(".employee:first"));
+            }
 
-        function onCriteriaChange() {
-            var employeeList = $("#employees-list").data("kendoListView"),
-                employee = employeeList.dataSource.getByUid(employeeList.select().attr("data-uid")),
-                employeeQuarterSales = $("#employee-quarter-sales").data("kendoChart"),
-                employeeAverageSales = $("#employee-average-sales").data("kendoChart"),
-                teamSales = $("#team-sales").data("kendoChart"),
-                employeeSales = $("#employee-sales").data("kendoScheduler"),
-                startDate = $("#start-date").data("kendoDatePicker"),
-                endDate = $("#end-date").data("kendoDatePicker"),
-                filter = {
-                    EmployeeID: employee.EmployeeID,
-                    startDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", startDate.value()),
-                    endDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", endDate.value())
-                },
-                template = kendo.template($("#employeeBioTemplate").html());
+            function onCriteriaChange() {
+                var employeeList = $("#employees-list").data("kendoListView"),
+                    employee = employeeList.dataSource.getByUid(employeeList.select().attr("data-uid")),
+                    employeeQuarterSales = $("#employee-quarter-sales").data("kendoChart"),
+                    employeeAverageSales = $("#employee-average-sales").data("kendoChart"),
+                    teamSales = $("#team-sales").data("kendoChart"),
+                    employeeSales = $("#employee-sales").data("kendoScheduler"),
+                    startDate = $("#start-date").data("kendoDatePicker"),
+                    endDate = $("#end-date").data("kendoDatePicker"),
+                    filter = {
+                        EmployeeID: employee.EmployeeID,
+                        startDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", startDate.value()),
+                        endDate: kendo.format("{0:MM/dd/yyyy hh:mm:ss}", endDate.value())
+                    },
+                    template = kendo.template($("#employeeBioTemplate").html());
 
-            $("#employeeBio").html(template(employee));
+                $("#employeeBio").html(template(employee));
 
-            employeeSales.dataSource.filter({
-                field: "EmployeeID",
-                operator: "eq",
-                value: employee.EmployeeID
+                employeeSales.dataSource.filter({
+                    field: "EmployeeID",
+                    operator: "eq",
+                    value: employee.EmployeeID
+                });
+
+                teamSales.dataSource.read(filter);
+                employeeQuarterSales.dataSource.read(filter);
+                employeeAverageSales.dataSource.read(filter);
+            }
+
+            function onQuarterSalesDataBound(e) {
+                var data = this.dataSource.at(0);
+                $("#employee-quarter-sales-label").text(kendo.toString(data.Current, "c2"));
+            }
+
+            function onAverageSalesDataBound(e) {
+                var data = this.dataSource.aggregates()
+                if (data.EmployeeSales) {
+                    $("#employee-average-sales-label").text(kendo.toString(data.EmployeeSales.average, "c2"));
+                } else {
+                    $("#employee-average-sales-label").text(kendo.toString(0, "c2"));
+                }
+            }
+
+            $(window).on("resize", function () {
+                setTeamSalesChartLabelsStep()
             });
 
-            teamSales.dataSource.read(filter);
-            employeeQuarterSales.dataSource.read(filter);
-            employeeAverageSales.dataSource.read(filter);
-        }
-
-        function onQuarterSalesDataBound(e) {
-            var data = this.dataSource.at(0);
-            $("#employee-quarter-sales-label").text(kendo.toString(data.Current, "c2"));
-        }
-
-        function onAverageSalesDataBound(e) {
-            var data = this.dataSource.aggregates()
-            if (data.EmployeeSales) {
-                $("#employee-average-sales-label").text(kendo.toString(data.EmployeeSales.average, "c2"));
-            } else {
-                $("#employee-average-sales-label").text(kendo.toString(0, "c2"));
+            function setTeamSalesChartLabelsStep() {
+                var chart = $("#team-sales").data("kendoChart");
+                var labels = chart.options.categoryAxis.labels;
+                if ($(window).width() <= 821) {
+                    console.log(1)
+                    labels.step = 3;
+                    chart.setOptions({
+                        categoryAxis: {
+                            labels: labels
+                        }
+                    });
+                }
+                if ($(window).width() <= 1316 && $(window).width() >= 821) {
+                    labels.step = 2;
+                    chart.setOptions({
+                        categoryAxis: {
+                            labels: labels
+                        }
+                    })
+                }
+                if ($(window).width() > 1316) {
+                    labels.step = 1;
+                    chart.setOptions({
+                        categoryAxis: {
+                            labels: labels
+                        }
+                    })
+                }
             }
-        }
-      });
+        });
     </script>
-     <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
+    <script type="text/x-kendo-tmpl" id="employeeItemTemplate">
         <div class="employee">
             <div class="employee-wrapper">
                 <img src="./Content/Employees/#:EmployeeID#-t.png" class="img-responsive employee-list-image"/>
@@ -510,8 +548,8 @@
     </script>
 
     <script>
-        $(document).ready(function() { 
-            $("#teamEfficiency").addClass("active"); 
+        $(document).ready(function () {
+            $("#teamEfficiency").addClass("active");
         });
     </script>
 
