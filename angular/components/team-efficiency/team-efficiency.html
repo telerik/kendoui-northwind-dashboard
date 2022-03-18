@@ -3,11 +3,11 @@
     <div id="dateFilter" class="col-xs-9">
         <div class="period-wrapper">
             <label for="StartDate" class="select-period">Stats from</label>
-            <input id="start-date" kendo-date-picker k-ng-model="teamEfficiency.startDate">
+            <input id="start-date" kendo-date-picker k-ng-model="teamEfficiency.startDate" style="width: 130px;">
         </div>
         <div class="period-wrapper">
             <label for="EndDate" class="select-period">To</label>
-            <input id="end-date" kendo-date-picker k-ng-model="teamEfficiency.endDate">
+            <input id="end-date" kendo-date-picker k-ng-model="teamEfficiency.endDate" style="width: 130px;">
         </div>
     </div>
     <div style="clear:both;"></div>
@@ -54,7 +54,7 @@
                         <div class="sparkline-container">
                             <div id="employee-quarter-sales" style="height:30px"
                                 kendo-chart
-                                k-theme="'metro'"
+                                k-theme="'sass'"
                                 k-tooltip="false"
                                 k-data-source="teamEfficiency.employeeQuarterSalesDataSource"
                                 k-series="[{type:'bullet',currentField:'Current',targetField:'Target'}]"
@@ -70,7 +70,7 @@
                         <div class="sparkline-container">
                             <div id="employee-average-sales" style="height:30px"
                                 kendo-chart
-                                k-theme="'metro'"
+                                k-theme="'sass'"
                                 k-series="[{type:'line',field:'EmployeeSales',width:1.5,markers:{visible:false}}]"
                                 k-category-axis="{type:'date',field:'Date',visible:false,majorGridLines:{visible:false},majorTicks:{visible:false}}"
                                 k-legend="{visible:false}"
@@ -84,7 +84,8 @@
             <div id="employeeStats" class="col-xs-12">
                 <div id="team-sales" style="height:200px"
                     kendo-chart
-                    k-theme="'metro'"
+                    k-theme="'sass'"
+                    k-series-colors="['#ff7c73', '#EF4C4C']"
                     k-title="{text:'REPRESENTATIVE SALES VS. TOTAL SALES',align:'left',font:'11px sans-serif',color:'#35373d'}"
                     k-data-source="teamEfficiency.employeeTeamSalesDataSource"
                     k-legend="{position:'bottom'}"

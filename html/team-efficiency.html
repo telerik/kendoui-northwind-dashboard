@@ -311,6 +311,7 @@
                             }
                         }
                     },
+                    dataBound: onDataBound,
                     legend: {
                         position: "bottom"
                     },
@@ -489,14 +490,17 @@
             }
 
             $(window).on("resize", function () {
-                setTeamSalesChartLabelsStep()
+                setTeamSalesChartLabelsStep();
             });
+
+            function onDataBound() {
+                setTeamSalesChartLabelsStep();
+            }
 
             function setTeamSalesChartLabelsStep() {
                 var chart = $("#team-sales").data("kendoChart");
                 var labels = chart.options.categoryAxis.labels;
                 if ($(window).width() <= 821) {
-                    console.log(1)
                     labels.step = 3;
                     chart.setOptions({
                         categoryAxis: {

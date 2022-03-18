@@ -80,3 +80,49 @@ angular.module('app.team', [])
             this.changeCurrentEmployee(employeeList[0]);
         }.bind(this));
     }]);
+
+    $(window).on("resize", function () {
+        if($("#team-sales").length !== 0) {
+            setTeamSalesChartLabelsStep();
+        }
+    });
+
+    $(function() {
+        if($("#team-sales").length !== 0) {
+            setTimeout(function() {
+                setTeamSalesChartLabelsStep();
+            }, 300)
+        }
+    });
+
+    function setTeamSalesChartLabelsStep() {
+        var chart = $("#team-sales").data("kendoChart");
+        var labels = chart.options.categoryAxis.labels;
+        if ($(window).width() <= 821) {
+            labels.step = 3;
+            labels.rotation = 45;
+            chart.setOptions({
+                categoryAxis: {
+                    labels: labels
+                }
+            });
+        }
+        if ($(window).width() <= 1316 && $(window).width() >= 821) {
+            labels.step = 2;
+            labels.rotation = 0;
+            chart.setOptions({
+                categoryAxis: {
+                    labels: labels
+                }
+            })
+        }
+        if ($(window).width() > 1316) {
+            labels.step = 1;
+            labels.rotation = 0;
+            chart.setOptions({
+                categoryAxis: {
+                    labels: labels
+                }
+            })
+        }
+    }
