@@ -82,47 +82,40 @@ angular.module('app.team', [])
     }]);
 
     $(window).on("resize", function () {
-        if($("#team-sales").length !== 0) {
+        if($("#team-sales").length) {
             setTeamSalesChartLabelsStep();
         }
     });
 
     $(function() {
-        if($("#team-sales").length !== 0) {
-            setTimeout(function() {
+        setTimeout(function() {
+            if($("#team-sales").length) {
                 setTeamSalesChartLabelsStep();
-            }, 300)
-        }
+            }
+        }, 300)
     });
 
     function setTeamSalesChartLabelsStep() {
+        var windowWidth = $(window).width();
         var chart = $("#team-sales").data("kendoChart");
         var labels = chart.options.categoryAxis.labels;
-        if ($(window).width() <= 821) {
+        
+        if (windowWidth <= 821) {
             labels.step = 3;
             labels.rotation = 45;
-            chart.setOptions({
-                categoryAxis: {
-                    labels: labels
-                }
-            });
         }
-        if ($(window).width() <= 1316 && $(window).width() >= 821) {
+        if (windowWidth <= 1316 && windowWidth >= 821) {
             labels.step = 2;
             labels.rotation = 0;
-            chart.setOptions({
-                categoryAxis: {
-                    labels: labels
-                }
-            })
         }
-        if ($(window).width() > 1316) {
+        if (windowWidth > 1316) {
             labels.step = 1;
             labels.rotation = 0;
-            chart.setOptions({
-                categoryAxis: {
-                    labels: labels
-                }
-            })
         }
+
+        chart.setOptions({
+            categoryAxis: {
+                labels: labels
+            }
+        })
     }

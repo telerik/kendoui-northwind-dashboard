@@ -311,7 +311,6 @@
                             }
                         }
                     },
-                    dataBound: onDataBound,
                     legend: {
                         position: "bottom"
                     },
@@ -493,37 +492,37 @@
                 setTeamSalesChartLabelsStep();
             });
 
-            function onDataBound() {
-                setTeamSalesChartLabelsStep();
-            }
+            $(function() {
+                setTimeout(function() {
+                    if($("#team-sales").length) {
+                        setTeamSalesChartLabelsStep();
+                    }
+                }, 300)
+            });
 
             function setTeamSalesChartLabelsStep() {
+                var windowWidth = $(window).width();
                 var chart = $("#team-sales").data("kendoChart");
                 var labels = chart.options.categoryAxis.labels;
-                if ($(window).width() <= 821) {
+
+                if (windowWidth <= 821) {
                     labels.step = 3;
-                    chart.setOptions({
-                        categoryAxis: {
-                            labels: labels
-                        }
-                    });
+                    labels.rotation = 45;
                 }
-                if ($(window).width() <= 1316 && $(window).width() >= 821) {
+                if (windowWidth <= 1316 && windowWidth >= 821) {
                     labels.step = 2;
-                    chart.setOptions({
-                        categoryAxis: {
-                            labels: labels
-                        }
-                    })
+                    labels.rotation = 0;
                 }
-                if ($(window).width() > 1316) {
+                if (windowWidth > 1316) {
                     labels.step = 1;
-                    chart.setOptions({
-                        categoryAxis: {
-                            labels: labels
-                        }
-                    })
+                    labels.rotation = 0;
                 }
+
+                chart.setOptions({
+                    categoryAxis: {
+                        labels: labels
+                    }
+                })
             }
         });
     </script>
