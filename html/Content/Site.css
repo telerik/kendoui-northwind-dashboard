@@ -243,12 +243,12 @@ body,
 }
 
 .employee.k-state-selected {
-    background-color: #6abd2d;
+    background-color: #ff7c73;
 }
 
 .employee.k-state-selected .employee-wrapper{
-    border-top: 1px solid #6abd2d;
-    border-bottom: 1px solid #6abd2d;
+    border-top: 1px solid #ff7c73;
+    border-bottom: 1px solid #ff7c73;
 }
 
 #EmployeesList {

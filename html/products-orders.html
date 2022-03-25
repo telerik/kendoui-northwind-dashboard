@@ -2,16 +2,13 @@
 <html>
 
 <head>
-<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link href="https://kendo.cdn.telerik.com/2022.1.119/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2022.1.119/styles/kendo.metro.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2022.1.119/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://kendo.cdn.telerik.com/2022.1.119/styles/kendo.dataviz.metro.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://kendo.cdn.telerik.com/2022.1.119/js/jquery.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2022.1.119/js/kendo.all.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2022.1.119/js/kendo.aspnetmvc.min.js"></script>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.default-v2.min.css" />
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.aspnetmvc.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
@@ -51,7 +48,10 @@
                         </li>
                     </ul>
                     <div id="rights">
-                        <p>Copyright &copy; <script type="text/javascript">document.write(new Date().getFullYear());</script>, Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.</p>
+                        <p>Copyright &copy;
+                            <script type="text/javascript">document.write(new Date().getFullYear());</script>, Progress
+                            Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
     </div>
     <!--close container-->
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var employees = [{
                 "value": 1,
                 "text": "Nancy Davolio"
@@ -111,7 +111,7 @@
                 "text": "Federal Shipping"
             }];
 
-            $(window).on("resize", function() {
+            $(window).on("resize", function () {
                 var containerWidth = $(".sparkline-container").parent().width();
                 var sparkLineWidth = (80 * containerWidth) / 100;
                 $(".k-sparkline").data("kendoSparkline").setOptions({
@@ -134,7 +134,7 @@
                         },
                         pageSize: 20,
                         schema: {
-                            parse: function(response) {
+                            parse: function (response) {
                                 var result = [];
                                 for (var i = 0; i < response.length; i++) {
                                     var product = {
@@ -169,7 +169,7 @@
                     dataBound: onDataBound,
                     columns: [{
                         field: "OrderID",
-                        title: "ORDER ID"
+                        title: "ORDER ID",
                     }, {
                         field: "OrderDate",
                         title: "ORDER DATE",
@@ -210,7 +210,7 @@
 
                 $.when($.ajax({
                     url: './Content/product-details.json',
-                    success: function(data) {
+                    success: function (data) {
                         var result = [];
                         for (var i = 0; i < data.length; i++) {
                             result.push({
@@ -222,23 +222,23 @@
                     }
                 }), $.ajax({
                     url: './Content/order-information.json',
-                    success: function(data) {
+                    success: function (data) {
                         orderDetails = data;
                     }
-                })).done(function() {
+                })).done(function () {
                     detailRow.find(".details-grid").kendoGrid({
                         autoBind: false,
                         dataSource: {
                             transport: {
-                                read: function(options) {
-                                    var result = $.grep(orderDetails, function(e) {
+                                read: function (options) {
+                                    var result = $.grep(orderDetails, function (e) {
                                         return e.OrderID == options.data.OrderID;
                                     })[0];
                                     options.success(result.OrderDetails);
                                 }
                             },
                             schema: {
-                                parse: function(data) {
+                                parse: function (data) {
                                     for (var i = 0; i < data.length; i++) {
                                         var sum = data[i].UnitPrice * data[i].Quantity;
                                         sum = sum - (sum * data[i].Discount)
@@ -256,21 +256,22 @@
                         columns: [{
                             field: "ProductID",
                             title: "PRODUCT NAME",
-                            values: products
+                            values: products,
+                            width: 80
                         }, {
                             field: "UnitPrice",
                             title: "UNIT PRICE",
                             format: "{0:c}",
-                            width: 220
+                            width: 180
                         }, {
                             field: "Quantity",
                             title: "QUANTITY",
-                            width: 220
+                            width: 180
                         }, {
                             field: "Discount",
                             title: "DISCOUNT",
                             format: "{0:p}",
-                            width: 200,
+                            width: 180,
                             footerTemplate: "Grand total:"
                         }, {
                             field: "Total",
@@ -298,8 +299,8 @@
 
                 $.ajax({
                     url: './Content/product-details.json',
-                    success: function(products) {
-                        var product = $.grep(products, function(e) {
+                    success: function (products) {
+                        var product = $.grep(products, function (e) {
                             return e.ProductID == model.ProductID;
                         });
                         detail.find(".product-name").text(product[0].ProductName);
@@ -312,18 +313,18 @@
 
                 $.ajax({
                     url: './Content/product-sales.json',
-                    success: function(data) {
+                    success: function (data) {
                         productSales = data;
                     }
-                }).done(function() {
+                }).done(function () {
                     var sparkline = e.detailRow.find('.details-sparkline').kendoSparkline({
-                        theme: "metro",
+                        theme: "sass",
                         type: "column",
                         autoBind: false,
                         dataSource: {
                             transport: {
-                                read: function(options) {
-                                    var sales = $.grep(productSales, function(e) {
+                                read: function (options) {
+                                    var sales = $.grep(productSales, function (e) {
                                         return e.ProductID == options.data.ProductID;
                                     })[0];
                                     options.success(sales.ProductSales);
@@ -379,14 +380,14 @@
                     gridHeight = gridElement.innerHeight(),
                     otherElements = gridElement.children().not(".k-grid-content"),
                     otherElementsHeight = 0;
-                otherElements.each(function() {
+                otherElements.each(function () {
                     otherElementsHeight += $(this).outerHeight();
                 });
                 dataArea.height(gridHeight - otherElementsHeight);
             }
         });
     </script>
-<script id="order-detail-template" type="text/x-kendo-tmpl">
+    <script id="order-detail-template" type="text/x-kendo-tmpl">
         <h4>Details for order \\##=OrderID# </h4>
         <div class="tabstrip">
             <ul>
@@ -413,7 +414,7 @@
             </div>
         </div>
     </script>
-     <script id="product-detail-template" type="text/x-kendo-template">
+    <script id="product-detail-template" type="text/x-kendo-template">
         <div id="product_detailtemplate_#=ProductID#" class="product-details-wrapper row">
             <div class="product-details col-xs-3">
                 #if(ProductID) {#
@@ -452,9 +453,10 @@
     </script>
 
     <script>
-        $(document).ready(function() { 
-            $("#productsAndOrders").addClass("active"); 
+        $(document).ready(function () {
+            $("#productsAndOrders").addClass("active");
         });
     </script>
 </body>
+
 </html>
