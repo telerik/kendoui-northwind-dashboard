@@ -121,6 +121,7 @@
                 .Name("StartDate")
                 .Value(new DateTime(1996, 1, 1))
                 .Events(e=>e.Change("onCriteriaChange"))
+                .HtmlAttributes(new { style = "width: 60%" })
             )
             <span class="k-invalid-msg" data-for="StartDate"></span>
         </div>
@@ -130,6 +131,7 @@
                 .Name("EndDate")
                 .Value(new DateTime(1998, 8, 1))
                 .Events(e=>e.Change("onCriteriaChange"))
+                .HtmlAttributes(new { style = "width: 60%" })
             )
             <span class="k-invalid-msg" data-for="EndDate"></span>
         </div>

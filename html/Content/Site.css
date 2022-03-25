@@ -362,15 +362,26 @@ body,
     margin: 4px auto;
 }
 
+#employee-sales .k-scheduler-toolbar .k-i-reload{
+    position: initial;
+}
+
 .period-wrapper {
-    display: inline-block;
+    display: inline-flex;
+}
+
+.period-wrapper .k-datepicker {    
+    max-width: 130px;
 }
 
 .select-period {
     margin-right: 0.833em;
     margin-left: 2.500em;
     text-transform: uppercase;
-    font-weight: normal;
+    font-weight: normal;    
+    white-space: nowrap;
+    align-self: center;
+    margin-top: 0.5em;
 }
 
 /* Kendo widgets */
