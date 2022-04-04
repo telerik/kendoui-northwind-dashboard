@@ -861,3 +861,20 @@ body,
     clear:both;
     display: block;
 }
+
+.k-grid td.k-state-selected:hover, .k-grid tr:hover {
+    color: black;
+    background-color: #ffffff;
+}
+
+.k-calendar td.k-state-hover .k-link{
+    background-image: none;
+}
+
+.k-state-hover{
+    background-image: none;
+}
+
+.k-tabstrip-items .k-state-hover .k-link {
+    color: #787878;
+}
