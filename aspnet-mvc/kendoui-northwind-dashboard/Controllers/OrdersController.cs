@@ -71,7 +71,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                         entity.ShipPostalCode = order.ShipPostalCode;
 
                         northwind.Orders.Attach(entity);
-                        northwind.Entry(entity).State = EntityState.Modified;
+                        northwind.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                         northwind.SaveChanges();
                     }
                 }
