@@ -40,3 +40,8 @@ The sample app is aimed at executives, analysts, or sales representatives. It is
   [12]: http://www.telerik.com/kendo-ui/map
   [13]: http://demos.telerik.com/kendo-ui/web/templates/index.html
   [14]: http://demos.telerik.com/kendo-ui/web/validator/index.html
+
+  To run the application in case you have active license, change the following configuration in the packages.config file: 
+ <package id="Telerik.UI.for.AspNet.Mvc5.Trial" version="202x.x.xxx" targetFramework="net451" />
+  to this: 
+  <package id="Telerik.UI.for.AspNet.Mvc5" version="202x.x.xxx" targetFramework="net451" />
