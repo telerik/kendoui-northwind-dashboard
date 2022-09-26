@@ -56,7 +56,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                         Phone = customer.Phone,
                     };
                     northwind.Customers.Attach(entity);
-                    northwind.Entry(entity).State = EntityState.Modified;
+                    northwind.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                     northwind.SaveChanges();
                 }
             }
