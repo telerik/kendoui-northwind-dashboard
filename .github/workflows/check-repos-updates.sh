@@ -39,6 +39,11 @@ do
     sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
     sed -i "s/$CURRENT_GLOBAL_THEMES_VERSION/$LATEST_THEMES_RELEASE/g" $file
 done
+for file in `find . -type f -name "*.html"`  
+do
+    sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
+    sed -i "s/$CURRENT_GLOBAL_THEMES_VERSION/$LATEST_THEMES_RELEASE/g" $file
+done
 for file in `find . -type f -name "*.csproj"`  
 do
     sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
