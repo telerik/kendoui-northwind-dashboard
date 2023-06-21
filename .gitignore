@@ -1,4 +1,5 @@
 *.suo
 aspnet-mvc/kendoui-northwind-dashboard/bin
 aspnet-mvc/kendoui-northwind-dashboard/obj
+aspnet-mvc/kendoui-northwind-dashboard/packages/
 bower_components

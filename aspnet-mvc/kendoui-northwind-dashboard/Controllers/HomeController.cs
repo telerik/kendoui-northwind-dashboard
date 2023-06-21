@@ -1,11 +1,8 @@
-﻿using Kendo.Mvc.UI;
-using KendoUI.Northwind.Dashboard.Models;
+﻿using KendoUI.Northwind.Dashboard.Models;
 using System.Collections.Generic;
 using System.Linq; 
 using System.Web.Mvc;
-using Kendo.Mvc;
 using Kendo.Mvc.Extensions;
-using System.Collections;
 
 
 namespace KendoUI.Northwind.Dashboard.Controllers
