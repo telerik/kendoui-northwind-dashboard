@@ -47,16 +47,14 @@ done
 for file in `find . -type f -name "*.csproj"`  
 do
     sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
-    sed -i "s/$CURRENT_GLOBAL_THEMES_VERSION/$LATEST_THEMES_RELEASE/g" $file
 done
 for file in `find . -type f -name "*.config"`  
 do
     sed -i "s/$CURRENT_GLOBAL_VERSION/$LATEST_RELEASE/g" $file
-    sed -i "s/$CURRENT_GLOBAL_THEMES_VERSION/$LATEST_THEMES_RELEASE/g" $file
 done
 
 echo "Stage2 Commit the change"
-reviewers="Dimitar-Goshev,MilenaCh,mparvanov"
+reviewers="Dimitar-Goshev"
 echo $reviewers
 BRANCH_NAME="update-dependencies"
 PRs=$(gh pr list | grep "$BRANCH_NAME" || true)
