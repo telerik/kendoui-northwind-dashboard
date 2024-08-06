@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ namespace KendoUI.Northwind.Dashboard.Models
 {
     public class QuarterToDateSalesViewModel
     {
+        [Key]
         public int OrderID { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal Current { get; set; }
@@ -17,6 +19,7 @@ namespace KendoUI.Northwind.Dashboard.Models
 
     public class SaleViewModel : ISchedulerEvent
     {
+        [Key]
         public int SaleID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

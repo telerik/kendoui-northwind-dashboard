@@ -9,6 +9,7 @@ namespace KendoUI.Northwind.Dashboard.Models
 {
     public class OrderViewModel
     {
+        [Key]
         [ScaffoldColumn(false)]
         public int OrderID { get; set; }
 

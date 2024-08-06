@@ -83,11 +83,11 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             {
                 using (var northwind = new NorthwindEntities())
                 {
-                    List<Order_Detail> details = northwind.Order_Details.Where(od => od.OrderID == order.OrderID).ToList();
+                    List<OrderDetail> details = northwind.OrderDetails.Where(od => od.OrderID == order.OrderID).ToList();
 
                     foreach (var orderDetail in details)
                     {
-                        northwind.Order_Details.Remove(orderDetail);
+                        northwind.OrderDetails.Remove(orderDetail);
                     }
 
                     var entity = new Order

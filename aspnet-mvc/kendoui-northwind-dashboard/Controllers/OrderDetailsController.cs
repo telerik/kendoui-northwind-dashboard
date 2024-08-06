@@ -18,7 +18,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         private static IEnumerable<OrderDetailViewModel> GetOrderDetails()
         {
             var northwind = new NorthwindEntities();
-            var order_details = northwind.Order_Details.Select(od => new OrderDetailViewModel
+            var order_details = northwind.OrderDetails.Select(od => new OrderDetailViewModel
             {
                 OrderID = od.OrderID,
                 ProductID = od.ProductID,
@@ -36,7 +36,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             {
                 using (var northwind = new NorthwindEntities())
                 {
-                    var existingEntity = northwind.Order_Details.FirstOrDefault(detail => detail.OrderID == ParentID && detail.ProductID == order.ProductID);
+                    var existingEntity = northwind.OrderDetails.FirstOrDefault(detail => detail.OrderID == ParentID && detail.ProductID == order.ProductID);
                     if (existingEntity != null)
                     {
                         string errorMessage = string.Format("Record with ProductID:{0} and OrderID:{1} already exists in current order.", order.OrderID, order.ProductID);
@@ -44,7 +44,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                     }
                     else
                     {
-                        var entity = new Order_Detail
+                        var entity = new OrderDetail
                         {
                             OrderID = ParentID,
                             ProductID = order.ProductID,
@@ -52,7 +52,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                             Quantity = (short)order.Quantity,
                             Discount = order.Discount
                         };
-                        northwind.Order_Details.Add(entity);
+                        northwind.OrderDetails.Add(entity);
                         northwind.SaveChanges();
                         order.OrderID = entity.OrderID;
                     }
@@ -68,7 +68,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                 using (var northwind = new NorthwindEntities())
                 {
 
-                    var entity = northwind.Order_Details.FirstOrDefault(detail => detail.OrderID == order.OrderID && detail.ProductID == order.ProductID);
+                    var entity = northwind.OrderDetails.FirstOrDefault(detail => detail.OrderID == order.OrderID && detail.ProductID == order.ProductID);
                     if (entity == null)
                     {
                         string errorMessage = string.Format("Cannot update record with ProductID:{0} and OrderID:{1} as it's not available in current order.", order.OrderID, order.ProductID);
@@ -94,7 +94,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                 using (var northwind = new NorthwindEntities())
                 {
 
-                    var entity = northwind.Order_Details.FirstOrDefault(detail => detail.OrderID == order.OrderID && detail.ProductID == order.ProductID);
+                    var entity = northwind.OrderDetails.FirstOrDefault(detail => detail.OrderID == order.OrderID && detail.ProductID == order.ProductID);
                     if (entity == null)
                     {
                         string errorMessage = string.Format("Cannot delete record with ProductID:{0} and OrderID:{1} as it's not available in current order.", order.OrderID, order.ProductID);
@@ -102,7 +102,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                     }
                     else
                     {
-                        northwind.Order_Details.Remove(entity);
+                        northwind.OrderDetails.Remove(entity);
                         northwind.SaveChanges();
                     }
                 }

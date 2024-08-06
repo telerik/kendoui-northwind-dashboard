@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,10 +53,10 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc5.Trial.2024.3.806\lib\net45\Kendo.Mvc.dll</HintPath>
@@ -79,6 +79,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SQLite, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.118.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.118.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -139,11 +148,11 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Telerik.FontIcons, Version=2.1.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.FontIcons.2.1.0\lib\netstandard1.1\Telerik.FontIcons.dll</HintPath>
+    <Reference Include="Telerik.FontIcons, Version=3.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.FontIcons.3.0.0\lib\netstandard2.0\Telerik.FontIcons.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.SvgIcons, Version=2.1.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.SvgIcons.2.1.0\lib\netstandard1.1\Telerik.SvgIcons.dll</HintPath>
+    <Reference Include="Telerik.SvgIcons, Version=3.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.SvgIcons.3.0.0\lib\netstandard2.0\Telerik.SvgIcons.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -156,6 +165,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\DatabaseConfig.cs" />
+    <Compile Include="Configuration\SQLiteConfiguration.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RegionalSalesController.cs" />
@@ -167,155 +178,103 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Alphabetical_list_of_product.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\Category_Sales_for_1997.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CountryCustomers_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CountryMarketShare_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CountryOrders_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CountryRevenue_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CountryTopProducts_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Current_Product_List.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Customer.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerCustomerDemo.cs" />
     <Compile Include="Models\CustomerDemographic.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\CustOrderHist_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustOrdersDetail_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustOrdersOrders_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeTerritory.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\Employee_Sales_by_Country_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Invoice.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MonthlySalesByEmployee_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Northwind.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Northwind.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Northwind.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Northwind.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Northwind.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Northwind.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Order.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\OrderDetailViewModel.cs" />
     <Compile Include="Models\Orders_Qry.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\Order_Detail.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Order_Details_Extended.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Order_Subtotal.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductsSalesByMonth_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Products_Above_Average_Price.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Products_by_Category.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\Product_Sales_for_1997.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Region.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesAmounts_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesByCategory_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sales_by_Category.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sales_by_Year_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sales_Totals_by_Amount.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Shipper.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShipperViewModel.cs" />
     <Compile Include="Models\Summary_of_Sales_by_Quarter.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Summary_of_Sales_by_Year.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supplier.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SaleViewModel.cs" />
     <Compile Include="Models\Ten_Most_Expensive_Products_Result.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Territory.cs">
-      <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\NORTHWND.MDF" />
-    <Content Include="App_Data\NORTHWND_log.ldf">
-      <DependentUpon>NORTHWND.MDF</DependentUpon>
-    </Content>
     <Content Include="Content\Employees\1-t.png" />
     <Content Include="Content\Employees\1.png" />
     <Content Include="Content\Employees\2-t.png" />
@@ -418,23 +377,6 @@
     <Content Include="Content\kendo\**" />
     <Content Include="Scripts\kendo\**" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="Models\Northwind.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Northwind.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Northwind.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Northwind.edmx</DependentUpon>
-      <LastGenOutput>Northwind.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Northwind.edmx.diagram">
-      <DependentUpon>Northwind.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\Northwind.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Northwind.edmx</DependentUpon>
-      <LastGenOutput>Northwind.cs</LastGenOutput>
-    </Content>
     <Content Include="Content\countries-sales.geo.json" />
     <Content Include="Scripts\chroma.min.js" />
     <Content Include="Web.config">
@@ -485,6 +427,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\northwind.db" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -518,8 +463,10 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
 </Project>

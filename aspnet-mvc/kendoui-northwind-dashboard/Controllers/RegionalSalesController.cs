@@ -13,7 +13,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             var topSellers = (from top in
                                   (from allSales in
                                        (from o in northwind.Orders
-                                        join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                                        join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                                         where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
                                         select new
                                         {
@@ -36,7 +36,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
                               }).Take(5);
             var all = (from allSales in
                            (from o in northwind.Orders
-                            join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                            join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                             where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
                             select new
                             {
@@ -74,11 +74,11 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             return Json(companies, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult MarketShareByCountry(string Country, DateTime FromDate, DateTime ToDate)
+        public ActionResult MarketShareByCountry(string Country, DateTime? FromDate, DateTime? ToDate)
         {
             var northwind = new NorthwindEntities();
             var allSales = (from o in northwind.Orders
-                            join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                            join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                             where o.OrderDate >= FromDate && o.OrderDate <= ToDate
                             select new
                             {
@@ -98,7 +98,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         {
             var northwind = new NorthwindEntities();
             var q1 = (from o in northwind.Orders
-                      join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                      join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                       where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
                       select new
                       {
@@ -166,7 +166,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             var northwind = new NorthwindEntities();
             var result = (from allCustomers in
                          (from o in northwind.Orders
-                          join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                          join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                           where o.OrderDate >= FromDate && o.OrderDate <= ToDate && o.ShipCountry == Country
                           select new
                           {

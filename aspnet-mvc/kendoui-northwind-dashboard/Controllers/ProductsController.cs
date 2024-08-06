@@ -22,7 +22,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         {
             var northwind = new NorthwindEntities();
             var result = from o in northwind.Orders
-                        join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                        join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                         where od.ProductID == ProductID
                     select new {
                         Date = o.OrderDate,

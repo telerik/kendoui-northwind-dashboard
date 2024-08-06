@@ -7,6 +7,7 @@ namespace KendoUI.Northwind.Dashboard.Models
 {
     public class ProductViewModel
     {
+        [Key]
         [ScaffoldColumn(false)]
         public int ProductID
         {

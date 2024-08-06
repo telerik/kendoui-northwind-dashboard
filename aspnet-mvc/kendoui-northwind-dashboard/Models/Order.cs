@@ -33,7 +33,8 @@ namespace KendoUI.Northwind.Dashboard.Models
         public string ShipRegion { get; set; }
         public string ShipPostalCode { get; set; }
         public string ShipCountry { get; set; }
-    
+        public int? ShipperID { get; set; }
+
         public virtual Employee Employee { get; set; }
         public virtual ICollection<Order_Detail> Order_Details { get; set; }
         public virtual Shipper Shipper { get; set; }
