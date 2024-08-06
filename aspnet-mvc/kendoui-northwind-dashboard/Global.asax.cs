@@ -1,11 +1,14 @@
-﻿using System;
+﻿using KendoUI.Northwind.Dashboard.App_Start;
+using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Services.Description;
 
 namespace KendoUI.Northwind.Dashboard
 {
@@ -38,6 +41,9 @@ namespace KendoUI.Northwind.Dashboard
 
         protected void Application_Start()
         {
+            DatabaseConfig.Initialize();
+            DatabaseConfig.MigrateData();
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);

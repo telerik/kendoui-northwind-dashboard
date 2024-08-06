@@ -69,7 +69,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
         {
             var northwind = new NorthwindEntities();
             var q1 = (from o in northwind.Orders
-                      join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                      join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                       where o.OrderDate >= startDate && o.OrderDate <= endDate
                       select new
                       {
@@ -112,7 +112,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             var northwind = new NorthwindEntities();
             var result = (from allSales in
                               (from o in northwind.Orders
-                               join od in northwind.Order_Details on o.OrderID equals od.OrderID
+                               join od in northwind.OrderDetails on o.OrderID equals od.OrderID
                                where o.EmployeeID == EmployeeID && o.OrderDate >= startDate && o.OrderDate <= endDate
                                select new
                                {
@@ -138,7 +138,7 @@ namespace KendoUI.Northwind.Dashboard.Controllers
             DateTime startDate = endDate.AddMonths(-3);
             var northwind = new NorthwindEntities();
             var sales = northwind.Orders.Where(w => w.EmployeeID == EmployeeID)
-                .Join(northwind.Order_Details, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails })
+                .Join(northwind.OrderDetails, orders => orders.OrderID, orderDetails => orderDetails.OrderID, (orders, orderDetails) => new { Order = orders, OrderDetails = orderDetails })
                 .Where(d => d.Order.OrderDate >= startDate && d.Order.OrderDate <= endDate).ToList()
                 .Select(o => new QuarterToDateSalesViewModel
                 {

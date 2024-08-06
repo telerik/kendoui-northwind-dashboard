@@ -15,6 +15,8 @@ namespace KendoUI.Northwind.Dashboard.Models
                 return this.OrderID + "_" + this.ProductID;
             }
         }
+
+        [Key]
         public int OrderID { get; set; }
         public int CustomerID { get; set; }
         public int ProductID { get; set; }

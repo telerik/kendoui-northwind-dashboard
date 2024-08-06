@@ -6,6 +6,7 @@
 
     public class EmployeeViewModel
     {
+        [Key]
         public int EmployeeID { get; set; }
         [Required]
         public string FirstName { get; set; }
