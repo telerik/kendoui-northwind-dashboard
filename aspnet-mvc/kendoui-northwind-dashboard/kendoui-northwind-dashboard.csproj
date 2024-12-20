@@ -59,7 +59,7 @@
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Kendo.Mvc">
-      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc5.Trial.2024.3.806\lib\net45\Kendo.Mvc.dll</HintPath>
+      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc5.Trial.2024.4.1112\lib\net45\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
