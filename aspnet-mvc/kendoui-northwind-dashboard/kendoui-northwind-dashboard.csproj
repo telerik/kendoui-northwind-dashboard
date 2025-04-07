@@ -59,7 +59,7 @@
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Kendo.Mvc">
-      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc5.Trial.2025.1.227\lib\net45\Kendo.Mvc.dll</HintPath>
+      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc5.2025.1.227\lib\net45\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -148,11 +148,11 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Telerik.FontIcons, Version=3.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.FontIcons.3.0.0\lib\netstandard2.0\Telerik.FontIcons.dll</HintPath>
+    <Reference Include="Telerik.FontIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.FontIcons.4.0.0\lib\netstandard2.0\Telerik.FontIcons.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.SvgIcons, Version=3.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.SvgIcons.3.0.0\lib\netstandard2.0\Telerik.SvgIcons.dll</HintPath>
+    <Reference Include="Telerik.SvgIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.SvgIcons.4.0.0\lib\netstandard2.0\Telerik.SvgIcons.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
