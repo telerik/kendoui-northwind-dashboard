@@ -41,9 +41,6 @@ namespace KendoUI.Northwind.Dashboard
 
         protected void Application_Start()
         {
-            DatabaseConfig.Initialize();
-            DatabaseConfig.MigrateData();
-
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
