@@ -48,12 +48,12 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-	<PropertyGroup>
-		<ContentSQLiteInteropFiles>true</ContentSQLiteInteropFiles>
-		<CopySQLiteInteropFiles>false</CopySQLiteInteropFiles>
-		<CleanSQLiteInteropFiles>false</CleanSQLiteInteropFiles>
-		<CollectSQLiteInteropFiles>false</CollectSQLiteInteropFiles>
-	</PropertyGroup>
+  <PropertyGroup>
+    <ContentSQLiteInteropFiles>true</ContentSQLiteInteropFiles>
+    <CopySQLiteInteropFiles>false</CopySQLiteInteropFiles>
+    <CleanSQLiteInteropFiles>false</CleanSQLiteInteropFiles>
+    <CollectSQLiteInteropFiles>false</CollectSQLiteInteropFiles>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
@@ -65,7 +65,7 @@
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Kendo.Mvc">
-      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc5.2025.1.227\lib\net45\Kendo.Mvc.dll</HintPath>
+      <HintPath>..\packages\Telerik.UI.for.AspNet.Mvc5.2025.4.1111\lib\net462\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -154,14 +154,14 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Telerik.FontIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.FontIcons.4.0.0\lib\netstandard2.0\Telerik.FontIcons.dll</HintPath>
+    <Reference Include="Telerik.FontIcons, Version=4.5.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.FontIcons.4.5.0\lib\netstandard2.0\Telerik.FontIcons.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.Licensing.Runtime, Version=1.4.16.0, Culture=neutral, PublicKeyToken=98bb5b04e55c09ef, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.Licensing.1.4.16\lib\net462\Telerik.Licensing.Runtime.dll</HintPath>
+    <Reference Include="Telerik.Licensing.Runtime, Version=1.6.31.0, Culture=neutral, PublicKeyToken=98bb5b04e55c09ef, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.Licensing.1.6.31\lib\net462\Telerik.Licensing.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.SvgIcons, Version=4.0.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Telerik.SvgIcons.4.0.0\lib\netstandard2.0\Telerik.SvgIcons.dll</HintPath>
+    <Reference Include="Telerik.SvgIcons, Version=4.5.0.0, Culture=neutral, PublicKeyToken=20b4b0547069c4f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telerik.SvgIcons.4.5.0\lib\netstandard2.0\Telerik.SvgIcons.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -474,10 +474,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
-    <Error Condition="!Exists('..\packages\Telerik.Licensing.1.4.16\build\Telerik.Licensing.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Telerik.Licensing.1.4.16\build\Telerik.Licensing.targets'))" />
     <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.117.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.117.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Telerik.Licensing.1.6.31\build\Telerik.Licensing.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Telerik.Licensing.1.6.31\build\Telerik.Licensing.targets'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
-  <Import Project="..\packages\Telerik.Licensing.1.4.16\build\Telerik.Licensing.targets" Condition="Exists('..\packages\Telerik.Licensing.1.4.16\build\Telerik.Licensing.targets')" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.117.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.117.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <Import Project="..\packages\Telerik.Licensing.1.6.31\build\Telerik.Licensing.targets" Condition="Exists('..\packages\Telerik.Licensing.1.6.31\build\Telerik.Licensing.targets')" />
 </Project>
