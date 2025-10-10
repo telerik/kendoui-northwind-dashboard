@@ -60,6 +60,7 @@
 
     function onListDataBound(e) {
         this.select($(".employee:first"));
+        this.trigger("change");
     }
     function onCriteriaChange() { 
         var employeeList = $("#EmployeesList").data("kendoListView"),
