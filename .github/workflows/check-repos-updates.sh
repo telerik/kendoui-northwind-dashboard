@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "Stage1 Find Updates"
 LATEST_RELEASE=$(curl -s https://api.github.com/repos/telerik/kendo-ui-core/releases | grep tag_name | head -n 1 |  cut -d '"' -f 4)
-LATEST_THEMES_RELEASE=$(curl -s https://api.github.com/repos/telerik/kendo-themes/releases | grep -B4 '"prerelease": false' | head -1 | cut -d '"' -f 4 | tr -d v)
+LATEST_THEMES_RELEASE=$(curl -s https://api.github.com/repos/telerik/kendo-themes/releases | jq -r '[.[] | select(.prerelease == false)][0].name' | tr -d v)
 echo "Last release version is $LATEST_RELEASE"
 echo "Last Themes release version is $LATEST_THEMES_RELEASE"
 
