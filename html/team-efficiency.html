@@ -4,10 +4,10 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/12.1.0/default/default-main.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/12.2.3/default/default-main.css" />
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2025.3.1002/js/kendo.all.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2025.3.1002/js/kendo.aspnetmvc.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2025.4.1111/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2025.4.1111/js/kendo.aspnetmvc.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link href="Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
@@ -443,6 +443,7 @@
 
             function onListDataBound(e) {
                 this.select($(".employee:first"));
+                this.trigger("change");
             }
 
             function onCriteriaChange() {
